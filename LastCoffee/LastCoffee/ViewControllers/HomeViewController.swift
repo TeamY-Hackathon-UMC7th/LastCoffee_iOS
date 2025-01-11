@@ -31,7 +31,7 @@ class HomeViewController: UIViewController {
     }
     
     private func setDataSource() {
-//        dataSource = UICollectionViewDiffableDataSource(collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+//        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
 //            switch itemIdentifier {
 //            case .popularMenu: // 각 셀에 config 설정
 //            case .recommandMenu:
