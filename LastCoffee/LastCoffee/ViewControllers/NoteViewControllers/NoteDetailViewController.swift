@@ -16,7 +16,8 @@ class NoteDetailViewController: UIViewController {
         self.view = noteDetailView
         
         if let data = receivedData {
-            noteDetailView.coffeeName.text = data.coffeeName
+            noteDetailView.imageView.sd_setImage(with: URL(string: data.coffeeImgUrl))
+            noteDetailView.coffeeName.text = "[\(data.brand)] \(data.coffeeName)"
             noteDetailView.drinking.text = "마신 일시 | \(data.drinkDate)"
             noteDetailView.sleeping.text = "취침 시간 | \(data.sleepDate)"
             noteDetailView.reviewContents.text = data.comment
@@ -31,7 +32,8 @@ class NoteDetailViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
         
         if let data = receivedData {
-            noteDetailView.coffeeName.text = data.coffeeName
+            noteDetailView.imageView.sd_setImage(with: URL(string: data.coffeeImgUrl))
+            noteDetailView.coffeeName.text = "[\(data.brand)] \(data.coffeeName)"
             noteDetailView.drinking.text = "마신 일시 | \(data.drinkDate)"
             noteDetailView.sleeping.text = "취침 시간 | \(data.sleepDate)"
             noteDetailView.reviewContents.text = data.comment

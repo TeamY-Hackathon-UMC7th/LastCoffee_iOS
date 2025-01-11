@@ -11,7 +11,9 @@ import Foundation
 struct NoteModel: Codable {
     let id: Int
     let coffeeName: String
+    let brand: String
     let drinkDate: String
     let sleepDate: String
     let comment: String
+    let coffeeImgUrl: String
 }

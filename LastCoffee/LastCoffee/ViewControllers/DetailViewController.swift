@@ -16,7 +16,7 @@ class DetailViewController: UIViewController {
         setNavigationBar()
         
         if let data = receivedData {
-            detailView.coffeeName.text = data.name
+            detailView.coffeeName.text = "[\(data.brand)] \(data.name)"
             detailView.imageView.sd_setImage(with: URL(string: data.coffeeImgUrl))
             detailView.caffeineValue.text = data.caffeine.description
             detailView.sugarValue.text = data.sugar.description
@@ -29,6 +29,15 @@ class DetailViewController: UIViewController {
         super.viewWillAppear(animated)
         self.view = detailView
         setNavigationBar()
+        
+        if let data = receivedData {
+            detailView.coffeeName.text = "[\(data.brand)] \(data.name)"
+            detailView.imageView.sd_setImage(with: URL(string: data.coffeeImgUrl))
+            detailView.caffeineValue.text = data.caffeine.description
+            detailView.sugarValue.text = data.sugar.description
+            detailView.proteinValue.text = data.protein.description
+            detailView.calorieValue.text = data.calories.description
+        }
     }
     
     private func setNavigationBar() {

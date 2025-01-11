@@ -18,19 +18,15 @@ class NoteDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private lazy var imageView = UIView().then {
+    public lazy var imageView = UIImageView().then {
         $0.backgroundColor = .white
         
         $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
         $0.layer.shadowColor = UIColor.black.cgColor
         $0.layer.shadowOffset = CGSize(width: 0, height: 2)
         $0.layer.shadowRadius = 4
         $0.layer.shadowOpacity = 0.08
-    }
-    
-    private lazy var image = UIImageView().then {
-        $0.image = UIImage()
-        $0.contentMode = .scaleAspectFit
     }
     
     public lazy var coffeeName = UILabel().then {
@@ -84,19 +80,11 @@ class NoteDetailView: UIView {
             addSubview($0)
         }
         
-        imageView.addSubview(image)
-        
         imageView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide).offset(28)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(278)
             $0.height.equalTo(287)
-        }
-        
-        image.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
-            $0.width.equalTo(134)
-            $0.height.equalTo(161)
         }
         
         coffeeName.snp.makeConstraints {
