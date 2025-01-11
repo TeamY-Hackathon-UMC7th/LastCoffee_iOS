@@ -1,13 +1,15 @@
+
+> UMC 7기 해커톤
 <div align=center>
 
-# 🍎 LastCoffee_iOS 🍎
+# LastCoffee_iOS
 
-## 👶🏼 iOS Members 👶🏼
-<img width="160px" src="https://avatars.githubusercontent.com/u/105594739?v=4"/> | <img width="160px" src="https://avatars.githubusercontent.com/u/106726806?v=4"/> | <img width="160px" src="https://avatars.githubusercontent.com/u/147061193?v=4"/> | 
+## 🍎 Developers
+<img width="160px" src="https://avatars.githubusercontent.com/u/80318425?v=4"/> | <img width="160px" src="https://avatars.githubusercontent.com/u/105594739?v=4"/> | <img width="160px" src="https://avatars.githubusercontent.com/u/65756020?v=4"/> | 
 |:-----:|:-----:|:-----:|
-|[이수현 (Soo)](https://github.com/LeeeeSuHyeon)|[송재곤 (Azin)](https://github.com/worhs02)|[손현빈 (Lemon)](https://github.com/SickofU)|
+|[김도연 (참치마요)](https://github.com/doyeonk429)|[이수현 (Soo)](https://github.com/LeeeeSuHyeon)|[주민영 (민요이)](https://github.com/minyoy)|
 |팀장 👑|팀원 👨🏻‍💻|팀원 👨🏻‍💻|
-|`Home`<br/>`앨범 큐레이션`<br/>`Explore`<br/>`아티스트 뷰`<br/>|`Library`<br/>`마이페이지`<br/>|`온보딩`<br/>`Search`<br/>`음악 재생 뷰`<br/>`탭바`<br/>
+|`온보딩`<br/>`로그인 / 회원가입 기능`<br/>`네트워크 관리`<br/>|`홈 뷰`<br/>`음료 추천 기능`<br/>|`음료 검색 기능`<br/>`리뷰 조회 / 작성 / 삭제 기능`<br/>
 </div>
 <br/>
 
@@ -21,7 +23,7 @@
 | <img src="https://img.shields.io/badge/-UIKit-2396F3?style=flat&logo=uikit&logoColor=white"> | iOS 앱의 UI를 구축하고 사용자 인터페이스를 관리하는 기본 프레임워크.|
 | <img src="https://img.shields.io/badge/-Git-F05032?style=flat&logo=git&logoColor=white"> | 분산 버전 관리 시스템으로, 코드 히스토리 관리와 협업을 효율적으로 지원.|
 | <img src="https://img.shields.io/badge/-Notion-000000?style=flat&logo=notion&logoColor=white"> | 작업 관리 및 문서화를 위한 통합 협업 도구.|
-| <img src="https://img.shields.io/badge/-Discord-5865F2?style=flat&logo=discord&logoColor=white"> | 팀 커뮤니케이션 및 실시간 협업을 위한 음성 및 텍스트 기반 플랫폼.|
+
 
 ## 📚 Libraries 📚
 | Name         | Version  |  Description        |
@@ -29,7 +31,9 @@
 | [Then](https://github.com/devxoul/Then) | `3.0.0` | 간결하고 직관적인 방식으로 객체를 설정할 수 있게 도와준다. |
 | [SnapKit](https://github.com/SnapKit/SnapKit) | `5.7.1` | Auto Layout을 코드로 작성할 때 간단하게 가독성을 높일 수 있다. |
 | [Moya](https://github.com/Moya/Moya) |  `15.0.3`  | 네트워크 요청을 관리하는 데 도움을 주는 Alamofire 기반의 네트워크 추상화 라이브러리.|
-| [Kingfisher](https://github.com/onevcat/Kingfisher) | `8.1.2` | URL 기반의 이미지를 효율적으로 다운로드 및 캐싱할 수 있다. |
+| [SDWebImage](https://github.com/SDWebImage/SDWebImage) | `5.19.7` | URL로부터 이미지 다운 중 처리 작업을 간소화할 수 있도록 한다.(비동기적 이미지 다운로드) |
+| [SwiftyToaster](https://github.com/noeyiz/SwiftyToaster) | `1.0.2` | 토스트 메세지 뷰 및 인터렉션 |
+| [keychain-swift](https://github.com/evgenyneu/keychain-swift) |  `24.0.0`  | 로컬 데이터를 안전하게 저장하고 접근할 수 있다.|
 
 
 ## 💻 Convention 💻
@@ -152,16 +156,15 @@ fix/#32: 로그인 api 오류 수정
 ---
 ## 📁 Foldering Convention 📁
 ```markdown
-📦Archive
+📦LastCoffee
 ┣ 📂App                    # 앱의 진입점 (AppDelegate, SceneDelegate)
 ┣ 📂Assets                 # 이미지 등을 효율적으로 관리하는 에셋 카탈로그
 ┣ 📂Models                 # 데이터 모델 폴더
 ┣ 📂Views                  # UI 레이아웃 폴더
 ┣ 📂Cells                  # Cell 폴더
 ┣ 📂ViewControllers        # ViewController 폴더
+┣ 📂Components             # View 재사용을 위한 폴더
 ┣ 📂Network                # 네트워크 통신 폴더
-┣ 📂Service                # 서비스 계층 (Keychain 관리 등)
-┃ ┗ 📂Keychain             # Keychain 관리
 ┣ 📂Extension              # Extension 파일 관리
 ┗ 📂Font                   # Font 파일 관리
 ```

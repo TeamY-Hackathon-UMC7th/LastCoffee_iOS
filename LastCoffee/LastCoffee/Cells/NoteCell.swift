@@ -58,6 +58,8 @@ class NoteCell: UITableViewCell {
     
     private lazy var image = UIImageView().then {
         $0.image = UIImage()
+        $0.layer.cornerRadius = 3
+        $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFit
         $0.backgroundColor = .gray
     }
@@ -148,7 +150,8 @@ class NoteCell: UITableViewCell {
         let drinkTime = extractTime(from: model.drinkDate)
         let sleepTime = extractTime(from: model.sleepDate)
         
-        self.title.text = model.coffeeName
+        self.image.sd_setImage(with: URL(string: model.coffeeImgUrl))
+        self.title.text = "[\(model.brand)] \(model.coffeeName)"
         self.subTitle.text = "\(drinkTime) 마심 | \(sleepTime) 취침"
         self.drinkingDate.text = drinkDate
     }
