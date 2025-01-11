@@ -8,6 +8,7 @@
 import UIKit
 
 class RecommandDrinkViewController: UIViewController {
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     private let selectedHour : String
     private let recommandView : RecommandDrinkView
    
@@ -18,6 +19,7 @@ class RecommandDrinkViewController: UIViewController {
         
         self.view = recommandView
         setDataSource()
+        setNavigationBar()
         // API 연결
     }
     
@@ -29,10 +31,27 @@ class RecommandDrinkViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
     }
     
+    private func setNavigationBar() {
+        let leftBarButton = UIBarButtonItem(image: .init(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popButton))
+        leftBarButton.tintColor = .black
+        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
+    }
+    
+    @objc private func popButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    
     private func setDataSource() {
-        
+//        self.dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: recommandView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+//            
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommandBannerCell.id, for: indexPath)
+//            (cell as? RecommandBannerCell)?.config(title: <#T##String#>, imageURL: <#T##String#>)
+//            return cell
+//        })
     }
 }
 

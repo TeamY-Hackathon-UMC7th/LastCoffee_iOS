@@ -10,7 +10,7 @@ import UIKit
 
 class SelectTimeViewController: UIViewController {
     private let hours = [
-        "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
+        "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
         "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"
     ]
     
@@ -21,7 +21,7 @@ class SelectTimeViewController: UIViewController {
         super.viewDidLoad()
         self.selectTimeView.timePickerView.delegate = self
         self.selectTimeView.timePickerView.dataSource = self
-        self.selectTimeView.timePickerView.selectRow(21, inComponent: 0, animated: true)
+        self.selectTimeView.timePickerView.selectRow(22, inComponent: 0, animated: true)
         
         view = selectTimeView
         setNavigationBar()
@@ -44,7 +44,6 @@ class SelectTimeViewController: UIViewController {
     
     @objc private func touchUpInsideBtnNext() {
         let nextVC = RecommandDrinkViewController(selectedHour: selectedHour)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }

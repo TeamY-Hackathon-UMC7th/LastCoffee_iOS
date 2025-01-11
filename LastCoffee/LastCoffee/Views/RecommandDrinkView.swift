@@ -24,7 +24,7 @@ class RecommandDrinkView: UIView {
     
     
     public lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createLayout()).then { view in
-//        <#code#>
+        view.register(RecommandBannerCell.self, forCellWithReuseIdentifier: RecommandBannerCell.id)
     }
     
     public let btnCheck = CustomButton().then { btn in

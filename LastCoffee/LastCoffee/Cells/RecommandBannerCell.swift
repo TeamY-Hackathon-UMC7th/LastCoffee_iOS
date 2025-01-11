@@ -1,5 +1,5 @@
 //
-//  RecommnadBannerCell.swift
+//  RecommandBannerCell.swift
 //  LastCoffee
 //
 //  Created by 이수현 on 1/12/25.
@@ -8,7 +8,7 @@
 import UIKit
 
 
-class RecommnadBannerCell: UICollectionViewCell {
+class RecommandBannerCell: UICollectionViewCell {
     static let id = "RecommnadBannerCell"
     
     private let imageView = UIImageView().then { view in
