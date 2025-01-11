@@ -20,3 +20,19 @@ public struct JoinResponseDto: Decodable {
 public struct CoffeeFirstDTO: Decodable {
     public let coffees: [CoffeeDetailResponse]
 }
+
+public struct Review: Decodable {
+    public let createdAt : String
+    public let updatedAt : String
+    public let id : Int
+    public let member: Member
+    public let coffee: CoffeeDetailResponse
+    public let drinkTime: String
+    public let sleepTime: String
+    public let comment: String
+}
+
+public struct Member: Decodable {
+    public let id : Int
+    public let nickname: String
+}

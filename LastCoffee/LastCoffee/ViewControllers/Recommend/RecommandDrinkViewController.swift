@@ -14,6 +14,7 @@ class RecommendDrinkViewController: UIViewController {
     private let recommendView : RecommendDrinkView
     private let networkService = CoffeeService()
     private var recommendData = [CoffeeDetailResponse]()
+    let coffeeManager = CoffeeManager()
    
     init(selectedHour: String) {
         self.selectedHour = selectedHour
@@ -88,9 +89,32 @@ class RecommendDrinkViewController: UIViewController {
                 self.recommendData = response.coffees
                 self.setDataSource()
                 self.setSnapShot()
+                
+                Task {
+                    self.makeData(selectedHour: self.selectedHour, coffee: response.coffees)
+                }
             case .failure(let error):
                 print(error)
             }
+        }
+    }
+    
+    func makeData(selectedHour : String, coffee : [CoffeeDetailResponse]) {
+        var coffees = [CoffeeData]()
+        for data in coffee {
+            coffees.append(CoffeeData(searchTime: selectedHour,
+                                      id: data.id,
+                                      name: data.name,
+                                      brand: data.brand,
+                                      sugar: data.sugar,
+                                      caffeine: data.caffeine,
+                                      calories: data.calories,
+                                      protein: data.protein,
+                                      coffeeImgUrl: data.coffeeImgUrl))
+        }
+        Task {
+            try await self.coffeeManager.deleteAllCoffeeData()
+            try await self.coffeeManager.saveCoffeeData(coffees: coffees)
         }
     }
 }
