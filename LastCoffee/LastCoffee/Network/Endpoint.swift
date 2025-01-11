@@ -47,6 +47,7 @@ extension AllEndpoint: TargetType {
             return "/check/\(nickname)"
         case .getPopularCoffees:
             return "/popular"
+
         }
     }
     
