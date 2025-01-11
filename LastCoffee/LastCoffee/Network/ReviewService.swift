@@ -36,9 +36,8 @@ public final class ReviewService : NetworkManager {
     }
 
     /// 인기 커피 불러오기
-    public func getReviews(completion: @escaping (Result<[Review], NetworkError>) -> Void) {
-        request(target: .getAllReviews, decodingType: [Review].self, completion: completion)
+    public func getReviews(completion: @escaping (Result<[Review]?, NetworkError>) -> Void) {
+        requestOptional(target: .getAllReviews, decodingType: [Review].self, completion: completion)
     }
-    
 
 }
