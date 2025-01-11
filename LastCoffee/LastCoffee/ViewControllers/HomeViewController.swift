@@ -20,11 +20,8 @@ class HomeViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.view = homeView
         self.addAction()
-        self.setDataSource()
         self.setNavigation()
-        
-        // API 연결 후 스냅샷 생성 추가 예정
-        setSnapShot()
+
     }
     
     required init?(coder: NSCoder) {
@@ -33,6 +30,15 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.isTabBarHidden = false
+        
+        self.setDataSource()
+        // API 연결 후 스냅샷 생성 추가 예정
+        setSnapShot()
     }
     
     private func setDataSource() {
@@ -101,8 +107,9 @@ class HomeViewController: UIViewController {
     
     // '오늘의 취침 시간' 버튼 선택
     @objc private func touchUpInsideBtnRecommendDrink() {
-//        let nextVC = SelectTimeViewController()
-//        self.navigationController?.pushViewController(nextVC, animated: true)
+        let nextVC = SelectTimeViewController()
+        self.tabBarController?.isTabBarHidden = true
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
     private func getPopular(){
