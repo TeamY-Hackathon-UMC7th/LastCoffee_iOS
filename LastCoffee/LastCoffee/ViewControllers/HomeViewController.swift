@@ -11,6 +11,9 @@ class HomeViewController: UIViewController {
     private let dummy = CoffeeDetailResponse.dummy()
     private let homeView = HomeView(nickname: "soo")
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
+    private var popularData = [CoffeeDetailResponse]()
+    
+    private let networkService = CoffeeService()
     
     
     init() {
@@ -37,7 +40,7 @@ class HomeViewController: UIViewController {
             switch itemIdentifier {
             case .popularMenu: // 각 셀에 config 설정
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularBannerSectionCell.id, for: indexPath)
-                let data = self.dummy[indexPath.row]
+                let data = self.popularData[indexPath.row]
                 (cell as? PopularBannerSectionCell)?.config(title: data.name, brand: data.brand, imageURL: data.coffeeImgUrl, cafeine: data.caffeine, sugar: data.sugar, calorie: data.calories, protein: data.protein)
                 return cell
             case .recommendMenu:
@@ -73,7 +76,7 @@ class HomeViewController: UIViewController {
         
         snapshot.appendSections([popularSection, flowSection])
         
-        snapshot.appendItems(dummy.map{Item.popularMenu($0)}, toSection: popularSection)
+        snapshot.appendItems(popularData.map{Item.popularMenu($0)}, toSection: popularSection)
         snapshot.appendItems(dummy.map{Item.recommendMenu($0)}, toSection: flowSection)
         
         
@@ -98,6 +101,21 @@ class HomeViewController: UIViewController {
     @objc private func touchUpInsideBtnRecommendDrink() {
 //        let nextVC = SelectTimeViewController()
 //        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    private func getPopular(){
+        networkService.getPopularCoffee { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let response):
+                self.popularData = response
+                self.setDataSource()
+                self.setSnapShot()
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 
