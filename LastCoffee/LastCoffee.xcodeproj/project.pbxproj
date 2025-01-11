@@ -6,6 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CB34884D2D32ABAC007865A4 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = CB34884C2D32ABAC007865A4 /* Then */; };
+		CB3488502D32ABB8007865A4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CB34884F2D32ABB8007865A4 /* SnapKit */; };
+		CB3488532D32ABE0007865A4 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = CB3488522D32ABE0007865A4 /* Moya */; };
+		CB3488562D32AC0B007865A4 /* SwiftyToaster in Frameworks */ = {isa = PBXBuildFile; productRef = CB3488552D32AC0B007865A4 /* SwiftyToaster */; };
+		CB3488592D32AC43007865A4 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = CB3488582D32AC43007865A4 /* SDWebImage */; };
+		CB34885C2D32AC77007865A4 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB34885B2D32AC77007865A4 /* KeychainSwift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		CB34881B2D32A8A6007865A4 /* LastCoffee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LastCoffee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +45,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB34885C2D32AC77007865A4 /* KeychainSwift in Frameworks */,
+				CB34884D2D32ABAC007865A4 /* Then in Frameworks */,
+				CB3488562D32AC0B007865A4 /* SwiftyToaster in Frameworks */,
+				CB3488502D32ABB8007865A4 /* SnapKit in Frameworks */,
+				CB3488532D32ABE0007865A4 /* Moya in Frameworks */,
+				CB3488592D32AC43007865A4 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +93,12 @@
 			);
 			name = LastCoffee;
 			packageProductDependencies = (
+				CB34884C2D32ABAC007865A4 /* Then */,
+				CB34884F2D32ABB8007865A4 /* SnapKit */,
+				CB3488522D32ABE0007865A4 /* Moya */,
+				CB3488552D32AC0B007865A4 /* SwiftyToaster */,
+				CB3488582D32AC43007865A4 /* SDWebImage */,
+				CB34885B2D32AC77007865A4 /* KeychainSwift */,
 			);
 			productName = LastCoffee;
 			productReference = CB34881B2D32A8A6007865A4 /* LastCoffee.app */;
@@ -107,6 +128,14 @@
 			);
 			mainGroup = CB3488122D32A8A6007865A4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CB34884B2D32ABAC007865A4 /* XCRemoteSwiftPackageReference "Then" */,
+				CB34884E2D32ABB8007865A4 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				CB3488512D32ABE0007865A4 /* XCRemoteSwiftPackageReference "Moya" */,
+				CB3488542D32AC0B007865A4 /* XCRemoteSwiftPackageReference "SwiftyToaster" */,
+				CB3488572D32AC43007865A4 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				CB34885A2D32AC77007865A4 /* XCRemoteSwiftPackageReference "keychain-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CB34881C2D32A8A6007865A4 /* Products */;
 			projectDirPath = "";
@@ -333,6 +362,90 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CB34884B2D32ABAC007865A4 /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		CB34884E2D32ABB8007865A4 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		CB3488512D32ABE0007865A4 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+		CB3488542D32AC0B007865A4 /* XCRemoteSwiftPackageReference "SwiftyToaster" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/noeyiz/SwiftyToaster";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+		CB3488572D32AC43007865A4 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.20.0;
+			};
+		};
+		CB34885A2D32AC77007865A4 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/evgenyneu/keychain-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CB34884C2D32ABAC007865A4 /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB34884B2D32ABAC007865A4 /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		CB34884F2D32ABB8007865A4 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB34884E2D32ABB8007865A4 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		CB3488522D32ABE0007865A4 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB3488512D32ABE0007865A4 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		CB3488552D32AC0B007865A4 /* SwiftyToaster */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB3488542D32AC0B007865A4 /* XCRemoteSwiftPackageReference "SwiftyToaster" */;
+			productName = SwiftyToaster;
+		};
+		CB3488582D32AC43007865A4 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB3488572D32AC43007865A4 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		CB34885B2D32AC77007865A4 /* KeychainSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB34885A2D32AC77007865A4 /* XCRemoteSwiftPackageReference "keychain-swift" */;
+			productName = KeychainSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CB3488132D32A8A6007865A4 /* Project object */;
 }
