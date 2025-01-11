@@ -9,17 +9,18 @@ import UIKit
 import Then
 
 class HomeView: UIView {
-    // 상단 닉네임 + 알림 버튼
-    private let grpTopView = UIView()
+    private let nickname: String
     
-    // 닉네임 라벨
-    private let lblNickname = UILabel().then { lbl in
-        lbl.font = .ptdBoldFont(ofSize: 14) // 임시
+    // 로고 이미지 뷰
+    private let logoImageView = UIImageView().then { view in
+        view.image = .lastCoffeeText
     }
     
-    // 알림 버튼
-    public let btnAlert = UIButton().then { btn in
-        btn.setImage(.init(systemName: "bell"), for: .normal)
+    // 닉네임 라벨
+    private lazy var lblNickname = UILabel().then { lbl in
+        lbl.text = "\(nickname)님, 반갑습니다!"
+        lbl.font = .ptdSemiBoldFont(ofSize: 18)
+        lbl.textAlignment = .left
     }
     
     // 컬렉션 뷰
@@ -39,8 +40,9 @@ class HomeView: UIView {
         btn.titleLabel?.font = .ptdSemiBoldFont(ofSize: 14)
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(nickname: String) {
+        self.nickname = nickname
+        super.init(frame: .zero)
         
         self.backgroundColor = .background
         setSubView()
@@ -53,14 +55,10 @@ class HomeView: UIView {
     
     // 서브뷰 추가
     private func setSubView() {
-        [
-            lblNickname,
-            btnAlert
-        ].forEach{grpTopView.addSubview($0)}
-        
 
         [
-            grpTopView,
+            logoImageView,
+            lblNickname,
             collectionView,
             btnRecommandDrink
         ].forEach{self.addSubview($0)}
@@ -68,17 +66,23 @@ class HomeView: UIView {
     
     // 오토레이아웃 설정
     private func setUI(){
-        grpTopView.snp.makeConstraints { make in
-            make.height.equalTo(59)
-            make.horizontalEdges.equalToSuperview()
-            make.top.equalTo(safeAreaLayoutGuide)
+
+        logoImageView.snp.makeConstraints { make in
+            make.width.equalTo(107)
+            make.height.equalTo(24)
+            make.top.equalTo(safeAreaLayoutGuide).inset(25.5)
+            make.centerX.equalToSuperview()
         }
         
+        lblNickname.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(16)
+            make.top.equalTo(logoImageView.snp.bottom).offset(27.5)
+        }
         
-        btnAlert.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(11)
-            make.width.height.equalTo(24)
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(lblNickname.snp.bottom).offset(17)
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalTo(btnRecommandDrink.snp.top)
         }
         
         btnRecommandDrink.snp.makeConstraints { make in
@@ -132,9 +136,5 @@ class HomeView: UIView {
         
         return section
     }
-    
-//    public func config(nickname: String){
-//        self.lblNickname.text = nickname
-//    }
 }
 
