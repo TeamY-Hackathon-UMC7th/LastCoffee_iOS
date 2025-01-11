@@ -57,12 +57,6 @@ class RegisterViewController: UIViewController {
     @objc private func checkDuplicateButtonTapped() {
         guard let nickname = registerView.nickNameField.textField.text else { return }
         callCheckAPI(nickname: nickname)
-        if canUser {
-            registerView.nickNameField.updateValidationText(text: "사용 가능한 닉네임입니다.", isHidden: false, color: UIColor.rightGreen)
-            registerView.checkButton.setEnabled(true)
-        } else {
-            registerView.nickNameField.updateValidationText(text: "중복된 닉네임입니다.", isHidden: false, color: UIColor.errorRed)
-        }
     }
     
     func callCheckAPI(nickname: String) {
@@ -71,7 +65,47 @@ class RegisterViewController: UIViewController {
             
             switch result {
             case .success(let response):
-                self.canUser = response.status
+                // 비동기 UI 업데이트
+                DispatchQueue.main.async {
+                    self.canUser = response.status
+                    
+                    if self.canUser {
+                        self.registerView.nickNameField.updateValidationText(
+                            text: "사용 가능한 닉네임입니다.",
+                            isHidden: false,
+                            color: UIColor.rightGreen
+                        )
+                        self.registerView.checkButton.setEnabled(true)
+                    } else {
+                        self.registerView.nickNameField.updateValidationText(
+                            text: "중복된 닉네임입니다.",
+                            isHidden: false,
+                            color: UIColor.errorRed
+                        )
+                    }
+                }
+                
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.registerView.nickNameField.updateValidationText(
+                        text: "오류가 발생했습니다. 다시 시도해주세요.",
+                        isHidden: false,
+                        color: UIColor.errorRed
+                    )
+                }
+            }
+        }
+    }
+    
+    func callJoinAPI(nickname: String) {
+        networkService.join(nickname: nickname) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(_):
+                Task{
+                    self.navigationController?.popViewController(animated: true)
+                }
             case .failure(let error):
                 print(error)
             }
@@ -79,9 +113,8 @@ class RegisterViewController: UIViewController {
     }
     
     @objc private func joinButtonTapped() {
-        // api call
-        // TODO : 회원가입 API 연결
-        self.navigationController?.popViewController(animated: true)
+        guard let nickname = registerView.nickNameField.textField.text else { return }
+        callJoinAPI(nickname: nickname)
     }
     
     // 텍스트필드 검증

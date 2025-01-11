@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct CoffeeDetailResponse: Codable {
-    let id: Int
-    let name: String
-    let brand: String
-    let sugar: Int
-    let caffeine: Int
-    let calories: Int
-    let protein: Int
-    let coffeeImgUrl: String
+public struct CoffeeDetailResponse: Decodable {
+    public let id: Int
+    public let name: String
+    public let brand: String
+    public let sugar: Int
+    public let caffeine: Int
+    public let calories: Int
+    public let protein: Int
+    public let coffeeImgUrl: String
 }

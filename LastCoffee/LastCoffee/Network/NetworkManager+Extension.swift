@@ -13,6 +13,7 @@ extension NetworkManager {
         provider.request(target) { result in
             switch result {
             case .success(let response):
+                print(response.statusCode)
                 let result: Result<T, NetworkError> = self.handleResponse(response, decodingType: decodingType)
                 completion(result)
             case .failure(let error):
