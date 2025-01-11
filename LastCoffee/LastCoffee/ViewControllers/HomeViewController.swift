@@ -8,7 +8,7 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-    
+    private let dummy = CoffeeDetailResponse.dummy()
     private let homeView = HomeView(nickname: "soo")
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     
@@ -21,6 +21,7 @@ class HomeViewController: UIViewController {
         self.setNavigation()
         
         // API 연결 후 스냅샷 생성 추가 예정
+        setSnapShot()
     }
     
     required init?(coder: NSCoder) {
@@ -32,14 +33,51 @@ class HomeViewController: UIViewController {
     }
     
     private func setDataSource() {
-//        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-//            switch itemIdentifier {
-//            case .popularMenu: // 각 셀에 config 설정
-//            case .recommendMenu:
-//            default:
-//                return UICollectionViewCell()
-//            }
-//        })
+        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            switch itemIdentifier {
+            case .popularMenu: // 각 셀에 config 설정
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularBannerSectionCell.id, for: indexPath)
+                let data = self.dummy[indexPath.row]
+                (cell as? PopularBannerSectionCell)?.config(title: data.name, brand: data.brand, imageURL: data.coffeeImgUrl, cafeine: data.caffeine, sugar: data.sugar, calorie: data.calories, protein: data.protein)
+                return cell
+            case .recommendMenu:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FlowSectionCell.id, for: indexPath)
+                let data = self.dummy[indexPath.row]
+                (cell as? FlowSectionCell)?.config(title: data.name, brand: data.brand, imageURL: data.coffeeImgUrl)
+                return cell
+            }
+        })
+        
+        dataSource?.supplementaryViewProvider = {[weak self] (collectionView, kind, indexPath) in
+            
+            let section = self?.dataSource?.sectionIdentifier(for: indexPath.section)
+            switch section {
+            case .popularBanner(let header):
+                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.id, for: indexPath)
+                (headerView as? HeaderView)?.config(title: header)
+                return headerView
+            case .flow(let header):
+                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.id, for: indexPath)
+                (headerView as? HeaderView)?.config(title: header)
+                return headerView
+            default:
+                return nil
+            }
+        }
+    }
+    
+    private func setSnapShot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        let popularSection = Section.popularBanner("☕️ 인기 메뉴")
+        let flowSection = Section.flow("🧑🏻 최근에 추천 받은 메뉴")
+        
+        snapshot.appendSections([popularSection, flowSection])
+        
+        snapshot.appendItems(dummy.map{Item.popularMenu($0)}, toSection: popularSection)
+        snapshot.appendItems(dummy.map{Item.recommendMenu($0)}, toSection: flowSection)
+        
+        
+        dataSource?.apply(snapshot)
     }
     
     private func setNavigation() {

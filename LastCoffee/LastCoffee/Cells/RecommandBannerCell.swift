@@ -12,7 +12,7 @@ class RecommendBannerCell: UICollectionViewCell {
     static let id = "RecommendBannerCell"
     
     private let imageView = UIImageView().then { view in
-        view.layer.cornerRadius = 10
+        view.layer.cornerRadius = 6.1
     }
     
     private let lblTitle = UILabel().then { lbl in
@@ -21,6 +21,7 @@ class RecommendBannerCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.layer.cornerRadius = 10.16
         setSubView()
         setUI()
     }

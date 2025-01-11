@@ -1,5 +1,5 @@
 //
-//  HeaderCell.swift
+//  HeaderView.swift
 //  LastCoffee
 //
 //  Created by 이수현 on 1/11/25.
@@ -10,8 +10,8 @@ import UIKit
 import Then
 import SnapKit
 
-class HeaderCell: UICollectionReusableView {
-    static let id = "HeaderCell"
+class HeaderView: UICollectionReusableView {
+    static let id = "HeaderView"
     
     private let lblTitle = UILabel().then { lbl in
         lbl.font = .ptdSemiBoldFont(ofSize: 16)
