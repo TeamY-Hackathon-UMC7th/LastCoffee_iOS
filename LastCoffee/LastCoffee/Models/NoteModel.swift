@@ -10,9 +10,7 @@ import Foundation
 // 임시 모델
 struct NoteModel: Codable {
     let coffeeName: String
-    let drinkingDate: String
-    let drinkingTime: String
-    let sleepingDate: String
-    let sleepingTime: String
-    let review: String
+    let drinkDate: String
+    let sleepDate: String
+    let comment: String
 }

@@ -10,6 +10,7 @@ import UIKit
 
 // 임시 구조체
 struct NoteSearchModel {
+    let id: Int
     let image: UIImage
     let name: String
 }

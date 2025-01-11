@@ -67,8 +67,8 @@ class NoteSearchCell: UITableViewCell {
         }
     }
     
-    public func configure(model: NoteSearchModel, highlightText: String? = nil) {
-        // self.image.image = model.image
+    public func configure(model: CoffeeDetailResponse, highlightText: String? = nil) {
+        self.image.sd_setImage(with: URL(string: model.coffeeImgUrl))
         self.title.text = model.name
         
         
