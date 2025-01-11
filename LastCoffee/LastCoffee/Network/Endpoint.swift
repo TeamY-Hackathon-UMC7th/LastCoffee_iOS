@@ -18,8 +18,8 @@ public enum AllEndpoint {
     case getSearchCoffee(keyword: String)
     
     
-//    case getAllReviews
-//    case postReview
+    case getAllReviews
+    case postReview(data: ReviewDto)
     
 }
 
@@ -34,7 +34,12 @@ extension AllEndpoint: TargetType {
             // case 처리
         case .getPopularCoffees, .getRecommandCoffees, .getSearchCoffee:
             guard let url = URL(string: API.coffeeURL) else {
-                fatalError("baseURL 오류")
+                fatalError("coffee url 오류")
+            }
+            return url
+        case .postReview, .getAllReviews:
+            guard let url = URL(string: API.reviewURL) else {
+                fatalError("review url 오류")
             }
             return url
         }
@@ -54,12 +59,14 @@ extension AllEndpoint: TargetType {
             return "/recommend"
         case .getSearchCoffee:
             return "/search"
+        case .postReview, .getAllReviews:
+            return ""
         }
     }
     
     public var method: Moya.Method {
         switch self {
-        case .postLogin, .postSignup:
+        case .postLogin, .postSignup, .postReview:
             return .post
         default :
             return .get
@@ -80,6 +87,10 @@ extension AllEndpoint: TargetType {
             return .requestParameters(parameters: ["time" : time], encoding: URLEncoding.queryString)
         case .getSearchCoffee(let keyword):
             return .requestParameters(parameters: ["keyword" : keyword], encoding: URLEncoding.queryString)
+        case .postReview(let data):
+            return .requestJSONEncodable(data)
+        case .getAllReviews:
+            return .requestPlain
         }
     }
     
