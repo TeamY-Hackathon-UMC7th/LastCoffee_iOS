@@ -11,17 +11,17 @@ class HomeViewController: UIViewController {
     private let dummy = CoffeeDetailResponse.dummy()
     private let homeView = HomeView(nickname: "soo")
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
+    private var popularData = [CoffeeDetailResponse]()
+    
+    private let networkService = CoffeeService()
     
     
     init() {
         super.init(nibName: nil, bundle: nil)
         self.view = homeView
         self.addAction()
-        self.setDataSource()
         self.setNavigation()
-        
-        // API 연결 후 스냅샷 생성 추가 예정
-        setSnapShot()
+
     }
     
     required init?(coder: NSCoder) {
@@ -32,19 +32,30 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.isTabBarHidden = false
+        
+        self.setDataSource()
+        // API 연결 후 스냅샷 생성 추가 예정
+        setSnapShot()
+    }
+    
     private func setDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             switch itemIdentifier {
             case .popularMenu: // 각 셀에 config 설정
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularBannerSectionCell.id, for: indexPath)
-                let data = self.dummy[indexPath.row]
+                let data = self.popularData[indexPath.row]
                 (cell as? PopularBannerSectionCell)?.config(title: data.name, brand: data.brand, imageURL: data.coffeeImgUrl, cafeine: data.caffeine, sugar: data.sugar, calorie: data.calories, protein: data.protein)
                 return cell
-            case .recommendMenu:
+            case .flowMenu:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FlowSectionCell.id, for: indexPath)
                 let data = self.dummy[indexPath.row]
                 (cell as? FlowSectionCell)?.config(title: data.name, brand: data.brand, imageURL: data.coffeeImgUrl)
                 return cell
+            case .recommendMenu(_):
+                return UICollectionViewCell()
             }
         })
         
@@ -73,8 +84,8 @@ class HomeViewController: UIViewController {
         
         snapshot.appendSections([popularSection, flowSection])
         
-        snapshot.appendItems(dummy.map{Item.popularMenu($0)}, toSection: popularSection)
-        snapshot.appendItems(dummy.map{Item.recommendMenu($0)}, toSection: flowSection)
+        snapshot.appendItems(popularData.map{Item.popularMenu($0)}, toSection: popularSection)
+        snapshot.appendItems(dummy.map{Item.flowMenu($0)}, toSection: flowSection)
         
         
         dataSource?.apply(snapshot)
@@ -96,8 +107,24 @@ class HomeViewController: UIViewController {
     
     // '오늘의 취침 시간' 버튼 선택
     @objc private func touchUpInsideBtnRecommendDrink() {
-//        let nextVC = SelectTimeViewController()
-//        self.navigationController?.pushViewController(nextVC, animated: true)
+        let nextVC = SelectTimeViewController()
+        self.tabBarController?.isTabBarHidden = true
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    private func getPopular(){
+        networkService.getPopularCoffee { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let response):
+                self.popularData = response
+                self.setDataSource()
+                self.setSnapShot()
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 

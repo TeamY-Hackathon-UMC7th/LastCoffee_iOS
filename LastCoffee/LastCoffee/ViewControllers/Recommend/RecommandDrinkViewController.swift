@@ -8,6 +8,7 @@
 import UIKit
 
 class RecommendDrinkViewController: UIViewController {
+    private let dummy = CoffeeDetailResponse.dummy()
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     private let selectedHour : String
     private let recommendView : RecommendDrinkView
@@ -19,7 +20,10 @@ class RecommendDrinkViewController: UIViewController {
         
         self.view = recommendView
         setDataSource()
+        setSnapShot()
+        setAction()
         setNavigationBar()
+        
         // API 연결
     }
     
@@ -30,8 +34,20 @@ class RecommendDrinkViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
+    }
+    
+    private func setAction() {
+        recommendView.btnCheck.addTarget(self, action: #selector(touchUpInsideBtnCheck), for: .touchUpInside)
+    }
+    
+    @objc private func touchUpInsideBtnCheck() {
+        guard let navigationController = navigationController else { return }
+         // VisiterHomeViewController를 스택에서 찾기
+        if let targetIndex = navigationController.viewControllers.firstIndex(where: { $0 is HomeViewController }) {
+             // VisiterHomeViewController까지의 스택만 유지
+             let newStack = Array(navigationController.viewControllers[...targetIndex])
+             navigationController.setViewControllers(newStack, animated: true)
+         }
     }
     
     private func setNavigationBar() {
@@ -46,12 +62,23 @@ class RecommendDrinkViewController: UIViewController {
     
     
     private func setDataSource() {
-//        self.dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: recommendView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-//
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendBannerCell.id, for: indexPath)
-//            (cell as? RecommendBannerCell)?.config(title: <#T##String#>, imageURL: <#T##String#>)
-//            return cell
-//        })
+        self.dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: recommendView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendBannerCell.id, for: indexPath)
+            (cell as? RecommendBannerCell)?.config(title: self.dummy[indexPath.row].name, brand: self.dummy[indexPath.row].brand, imageURL: self.dummy[indexPath.row].coffeeImgUrl)
+            return cell
+        })
+    }
+    
+    private func setSnapShot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        let recommendSection = Section.recommmandBanner
+        
+        snapshot.appendSections([recommendSection])
+        
+        snapshot.appendItems(dummy.map{Item.recommendMenu($0)}, toSection: recommendSection)
+        
+        dataSource?.apply(snapshot)
     }
 }
 
