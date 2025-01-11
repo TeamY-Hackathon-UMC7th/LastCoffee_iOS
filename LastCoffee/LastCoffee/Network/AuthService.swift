@@ -30,10 +30,11 @@ public final class AuthService : NetworkManager {
         request(target: .postLogin(nickname: nickname), decodingType: LoginResponseDto.self, completion: completion)
     }
     
-    /// 자체 회원가입 API
-//    public func join(nickname: String, completion: @escaping (Result<, NetworkError>) -> Void) {
-//        request(target: .postSignup(nickname: nickname), decodingType: String.self, completion: completion)
-//    }
+
+    public func join(nickname: String, completion: @escaping (Result<JoinResponseDto, NetworkError>) -> Void) {
+        request(target: .postSignup(nickname: nickname), decodingType: JoinResponseDto.self, completion: completion)
+    }
+
     
     /// 닉네임 중복 체크 API
     public func checkEmail(nickname: String, completion: @escaping (Result<JoinResponseDto, NetworkError>) -> Void) {

@@ -13,6 +13,8 @@ public enum AllEndpoint {
     case postLogin(nickname: String) // query
     case checkNickname(nickname: String) //path
     
+    case getPopularCoffees
+    
 //    case getAllReviews
 //    case postReview
     
@@ -27,6 +29,11 @@ extension AllEndpoint: TargetType {
             }
             return url
             // case 처리
+        case .getPopularCoffees:
+            guard let url = URL(string: API.coffeeURL) else {
+                fatalError("baseURL 오류")
+            }
+            return url
         }
     }
     
@@ -38,7 +45,9 @@ extension AllEndpoint: TargetType {
             return "/signup"
         case .checkNickname(let nickname):
             return "/check/\(nickname)"
-            // case 처리
+        case .getPopularCoffees:
+            return "/popular"
+
         }
     }
     
@@ -58,6 +67,8 @@ extension AllEndpoint: TargetType {
         case .postLogin(let nickname):
             return .requestParameters(parameters: ["nickname" : nickname], encoding: URLEncoding.queryString)
         case .checkNickname(_):
+            return .requestPlain
+        case .getPopularCoffees:
             return .requestPlain
         }
     }
