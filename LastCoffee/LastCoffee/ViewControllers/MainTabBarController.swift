@@ -30,23 +30,24 @@ public class MainTabBarController: UITabBarController {
     
     public func configureTabs() {
         let homeViewController = HomeViewController()
-//        let homeNavigationController = UINavigationController(rootViewController: homeViewController)
-//        homeNavigationController.isNavigationBarHidden = true // 네비게이션 바 숨김
-        
         let noteMainViewController = NoteMainViewController()
-//        let noteMainNavigationController = UINavigationController(rootViewController: noteMainViewController)
-//        noteMainNavigationController.isNavigationBarHidden = true // 네비게이션 바 숨김
+        let searchViewController = SearchViewController()
         
         let nav1 = UINavigationController(rootViewController: homeViewController)
         let nav2 = UINavigationController(rootViewController: noteMainViewController)
 //        nav1.navigationBar.isHidden = true
+        let nav3 = UINavigationController(rootViewController: searchViewController)
+        nav1.navigationBar.isHidden = true
         nav2.navigationBar.isHidden = true
+        nav3.navigationBar.isHidden = true
         
         let home = UIImage(named: "TabHome")?.resize(to: CGSize(width: 25, height: 25))
         let note = UIImage(named: "TabNote")?.resize(to: CGSize(width: 25, height: 25))
+        let search = UIImage(named: "search")?.resize(to: CGSize(width: 25, height: 25))
 
         nav1.tabBarItem = UITabBarItem(title: "", image: home, tag: 0)
         nav2.tabBarItem = UITabBarItem(title: "", image: note, tag: 1)
+        nav3.tabBarItem = UITabBarItem(title: "", image: search, tag: 2)
         
         UITabBar.clearShadow()
         tabBar.layer.applyShadow(color: .gray, alpha: 0.3, x: 0, y: 0, blur: 15)
@@ -57,7 +58,7 @@ public class MainTabBarController: UITabBarController {
         tabBar.tintColor = UIColor.mainColor
         tabBar.unselectedItemTintColor = UIColor.coffeeGray
         
-        setViewControllers([nav1, nav2], animated: true)
+        setViewControllers([nav1, nav2, nav3], animated: true)
     }
 }
 

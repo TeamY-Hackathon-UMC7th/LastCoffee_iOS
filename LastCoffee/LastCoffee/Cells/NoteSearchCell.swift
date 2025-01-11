@@ -71,7 +71,6 @@ class NoteSearchCell: UITableViewCell {
         self.image.sd_setImage(with: URL(string: model.coffeeImgUrl))
         self.title.text = model.name
         
-        
         //하이라이트 적용
         if let highlightText = highlightText, !highlightText.isEmpty {
             title.attributedText = highlightTextInLabel(text: model.name, highlight: highlightText)
