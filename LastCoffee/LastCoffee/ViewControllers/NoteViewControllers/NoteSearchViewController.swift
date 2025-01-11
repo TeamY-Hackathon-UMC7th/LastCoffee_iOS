@@ -10,7 +10,6 @@ import UIKit
 class NoteSearchViewController: UIViewController, UITextFieldDelegate {
     let networkService = CoffeeService()
     
-    // 임시 데이터
     private var data: [CoffeeDetailResponse] = []
     
     private var selectedIndexPath: IndexPath?
