@@ -43,11 +43,13 @@ class HomeViewController: UIViewController {
                 let data = self.popularData[indexPath.row]
                 (cell as? PopularBannerSectionCell)?.config(title: data.name, brand: data.brand, imageURL: data.coffeeImgUrl, cafeine: data.caffeine, sugar: data.sugar, calorie: data.calories, protein: data.protein)
                 return cell
-            case .recommendMenu:
+            case .flowMenu:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FlowSectionCell.id, for: indexPath)
                 let data = self.dummy[indexPath.row]
                 (cell as? FlowSectionCell)?.config(title: data.name, brand: data.brand, imageURL: data.coffeeImgUrl)
                 return cell
+            case .recommendMenu(_):
+                return UICollectionViewCell()
             }
         })
         
@@ -77,7 +79,7 @@ class HomeViewController: UIViewController {
         snapshot.appendSections([popularSection, flowSection])
         
         snapshot.appendItems(popularData.map{Item.popularMenu($0)}, toSection: popularSection)
-        snapshot.appendItems(dummy.map{Item.recommendMenu($0)}, toSection: flowSection)
+        snapshot.appendItems(dummy.map{Item.flowMenu($0)}, toSection: flowSection)
         
         
         dataSource?.apply(snapshot)

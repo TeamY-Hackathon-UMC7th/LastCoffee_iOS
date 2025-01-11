@@ -12,16 +12,19 @@ class RecommendBannerCell: UICollectionViewCell {
     static let id = "RecommendBannerCell"
     
     private let imageView = UIImageView().then { view in
-        view.layer.cornerRadius = 6.1
+        view.layer.cornerRadius = 10
+        view.clipsToBounds = true
     }
     
     private let lblTitle = UILabel().then { lbl in
         lbl.font = .ptdMediumFont(ofSize: 14)
+        lbl.numberOfLines = 1
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.layer.cornerRadius = 10.16
+        self.layer.cornerRadius = 10
+        self.backgroundColor = .white
         setSubView()
         setUI()
         configureShadow()
@@ -60,9 +63,9 @@ class RecommendBannerCell: UICollectionViewCell {
         self.layer.masksToBounds = false // 그림자가 보이도록 설정
     }
     
-    public func config(title: String, imageURL: String){
+    public func config(title: String, brand: String, imageURL: String){
         imageView.sd_setImage(with: URL(string: imageURL))
-        lblTitle.text = title
+        lblTitle.text = "[\(brand)] \(title)"
         
     }
 }

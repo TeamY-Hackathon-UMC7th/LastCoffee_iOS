@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController(rootViewController: vc)
         navigationController.isNavigationBarHidden = true
         // UIWindow의 시작 ViewController를 생성한 NavigationController로 지정
-        window.rootViewController = navigationController
+        window.rootViewController = MainTabBarController()
         // window 표시.
         self.window = window
         // makeKeyAndVisible() 메서드 호출
