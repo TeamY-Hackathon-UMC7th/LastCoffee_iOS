@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct CoffeeDetailResponse: Codable, Hashable {
+
+public struct CoffeeDetailResponse: Codable, Hashable {
     let id: Int
     let name: String
     let brand: String
