@@ -9,6 +9,9 @@ import UIKit
 
 class RegisterViewController: UIViewController {
     private let registerView = AuthView()
+    let networkService = AuthService()
+    
+    var canUser : Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,22 +55,66 @@ class RegisterViewController: UIViewController {
     }
     
     @objc private func checkDuplicateButtonTapped() {
-        // api call
-        // TODO : 중복체크 API 연결
-        
-//        let isButtonEnabled = // api call success
-//        registerView.checkButton.setEnabled(isButtonEnabled)
-        registerView.nickNameField.updateValidationText(text: "사용 가능한 닉네임입니다.", isHidden: false, color: UIColor.rightGreen)
-        registerView.checkButton.setEnabled(true)
-        // 중복이면
-//        registerView.nickNameField.updateValidationText(text: "중복된 닉네임입니다.", isHidden: false, color: UIColor.rightGreen)
-        
+        guard let nickname = registerView.nickNameField.textField.text else { return }
+        callCheckAPI(nickname: nickname)
+    }
+    
+    func callCheckAPI(nickname: String) {
+        networkService.checkEmail(nickname: nickname) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let response):
+                // 비동기 UI 업데이트
+                DispatchQueue.main.async {
+                    self.canUser = response.status
+                    
+                    if self.canUser {
+                        self.registerView.nickNameField.updateValidationText(
+                            text: "사용 가능한 닉네임입니다.",
+                            isHidden: false,
+                            color: UIColor.rightGreen
+                        )
+                        self.registerView.checkButton.setEnabled(true)
+                    } else {
+                        self.registerView.nickNameField.updateValidationText(
+                            text: "중복된 닉네임입니다.",
+                            isHidden: false,
+                            color: UIColor.errorRed
+                        )
+                    }
+                }
+                
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.registerView.nickNameField.updateValidationText(
+                        text: "오류가 발생했습니다. 다시 시도해주세요.",
+                        isHidden: false,
+                        color: UIColor.errorRed
+                    )
+                }
+            }
+        }
+    }
+    
+    func callJoinAPI(nickname: String) {
+        networkService.join(nickname: nickname) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(_):
+                Task{
+                    self.navigationController?.popViewController(animated: true)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     @objc private func joinButtonTapped() {
-        // api call
-        // TODO : 회원가입 API 연결
-        self.navigationController?.popViewController(animated: true)
+        guard let nickname = registerView.nickNameField.textField.text else { return }
+        callJoinAPI(nickname: nickname)
     }
     
     // 텍스트필드 검증

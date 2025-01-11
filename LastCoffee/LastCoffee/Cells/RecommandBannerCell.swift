@@ -1,5 +1,5 @@
 //
-//  RecommandBannerCell.swift
+//  RecommendBannerCell.swift
 //  LastCoffee
 //
 //  Created by 이수현 on 1/12/25.
@@ -8,11 +8,11 @@
 import UIKit
 
 
-class RecommandBannerCell: UICollectionViewCell {
-    static let id = "RecommnadBannerCell"
+class RecommendBannerCell: UICollectionViewCell {
+    static let id = "RecommendBannerCell"
     
     private let imageView = UIImageView().then { view in
-        view.layer.cornerRadius = 10
+        view.layer.cornerRadius = 6.1
     }
     
     private let lblTitle = UILabel().then { lbl in
@@ -21,6 +21,7 @@ class RecommandBannerCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.layer.cornerRadius = 10.16
         setSubView()
         setUI()
     }

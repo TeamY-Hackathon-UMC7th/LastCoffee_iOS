@@ -12,18 +12,21 @@ class FlowSectionCell: UICollectionViewCell {
     static let id = "FlowSectionCell"
     
     private let imageView = UIImageView().then { view in
-        
+        view.layer.cornerRadius = 6.1
+        view.clipsToBounds = true
     }
     
     private let lblTitle = UILabel().then { lbl in
         lbl.font = .ptdRegularFont(ofSize: 12)
         lbl.tintColor = UIColor(hex: "2C2C2C")
         lbl.textAlignment = .center
+        lbl.numberOfLines = 2
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
+        self.layer.cornerRadius = 10.16
         setSubView()
         setUI()
     }
@@ -53,8 +56,8 @@ class FlowSectionCell: UICollectionViewCell {
         }
     }
     
-    public func config(title: String, imageURL: String) {
-        lblTitle.text = title
+    public func config(title: String, brand: String, imageURL: String) {
+        lblTitle.text = "[\(brand)] \(title)"
         imageView.sd_setImage(with: URL(string: imageURL))
     }
 }

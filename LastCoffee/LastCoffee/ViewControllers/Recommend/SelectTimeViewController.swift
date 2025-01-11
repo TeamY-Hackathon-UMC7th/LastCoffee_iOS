@@ -43,7 +43,7 @@ class SelectTimeViewController: UIViewController {
     }
     
     @objc private func touchUpInsideBtnNext() {
-        let nextVC = RecommandDrinkViewController(selectedHour: selectedHour)
+        let nextVC = RecommendDrinkViewController(selectedHour: selectedHour)
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
