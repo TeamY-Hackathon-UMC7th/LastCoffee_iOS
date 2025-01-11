@@ -25,16 +25,27 @@ class SelectTimeViewController: UIViewController {
         
         view = selectTimeView
         setNavigationBar()
+        setAction()
+    }
+    
+    private func setAction() {
+        selectTimeView.btnNext.addTarget(self, action: #selector(touchUpInsideBtnNext), for: .touchUpInside)
     }
     
     private func setNavigationBar() {
         let leftBarButton = UIBarButtonItem(image: .init(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popButton))
         leftBarButton.tintColor = .black
-        self.navigationItem.setRightBarButton(leftBarButton, animated: true)
+        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
     }
     
     @objc private func popButton() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func touchUpInsideBtnNext() {
+        let nextVC = RecommandDrinkViewController(selectedHour: selectedHour)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 

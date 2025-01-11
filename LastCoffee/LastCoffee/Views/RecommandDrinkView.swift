@@ -8,9 +8,18 @@
 import UIKit
 
 class RecommandDrinkView: UIView {
-    private let lblTitle = UILabel().then { lbl in
+    private let selectedHour : String
+
+    private lazy var lblTitle = UILabel().then { lbl in
         lbl.font = .ptdSemiBoldFont(ofSize: 18)
         lbl.textAlignment = .center
+        lbl.numberOfLines = 2
+        
+        let text = "\(selectedHour) 시에 잠드려면\n마셔도 괜찮은 음료예요!"
+        
+        let attributedText = NSMutableAttributedString(string: text)
+        attributedText.addAttribute(.foregroundColor, value: UIColor(hex: "EE633A") ?? .orange, range: (text as NSString).range(of: "\(selectedHour) 시"))
+        lbl.attributedText = attributedText
     }
     
     
@@ -24,13 +33,14 @@ class RecommandDrinkView: UIView {
         btn.titleLabel?.font = .ptdSemiBoldFont(ofSize: 18)
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(selectedHour: String) {
+        self.selectedHour = selectedHour
+        super.init(frame: .zero)
         self.backgroundColor = .background
         setSubView()
         setUI()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -82,12 +92,6 @@ class RecommandDrinkView: UIView {
         
         return section
     }
-    
-    public func config(time: String) {
-        lblTitle.text = "\(time)시에 잠드려면\n마셔도 괜찮은 음료예요!"
-        lblTitle.attributedText = NSAttributedString(string: time, attributes: [
-            .foregroundColor: UIColor(hex: "EE633A") ?? .orange
-        ])
-    }
+
 }
 
