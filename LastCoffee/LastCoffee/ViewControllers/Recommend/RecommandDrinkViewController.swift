@@ -42,9 +42,7 @@ class RecommendDrinkViewController: UIViewController {
     
     @objc private func touchUpInsideBtnCheck() {
         guard let navigationController = navigationController else { return }
-         // VisiterHomeViewController를 스택에서 찾기
         if let targetIndex = navigationController.viewControllers.firstIndex(where: { $0 is HomeViewController }) {
-             // VisiterHomeViewController까지의 스택만 유지
              let newStack = Array(navigationController.viewControllers[...targetIndex])
              navigationController.setViewControllers(newStack, animated: true)
          }
