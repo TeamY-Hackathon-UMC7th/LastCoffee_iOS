@@ -37,7 +37,7 @@ class AddNoteView: UIView, UITextViewDelegate {
     
     let textViewPlaceHolder = "음료의 후기를 남겨주세요! (200자 제한)"
     
-    private lazy var reviewTextView = UITextView().then {
+    public lazy var reviewTextView = UITextView().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
         $0.textColor = .mainColor
         $0.textAlignment = .left
@@ -90,7 +90,7 @@ class AddNoteView: UIView, UITextViewDelegate {
         $0.isHidden = true
     }
 
-    private lazy var saveBtn = CustomButton(
+    public lazy var saveBtn = CustomButton(
         backgroundColor: .mainColor!,
         title: "저장하기",
         titleColor: .white,

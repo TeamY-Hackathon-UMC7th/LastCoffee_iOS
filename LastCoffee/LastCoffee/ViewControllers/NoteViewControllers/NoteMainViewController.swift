@@ -8,23 +8,29 @@
 import UIKit
 
 class NoteMainViewController: UIViewController {
+    let networkService = ReviewService()
     // 임시 데이터
-    private let data: [NoteModel] = [
-        NoteModel(coffeeName: "[스타벅스] 아이스 아메리카노", drinkingDate: "2025.01.11", drinkingTime: "00", sleepingDate: "2025.01.11", sleepingTime: "00", review: "2024년 7월 9일 오전 2시"),
-        NoteModel(coffeeName: "[스타벅스] 카페라떼", drinkingDate: "2025.01.11", drinkingTime: "00", sleepingDate: "2025.01.11", sleepingTime: "00", review: "2024년 7월 9일 오전 2시"),
-        NoteModel(coffeeName: "[스타벅스] 자바칩 프라푸치노", drinkingDate: "2025.01.11", drinkingTime: "00", sleepingDate: "2025.01.11", sleepingTime: "00", review: "2024년 7월 9일 오전 2시"),
+    private var data: [NoteModel] = [
+        NoteModel(coffeeName: "[스타벅스] 아이스 아메리카노", drinkDate: "2025-01-11 22:11",
+                  sleepDate: "2025-01-11 22:11", comment: "2024년 7월 9일 오전 2시"),
+        NoteModel(coffeeName: "[스타벅스] 카페라떼", drinkDate: "2025-01-11 22:11", sleepDate: "2025-01-11 22:11", comment: "2024년 7월 9일 오전 2시"),
+        NoteModel(coffeeName: "[스타벅스] 자바칩 프라푸치노", drinkDate: "2025-01-11 22:11", sleepDate: "2025-01-11 22:11", comment: "2024년 7월 9일 오전 2시"),
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.isTabBarHidden = false
         self.view = noteView
+        callGetAPI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.isTabBarHidden = false
         self.view = noteView
+        callGetAPI()
     }
     
     private lazy var noteView: NoteMainView = {
@@ -37,8 +43,8 @@ class NoteMainViewController: UIViewController {
     }()
     
     @objc private func goSearchView() {
-        // let noteSearchVC = NoteSearchViewController()
-        // navigationController?.pushViewController(noteSearchVC, animated: true)
+        let noteSearchVC = NoteSearchViewController()
+        navigationController?.pushViewController(noteSearchVC, animated: true)
     }
 
     // 셀 클릭 시 실행할 함수
@@ -46,6 +52,37 @@ class NoteMainViewController: UIViewController {
         let noteDetailVC = NoteDetailViewController()
         noteDetailVC.receivedData = item
         navigationController?.pushViewController(noteDetailVC, animated: true)
+    }
+    
+    func callGetAPI() {
+        networkService.getReviews { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let reviews):
+                self.data.removeAll()
+                guard let review = reviews else { return }
+                for data in review {
+                    guard let drinkTimeString = convertISO8601ToCustomFormat(data.drinkTime) else {
+                        return
+                    }
+                    guard let sleepTimeString = convertISO8601ToCustomFormat(data.sleepTime) else {return}
+                    
+                    let i = NoteModel(coffeeName: data.coffee.name,
+                              drinkDate: drinkTimeString,
+                              sleepDate: sleepTimeString,
+                              comment: data.comment)
+                    
+                    self.data.append(i)
+                }
+                Task {
+                    self.noteView.noteTableView.reloadData()
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 
