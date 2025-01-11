@@ -48,8 +48,8 @@ class HomeViewController: UIViewController {
     
     // '오늘의 취침 시간' 버튼 선택
     @objc private func touchUpInsideBtnRecommandDrink() {
-        let nextVC = SelectTimeViewController()
-        self.navigationController?.pushViewController(nextVC, animated: true)
+//        let nextVC = SelectTimeViewController()
+//        self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 
