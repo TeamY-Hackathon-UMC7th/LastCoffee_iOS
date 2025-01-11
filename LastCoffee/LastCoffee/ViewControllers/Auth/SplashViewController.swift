@@ -27,6 +27,10 @@ public class SplashViewController : UIViewController {
         super.viewDidLoad()
         setupViews()
         setConstraints()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
+            self?.navigateToOnBoaringScreen()
+        }
     }
     
     func setupViews() {
