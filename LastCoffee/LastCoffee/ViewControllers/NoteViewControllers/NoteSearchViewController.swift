@@ -21,6 +21,7 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
         self.navigationItem.title = "새 기록"
         self.view = noteSearchView
         self.tabBarController?.isTabBarHidden = true
+        setNavigationBar()
     }
     
     private lazy var noteSearchView: NoteSearchView = {
@@ -38,6 +39,16 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
         navigationController?.pushViewController(addNoteVC, animated: true)
     }
     
+    private func setNavigationBar() {
+        let leftBarButton = UIBarButtonItem(image: .init(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popButton))
+        leftBarButton.tintColor = .black
+        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
+    }
+    
+    @objc private func popButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.noteSearchView.noteSearchTableView.reloadData()
         callPostAPI(noteSearchView.searchBar.text ?? "")
@@ -51,9 +62,16 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
             switch result {
             case .success(let response):
                 data = response.coffees
+                
+                noteSearchView.noteSearchTableView.isHidden = false
+                noteSearchView.emptyLabel.isHidden = true
+                
                 noteSearchView.noteSearchTableView.reloadData()
             case .failure(let error):
                 print(error)
+                
+                noteSearchView.noteSearchTableView.isHidden = true
+                noteSearchView.emptyLabel.isHidden = false
             }
         }
         )

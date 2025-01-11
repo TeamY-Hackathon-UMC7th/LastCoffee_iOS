@@ -44,6 +44,7 @@ class NoteSearchCell: UITableViewCell {
     public lazy var title = UILabel().then {
         $0.attributedText = NSAttributedString(string: "", attributes: [.font: UIFont.ptdMediumFont(ofSize: 14)])
         $0.textColor = .black
+        $0.numberOfLines = 2
     }
     
     private func setupView() {
@@ -64,18 +65,19 @@ class NoteSearchCell: UITableViewCell {
         title.snp.makeConstraints {
             $0.centerY.equalTo(image.snp.centerY)
             $0.leading.equalTo(image.snp.trailing).offset(12)
+            $0.trailing.equalToSuperview().offset(-12)
         }
     }
     
     public func configure(model: CoffeeDetailResponse, highlightText: String? = nil) {
         self.image.sd_setImage(with: URL(string: model.coffeeImgUrl))
-        self.title.text = model.name
+        self.title.text = "[\(model.brand)] \(model.name)"
         
         //하이라이트 적용
         if let highlightText = highlightText, !highlightText.isEmpty {
-            title.attributedText = highlightTextInLabel(text: model.name, highlight: highlightText)
+            title.attributedText = highlightTextInLabel(text: "[\(model.brand)] \(model.name)", highlight: highlightText)
         } else {
-            title.text = model.name
+            title.text = "[\(model.brand)] \(model.name)"
         }
     }
     

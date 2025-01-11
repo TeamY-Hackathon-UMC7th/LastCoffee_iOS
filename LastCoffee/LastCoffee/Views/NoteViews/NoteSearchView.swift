@@ -42,7 +42,7 @@ class NoteSearchView: UIView {
         isEnabled: false
     )
     
-    private lazy var emptyLabel = UILabel().then {
+    public lazy var emptyLabel = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 16)
         $0.textColor = UIColor(hex: "#8E8E8E")
         $0.textAlignment = .center
