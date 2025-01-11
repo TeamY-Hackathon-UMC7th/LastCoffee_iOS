@@ -21,7 +21,7 @@ class CustomButton: UIButton {
         backgroundColor: UIColor = .systemBlue,
         title: String = "",
         titleColor: UIColor = .black,
-        font: UIFont,
+        font: UIFont? = nil,
         radius: CGFloat? = nil,
         isEnabled: Bool? = nil
     ) {
@@ -29,7 +29,7 @@ class CustomButton: UIButton {
         configureButton(
             title: title,
             titleColor: titleColor,
-            font: font,
+            font: font ?? .ptdRegularFont(ofSize: 16),
             radius: radius ?? 10,
             backgroundColor: backgroundColor,
             isEnabled: isEnabled ?? true
