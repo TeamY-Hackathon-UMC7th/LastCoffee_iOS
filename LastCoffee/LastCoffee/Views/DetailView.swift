@@ -18,18 +18,28 @@ class DetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private lazy var imageView = UIView().then {
+    func createLabel(text: String, alignment: NSTextAlignment) -> UILabel {
+        let label = UILabel().then {
+            $0.font = UIFont.ptdRegularFont(ofSize: 14)
+            $0.textColor = UIColor(hex: "#8E8E8E")
+            $0.text = text
+            $0.textAlignment = .left
+        }
+        return label
+    }
+    
+    public lazy var imageView = UIImageView().then {
         $0.backgroundColor = .white
         
         $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
         $0.layer.shadowColor = UIColor.black.cgColor
         $0.layer.shadowOffset = CGSize(width: 0, height: 2)
         $0.layer.shadowRadius = 4
         $0.layer.shadowOpacity = 0.08
     }
     
-    private lazy var image = UIImageView().then {
-        $0.image = UIImage(named: "coffee-mug")
+    public lazy var image = UIImageView().then {
         $0.contentMode = .scaleAspectFit
     }
     
@@ -40,46 +50,40 @@ class DetailView: UIView {
         $0.text = nil
     }
     
-    public lazy var drinking = UILabel().then {
-        $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
-        $0.textAlignment = .left
-        
-        $0.text = "마신 일시 | 2024년 7월 8일 오후 5시"
+    lazy var caffeineLabel = createLabel(text: "카페인 (mg)", alignment: .left)
+    lazy var sugarLabel = createLabel(text: "당류(g)", alignment: .left)
+    lazy var proteinLabel = createLabel(text: "단백질(g)", alignment: .left)
+    lazy var calorieLabel = createLabel(text: "칼로리(kcal)", alignment: .left)
+    
+    lazy var caffeineValue = createLabel(text: "150", alignment: .right)
+    lazy var sugarValue = createLabel(text: "0", alignment: .right)
+    lazy var proteinValue = createLabel(text: "1", alignment: .right)
+    lazy var calorieValue = createLabel(text: "10", alignment: .right)
+    
+    lazy var labelStack = UIStackView(arrangedSubviews: [caffeineLabel, sugarLabel, proteinLabel, calorieLabel]).then {
+        $0.axis = .vertical
+        $0.alignment = .leading
+        $0.spacing = 10
     }
     
-    public lazy var sleeping = UILabel().then {
-        $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
-        $0.textAlignment = .left
-        
-        $0.text = "취침 시간 | 2024년 7월 9일 오전 2시"
+    lazy var valueStack = UIStackView(arrangedSubviews: [caffeineValue, sugarValue, proteinValue, calorieValue]).then {
+        $0.axis = .vertical
+        $0.alignment = .trailing
+        $0.spacing = 10
     }
     
-    private lazy var review = UILabel().then {
-        $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
-        $0.textAlignment = .left
-        
-        $0.text = "후기"
-    }
-    
-    public lazy var reviewContents = UILabel().then {
-        $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
-        $0.textAlignment = .left
-        
-        $0.text = "2024년 7월 9일 오전 2시"
+    // Create a horizontal stack view to arrange text and value stacks
+    lazy var mainStack = UIStackView(arrangedSubviews: [labelStack, valueStack]).then {
+        $0.axis = .horizontal
+        $0.spacing = 20
+        $0.distribution = .fillEqually
     }
     
     private func setupView() {
         [
             imageView,
             coffeeName,
-            drinking,
-            sleeping,
-            review,
-            reviewContents
+            mainStack,
         ].forEach {
             addSubview($0)
         }
@@ -100,28 +104,14 @@ class DetailView: UIView {
         }
         
         coffeeName.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.bottom).offset(39)
+            $0.top.equalTo(imageView.snp.bottom).offset(22)
             $0.centerX.equalToSuperview()
         }
         
-        drinking.snp.makeConstraints {
-            $0.top.equalTo(coffeeName.snp.bottom).offset(26)
-            $0.leading.equalToSuperview().offset(44)
-        }
-        
-        sleeping.snp.makeConstraints {
-            $0.top.equalTo(drinking.snp.bottom).offset(5)
-            $0.leading.equalToSuperview().offset(44)
-        }
-        
-        review.snp.makeConstraints {
-            $0.top.equalTo(sleeping.snp.bottom).offset(18)
-            $0.leading.equalToSuperview().offset(44)
-        }
-        
-        reviewContents.snp.makeConstraints {
-            $0.top.equalTo(review.snp.bottom).offset(5)
-            $0.leading.equalToSuperview().offset(44)
+        mainStack.snp.makeConstraints {
+            $0.top.equalTo(coffeeName.snp.bottom).offset(30)
+            $0.leading.equalToSuperview().offset(41)
+            $0.trailing.equalToSuperview().offset(-41)
         }
     }
 }
