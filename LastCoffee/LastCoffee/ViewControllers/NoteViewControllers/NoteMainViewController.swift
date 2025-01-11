@@ -12,16 +12,16 @@ class NoteMainViewController: UIViewController {
     let networkService = ReviewService()
     // 임시 데이터
     private var data: [NoteModel] = [
-        NoteModel(coffeeName: "헤이즐 넛 콜드브루", brand: "스타벅스", drinkDate: "2025-01-11 22:11",
-              sleepDate: "2025-01-11 22:11", comment: "2024년 7월 9일 오전 2시", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000002487]_20210426091745609.jpg"),
-        NoteModel(coffeeName: "헤이즐 넛 콜드브루", brand: "스타벅스", drinkDate: "2025-01-11 22:11",
-                  sleepDate: "2025-01-11 22:11", comment: "2024년 7월 9일 오전 2시", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000002487]_20210426091745609.jpg"),
-        NoteModel(coffeeName: "헤이즐 넛 콜드브루", brand: "스타벅스", drinkDate: "2025-01-11 22:11",
-                  sleepDate: "2025-01-11 22:11", comment: "2024년 7월 9일 오전 2시", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000002487]_20210426091745609.jpg"),
-        NoteModel(coffeeName: "헤이즐 넛 콜드브루", brand: "스타벅스", drinkDate: "2025-01-11 22:11",
-                  sleepDate: "2025-01-11 22:11", comment: "2024년 7월 9일 오전 2시", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000002487]_20210426091745609.jpg"),
-        NoteModel(coffeeName: "헤이즐 넛 콜드브루", brand: "스타벅스", drinkDate: "2025-01-11 22:11",
-                  sleepDate: "2025-01-11 22:11", comment: "2024년 7월 9일 오전 2시", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000002487]_20210426091745609.jpg"),
+//        NoteModel(coffeeName: "헤이즐 넛 콜드브루", brand: "스타벅스", drinkDate: "2025-01-11 22:11",
+//              sleepDate: "2025-01-11 22:11", comment: "2024년 7월 9일 오전 2시", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000002487]_20210426091745609.jpg"),
+//        NoteModel(coffeeName: "헤이즐 넛 콜드브루", brand: "스타벅스", drinkDate: "2025-01-11 22:11",
+//                  sleepDate: "2025-01-11 22:11", comment: "2024년 7월 9일 오전 2시", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000002487]_20210426091745609.jpg"),
+//        NoteModel(coffeeName: "헤이즐 넛 콜드브루", brand: "스타벅스", drinkDate: "2025-01-11 22:11",
+//                  sleepDate: "2025-01-11 22:11", comment: "2024년 7월 9일 오전 2시", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000002487]_20210426091745609.jpg"),
+//        NoteModel(coffeeName: "헤이즐 넛 콜드브루", brand: "스타벅스", drinkDate: "2025-01-11 22:11",
+//                  sleepDate: "2025-01-11 22:11", comment: "2024년 7월 9일 오전 2시", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000002487]_20210426091745609.jpg"),
+//        NoteModel(coffeeName: "헤이즐 넛 콜드브루", brand: "스타벅스", drinkDate: "2025-01-11 22:11",
+//                  sleepDate: "2025-01-11 22:11", comment: "2024년 7월 9일 오전 2시", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000002487]_20210426091745609.jpg"),
     ]
     
     override func viewDidLoad() {
