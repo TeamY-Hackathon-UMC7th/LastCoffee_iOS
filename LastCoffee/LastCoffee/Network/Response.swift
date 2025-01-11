@@ -16,3 +16,7 @@ public struct LoginResponseDto : Decodable {
 public struct JoinResponseDto: Decodable {
     public let status: Bool
 }
+
+public struct CoffeeFirstDTO: Decodable {
+    public let coffees: [CoffeeDetailResponse]
+}

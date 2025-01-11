@@ -27,8 +27,19 @@ public final class CoffeeService : NetworkManager {
     
     //MARK: - API funcs
     /// 인기 커피 불러오기
-    public func getPopularCoffee(completion: @escaping (Result<[CoffeeDetailResponse], NetworkError>) -> Void) {
-        request(target: .getPopularCoffees, decodingType: [CoffeeDetailResponse].self, completion: completion)
+    public func getPopularCoffee(completion: @escaping (Result<CoffeeFirstDTO, NetworkError>) -> Void) {
+        request(target: .getPopularCoffees, decodingType: CoffeeFirstDTO.self, completion: completion)
     }
+    
+    public func getRecommandCoffee(time: String, completion: @escaping (Result<CoffeeFirstDTO, NetworkError>) -> Void) {
+        request(target: .getRecommandCoffees(time: time), decodingType: CoffeeFirstDTO.self, completion: completion)
+    }
+    
+    public func getSearchCoffee(keyword: String, completion: @escaping (Result<CoffeeFirstDTO, NetworkError>) -> Void) {
+        request(target: .getSearchCoffee(keyword: keyword), decodingType: CoffeeFirstDTO.self, completion: completion)
+    }
+    
+    
+    
 
 }
