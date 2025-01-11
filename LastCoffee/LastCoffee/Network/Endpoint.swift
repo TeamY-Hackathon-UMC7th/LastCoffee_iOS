@@ -20,6 +20,7 @@ public enum AllEndpoint {
     
     case getAllReviews
     case postReview(data: ReviewDto)
+    case deleteReview(reviewId: Int)
     
 }
 
@@ -37,7 +38,7 @@ extension AllEndpoint: TargetType {
                 fatalError("coffee url 오류")
             }
             return url
-        case .postReview, .getAllReviews:
+        case .postReview, .getAllReviews, .deleteReview:
             guard let url = URL(string: API.reviewURL) else {
                 fatalError("review url 오류")
             }
@@ -61,6 +62,8 @@ extension AllEndpoint: TargetType {
             return "/search"
         case .postReview, .getAllReviews:
             return ""
+        case .deleteReview(let reviewId):
+            return "/\(reviewId)"
         }
     }
     
@@ -89,7 +92,7 @@ extension AllEndpoint: TargetType {
             return .requestParameters(parameters: ["keyword" : keyword], encoding: URLEncoding.queryString)
         case .postReview(let data):
             return .requestJSONEncodable(data)
-        case .getAllReviews:
+        case .getAllReviews, .deleteReview:
             return .requestPlain
         }
     }
