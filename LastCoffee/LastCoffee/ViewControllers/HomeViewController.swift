@@ -9,7 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     private let dummy = CoffeeDetailResponse.dummy()
-    private let homeView = HomeView(nickname: "soo")
+    private let homeView : HomeView
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     private var popularData = [CoffeeDetailResponse]()
     private var recommendData = [CoffeeDetailResponse]()
@@ -18,6 +18,9 @@ class HomeViewController: UIViewController {
     let coffeeManager = CoffeeManager()
     
     init() {
+        let nickname = LoginViewController.keychain.get("userNickname")
+        homeView = HomeView(nickname: nickname ?? "default")
+        
         super.init(nibName: nil, bundle: nil)
         self.view = homeView
         self.addAction()
@@ -45,6 +48,7 @@ class HomeViewController: UIViewController {
             print(datas)
         }
         setSnapShot()
+        homeView.lblEmptyMenu.isHidden = !recommendData.isEmpty
     }
     
     private func setDataSource() {
@@ -56,8 +60,9 @@ class HomeViewController: UIViewController {
                 (cell as? PopularBannerSectionCell)?.config(title: data.name, brand: data.brand, imageURL: data.coffeeImgUrl, cafeine: data.caffeine, sugar: data.sugar, calorie: data.calories, protein: data.protein)
                 return cell
             case .flowMenu:
+                
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FlowSectionCell.id, for: indexPath)
-                let data = self.dummy[indexPath.row]
+                let data = self.recommendData[indexPath.row]
                 (cell as? FlowSectionCell)?.config(title: data.name, brand: data.brand, imageURL: data.coffeeImgUrl)
                 return cell
             case .recommendMenu(_):
@@ -90,7 +95,7 @@ class HomeViewController: UIViewController {
         
         snapshot.appendSections([popularSection, flowSection])
         snapshot.appendItems(popularData.map{Item.popularMenu($0)}, toSection: popularSection)
-        snapshot.appendItems(dummy.map{Item.flowMenu($0)}, toSection: flowSection)
+        snapshot.appendItems(recommendData.map{Item.flowMenu($0)}, toSection: flowSection)
         
         
         dataSource?.apply(snapshot)

@@ -144,9 +144,29 @@ class NoteCell: UITableViewCell {
     }
     
     public func configure(model: NoteModel) {
+        let drinkDate = extractDate(from: model.drinkDate)
+        let drinkTime = extractTime(from: model.drinkDate)
+        let sleepTime = extractTime(from: model.sleepDate)
+        
         self.title.text = model.coffeeName
-        self.subTitle.text = model.drinkingTime + "시 마심 | " + model.sleepingTime + "시 취침"
-        self.drinkingDate.text = model.drinkingDate
+        self.subTitle.text = "\(drinkTime) 마심 | \(sleepTime) 취침"
+        self.drinkingDate.text = drinkDate
+    }
+    
+    func extractDate(from dateTimeString: String) -> String {
+        if let range = dateTimeString.range(of: "\\d{4}-\\d{2}-\\d{2}", options: .regularExpression) {
+            return String(dateTimeString[range])
+        } else {
+            return "날짜 형식 없음"
+        }
+    }
+    
+    func extractTime(from dateTimeString: String) -> String {
+        if let range = dateTimeString.range(of: "\\d{2}:\\d{2}", options: .regularExpression) {
+            return String(dateTimeString[range])
+        } else {
+            return "시간 형식 없음"
+        }
     }
 }
 

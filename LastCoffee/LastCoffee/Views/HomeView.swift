@@ -35,6 +35,14 @@ class HomeView: UIView {
         btn.configure(title: "지금, 커피 한 잔 추천", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 14), radius: 10, backgroundColor: .mainColor ?? .systemBlue, isEnabled: true)
     }
     
+    public let lblEmptyMenu = UILabel().then { lbl in
+        lbl.text = "아직 추천 받은 메뉴가 없어요"
+        lbl.textColor = UIColor(hex: "111111")
+        lbl.textAlignment = .center
+        lbl.font = .ptdMediumFont(ofSize: 14)
+        lbl.isHidden = true
+   }
+    
     init(nickname: String) {
         self.nickname = nickname
         super.init(frame: .zero)
@@ -54,7 +62,8 @@ class HomeView: UIView {
         [
             lblNickname,
             collectionView,
-            btnRecommendDrink
+            btnRecommendDrink,
+            lblEmptyMenu
         ].forEach{self.addSubview($0)}
     }
     
@@ -71,6 +80,11 @@ class HomeView: UIView {
             make.top.equalTo(lblNickname.snp.bottom).offset(17)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(btnRecommendDrink.snp.top)
+        }
+        
+        lblEmptyMenu.snp.makeConstraints { make in
+            make.bottom.equalTo(btnRecommendDrink.snp.top).offset(-81)
+            make.centerX.equalToSuperview()
         }
         
         btnRecommendDrink.snp.makeConstraints { make in

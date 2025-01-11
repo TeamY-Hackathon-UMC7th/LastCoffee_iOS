@@ -8,20 +8,20 @@
 import UIKit
 
 class NoteSearchViewController: UIViewController, UITextFieldDelegate {
+    let networkService = CoffeeService()
+    
     // 임시 데이터
-    private let data: [NoteSearchModel] = [
-        NoteSearchModel(image: UIImage(), name: "[스타벅스] 아이스 아메리카노"),
-        NoteSearchModel(image: UIImage(), name: "[메가커피] 아이스 아메리카노")
-    ]
+    private var data: [CoffeeDetailResponse] = []
     
     private var selectedIndexPath: IndexPath?
-    private var selectedItem: NoteSearchModel?
+    private var selectedItem: CoffeeDetailResponse?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.title = "새 기록"
         self.view = noteSearchView
+        self.tabBarController?.isTabBarHidden = true
     }
     
     private lazy var noteSearchView: NoteSearchView = {
@@ -34,17 +34,31 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
     }()
 
     @objc private func goAddView() {
-        /*
         let addNoteVC = AddNoteViewController()
         addNoteVC.receivedData = selectedItem
         navigationController?.pushViewController(addNoteVC, animated: true)
-         */
     }
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.noteSearchView.noteSearchTableView.reloadData()
+        callPostAPI(noteSearchView.searchBar.text ?? "")
         return true
-   }
+    }
+    
+    @objc func callPostAPI(_ keyword: String) {
+        networkService.getSearchCoffee(keyword: keyword, completion: { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let response):
+                data = response.coffees
+                noteSearchView.noteSearchTableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
+        )
+    }
 }
 
 extension NoteSearchViewController: UITableViewDataSource, UITableViewDelegate {

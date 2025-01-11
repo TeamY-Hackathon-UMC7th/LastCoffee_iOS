@@ -37,7 +37,7 @@ class AddNoteView: UIView, UITextViewDelegate {
     
     let textViewPlaceHolder = "음료의 후기를 남겨주세요! (200자 제한)"
     
-    private lazy var reviewTextView = UITextView().then {
+    public lazy var reviewTextView = UITextView().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
         $0.textColor = .mainColor
         $0.textAlignment = .left
@@ -90,7 +90,7 @@ class AddNoteView: UIView, UITextViewDelegate {
         $0.isHidden = true
     }
 
-    private lazy var saveBtn = CustomButton(
+    public lazy var saveBtn = CustomButton(
         backgroundColor: .mainColor!,
         title: "저장하기",
         titleColor: .white,
@@ -98,22 +98,32 @@ class AddNoteView: UIView, UITextViewDelegate {
         radius: 10,
         isEnabled: true
     )
+
+    public lazy var drinkingStack = createCustomStack(iconName: "coffee_fill", titleText: "마신 일시")
+    public lazy var sleepingStack = createCustomStack(iconName: "moon", titleText: "취침 일시")
+    
+    public lazy var drinkingPicker = UIDatePicker().then {
+        $0.datePickerMode = .dateAndTime
+        $0.backgroundColor = .clear
+        $0.locale = Locale(identifier: "ko_KR")
+        $0.tintColor = .mainColor
+    }
+    
+    public lazy var sleepingPicker = UIDatePicker().then {
+        $0.datePickerMode = .dateAndTime
+        $0.backgroundColor = .clear
+        $0.locale = Locale(identifier: "ko_KR")
+        $0.tintColor = .mainColor
+    }
     
     private func setupView() {
-        let stack1 = createCustomStack(iconName: "coffee_fill", titleText: "마신 일시")
-        let stack2 = createCustomStack(iconName: "moon", titleText: "취침 일시")
-        
-        let mainStack = UIStackView(arrangedSubviews: [stack1, stack2]).then {
-            $0.axis = .vertical
-            $0.spacing = 22
-            $0.alignment = .fill
-            $0.distribution = .equalSpacing
-        }
-        
         [
             selectedCoffeeIcon,
             selectedCoffee,
-            mainStack,
+            drinkingStack,
+            sleepingStack,
+            drinkingPicker,
+            sleepingPicker,
             reviewTitle,
             reviewTextView,
             warningLabel,
@@ -133,15 +143,29 @@ class AddNoteView: UIView, UITextViewDelegate {
             $0.centerY.equalTo(selectedCoffeeIcon.snp.centerY)
         }
         
-        mainStack.snp.makeConstraints {
+        drinkingStack.snp.makeConstraints {
             $0.top.equalTo(selectedCoffee.snp.bottom).offset(28)
             $0.leading.equalToSuperview().offset(32)
-            $0.trailing.equalToSuperview().offset(-32)
+        }
+        
+        sleepingStack.snp.makeConstraints {
+            $0.top.equalTo(drinkingStack.snp.bottom).offset(28)
+            $0.leading.equalToSuperview().offset(32)
+        }
+        
+        drinkingPicker.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-33)
+            $0.centerY.equalTo(drinkingStack)
+        }
+        
+        sleepingPicker.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-33)
+            $0.centerY.equalTo(sleepingStack)
         }
         
         reviewTitle.snp.makeConstraints {
-            $0.top.equalTo(mainStack.snp.bottom).offset(35)
-            $0.leading.equalTo(mainStack.snp.leading)
+            $0.top.equalTo(sleepingStack.snp.bottom).offset(35)
+            $0.leading.equalTo(sleepingStack.snp.leading)
         }
         
         reviewTextView.snp.makeConstraints {
@@ -176,14 +200,7 @@ class AddNoteView: UIView, UITextViewDelegate {
             $0.text = titleText
         }
         
-        let dateTimePicker = UIDatePicker().then {
-            $0.datePickerMode = .dateAndTime
-            $0.backgroundColor = .clear
-            $0.locale = Locale(identifier: "ko_KR")
-            $0.tintColor = .mainColor
-        }
-        
-        let stack = UIStackView(arrangedSubviews: [icon, title, dateTimePicker]).then {
+        let stack = UIStackView(arrangedSubviews: [icon, title]).then {
             $0.axis = .horizontal
             $0.spacing = 10
             $0.alignment = .fill
