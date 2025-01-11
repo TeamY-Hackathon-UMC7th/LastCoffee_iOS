@@ -54,7 +54,7 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
                 data = response.coffees
                 noteSearchView.noteSearchTableView.reloadData()
             case .failure(let error):
-                Toaster.shared.makeToast("\(error)", .short)
+                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
             }
         }
         )

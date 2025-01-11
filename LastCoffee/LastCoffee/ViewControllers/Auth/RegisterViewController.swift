@@ -120,7 +120,7 @@ class RegisterViewController: UIViewController {
                     self.navigationController?.popViewController(animated: true)
                 }
             case .failure(let error):
-                Toaster.shared.makeToast("\(error)", .short)
+                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
             }
         }
     }
