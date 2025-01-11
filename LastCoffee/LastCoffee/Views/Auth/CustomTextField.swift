@@ -48,7 +48,7 @@ public class CustomTextFieldView: UIView, UITextFieldDelegate {
 
         iconImageView.image = UIImage(named: descriptionImageIcon)
         iconImageView.contentMode = .scaleAspectFit
-        iconImageView.tintColor = .brown
+        iconImageView.tintColor = UIColor.mainColor!
         
         // 텍스트 필드 설정
         textField.placeholder = textFieldPlaceholder
@@ -56,16 +56,16 @@ public class CustomTextFieldView: UIView, UITextFieldDelegate {
         textField.font = UIFont.systemFont(ofSize: 14)
         textField.backgroundColor = UIColor.white
         textField.delegate = self
-        textField.layer.borderColor = UIColor.brown.cgColor
+        textField.layer.borderColor = UIColor.mainColor?.cgColor
         textField.layer.borderWidth = 0.7
         textField.layer.cornerRadius = 10
         
         validationLabel.text = validationText
-        validationLabel.textColor = UIColor.red
+        validationLabel.textColor = UIColor.errorRed
         validationLabel.font = UIFont.systemFont(ofSize: 12)
         validationLabel.isHidden = true
         
-        let placeholderColor = UIColor.gray
+        let placeholderColor = UIColor.coffeeGray!
         textField.attributedPlaceholder = NSAttributedString(
             string: textFieldPlaceholder,
             attributes: [NSAttributedString.Key.foregroundColor: placeholderColor]
@@ -100,7 +100,7 @@ public class CustomTextFieldView: UIView, UITextFieldDelegate {
     private func showCharacterLimit(message: String) {
         validationLabel.text = message
         validationLabel.isHidden = false
-        validationLabel.textColor = UIColor.red
+        validationLabel.textColor = UIColor.errorRed
     }
     
     // MARK: - 텍스트필드 델리게이트
