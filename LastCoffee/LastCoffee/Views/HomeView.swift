@@ -35,9 +35,7 @@ class HomeView: UIView {
     
     // '오늘의 취침 시간 버튼'
     public let btnRecommandDrink = CustomButton().then { btn in
-        btn.configure(title: "지금, 커피 하잔", titleColor: .white, radius: 10, backgroundColor: .mainColor ?? .systemBlue, isEnabled: true)
-        
-        btn.titleLabel?.font = .ptdSemiBoldFont(ofSize: 14)
+        btn.configure(title: "지금, 커피 하잔", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 14), radius: 10, backgroundColor: .mainColor ?? .systemBlue, isEnabled: true)
     }
     
     init(nickname: String) {
@@ -68,8 +66,6 @@ class HomeView: UIView {
     private func setUI(){
 
         logoImageView.snp.makeConstraints { make in
-            make.width.equalTo(107)
-            make.height.equalTo(24)
             make.top.equalTo(safeAreaLayoutGuide).inset(25.5)
             make.centerX.equalToSuperview()
         }

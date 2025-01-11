@@ -28,9 +28,7 @@ class RecommandDrinkView: UIView {
     }
     
     public let btnCheck = CustomButton().then { btn in
-        btn.configure(title: "확인", titleColor: .white, radius: 10, backgroundColor: .mainColor ?? .tintColor, isEnabled: true)
-        
-        btn.titleLabel?.font = .ptdSemiBoldFont(ofSize: 18)
+        btn.configure(title: "확인", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 18), radius: 10, backgroundColor: .mainColor ?? .tintColor, isEnabled: true)
     }
     
     init(selectedHour: String) {

@@ -9,7 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    private let homeView = HomeView()
+    private let homeView = HomeView(nickname: "soo")
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     
     
@@ -18,6 +18,7 @@ class HomeViewController: UIViewController {
         self.view = homeView
         self.addAction()
         self.setDataSource()
+        self.setNavigation()
         
         // API 연결 후 스냅샷 생성 추가 예정
     }
@@ -39,6 +40,15 @@ class HomeViewController: UIViewController {
 //                return UICollectionViewCell()
 //            }
 //        })
+    }
+    
+    private func setNavigation() {
+        // 로고 이미지 뷰
+         let logoImageView = UIImageView().then { view in
+            view.image = .lastCoffeeText
+        }
+        
+        self.navigationItem.titleView = logoImageView
     }
 
     private func addAction() {
