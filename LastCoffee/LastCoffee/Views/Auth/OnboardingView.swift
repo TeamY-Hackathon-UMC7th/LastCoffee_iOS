@@ -14,7 +14,7 @@ class OnboardingView: UIView {
     let timeText = UILabel().then {
         $0.text = "오후 4시"
         $0.font = .ptdSemiBoldFont(ofSize: 18)
-        $0.textColor = .brown
+        $0.textColor = UIColor.mainColor
         $0.textAlignment = .left
     }
     
@@ -26,7 +26,7 @@ class OnboardingView: UIView {
     }
     
     let underlineView = UIView().then {
-        $0.backgroundColor = .lightGray
+        $0.backgroundColor = UIColor(hex: "F2C8AC")
     }
     
     let subText = UILabel().then {
@@ -57,7 +57,7 @@ class OnboardingView: UIView {
                     $0.alignment = .left // 텍스트 정렬 (왼쪽 정렬)
                 },
                 .font: UIFont.ptdMediumFont(ofSize: 16),
-                .foregroundColor: UIColor.gray
+                .foregroundColor: UIColor(hex: "5D5D5D") ?? .gray
             ]
         )
     }
@@ -68,7 +68,7 @@ class OnboardingView: UIView {
     }
     
     let checkButton = CustomButton(
-        backgroundColor: .brown,
+        backgroundColor: UIColor.mainColor!,
         title: "시작하기",
         titleColor: .white,
         font: .ptdSemiBoldFont(ofSize: 18),

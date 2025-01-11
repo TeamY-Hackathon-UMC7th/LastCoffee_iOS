@@ -34,7 +34,9 @@ extension UIColor {
     
     static let mainColor = UIColor(hex: "994E24") // main color
     static let background = UIColor(hex: "FFF9F4") // 배경색
-    static let action = UIColor(hex: "FF2929") // 액션 컬러
+    static let errorRed = UIColor(hex: "FF2929") // 액션 컬러
+    static let rightGreen = UIColor(hex: "25C951") // 액션 컬러
+    static let coffeeGray = UIColor(hex: "D4D4D4") // 액션 컬러
 
 }
 // Example
