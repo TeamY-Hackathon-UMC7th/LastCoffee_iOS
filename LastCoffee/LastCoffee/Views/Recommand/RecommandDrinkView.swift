@@ -1,5 +1,5 @@
 //
-//  RecommandDrinkView.swift
+//  RecommendDrinkView.swift
 //  LastCoffee
 //
 //  Created by 이수현 on 1/11/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RecommandDrinkView: UIView {
+class RecommendDrinkView: UIView {
     private let selectedHour : String
 
     private lazy var lblTitle = UILabel().then { lbl in
@@ -24,7 +24,7 @@ class RecommandDrinkView: UIView {
     
     
     public lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createLayout()).then { view in
-        view.register(RecommandBannerCell.self, forCellWithReuseIdentifier: RecommandBannerCell.id)
+        view.register(RecommendBannerCell.self, forCellWithReuseIdentifier: RecommendBannerCell.id)
     }
     
     public let btnCheck = CustomButton().then { btn in
