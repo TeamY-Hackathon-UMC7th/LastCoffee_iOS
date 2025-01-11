@@ -12,6 +12,7 @@ class HomeViewController: UIViewController {
     private let homeView = HomeView(nickname: "soo")
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     private var popularData = [CoffeeDetailResponse]()
+    private var recommendData = [CoffeeDetailResponse]()
     
     private let networkService = CoffeeService()
     
@@ -21,6 +22,7 @@ class HomeViewController: UIViewController {
         self.view = homeView
         self.addAction()
         self.setNavigation()
+        self.getPopular()
 
     }
     
@@ -83,7 +85,6 @@ class HomeViewController: UIViewController {
         let flowSection = Section.flow("🧑🏻 최근에 추천 받은 메뉴")
         
         snapshot.appendSections([popularSection, flowSection])
-        
         snapshot.appendItems(popularData.map{Item.popularMenu($0)}, toSection: popularSection)
         snapshot.appendItems(dummy.map{Item.flowMenu($0)}, toSection: flowSection)
         
@@ -118,7 +119,7 @@ class HomeViewController: UIViewController {
             
             switch result {
             case .success(let response):
-                self.popularData = response
+                self.popularData = response.coffees
                 self.setDataSource()
                 self.setSnapShot()
             case .failure(let error):
