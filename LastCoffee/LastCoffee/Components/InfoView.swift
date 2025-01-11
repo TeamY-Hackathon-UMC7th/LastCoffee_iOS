@@ -19,6 +19,7 @@ class InfoView: UIView {
     public let lblNum = UILabel().then { lbl in
         lbl.font = .ptdRegularFont(ofSize: 10)
         lbl.tintColor = UIColor(hex: "2C2C2C")
+        lbl.textAlignment = .right
     }
     
     init(title: String) {
@@ -40,18 +41,18 @@ class InfoView: UIView {
     private func setUI() {
         lblCafeien.snp.makeConstraints { make in
             make.leading.equalToSuperview()
-            make.verticalEdges.equalToSuperview()
+            make.centerY.equalToSuperview()
             make.trailing.equalTo(lblNum.snp.leading)
         }
         
         lblNum.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
-            make.verticalEdges.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
     }
     
-    public func config(value: String) {
-        self.lblNum.text = value
+    public func config(value: Int) {
+        self.lblNum.text = "\(value)"
     }
 }
 

@@ -11,14 +11,9 @@ import Then
 class HomeView: UIView {
     private let nickname: String
     
-//    // 로고 이미지 뷰
-//    private let logoImageView = UIImageView().then { view in
-//        view.image = .lastCoffeeText
-//    }
-    
     // 닉네임 라벨
     private lazy var lblNickname = UILabel().then { lbl in
-        lbl.text = "\(nickname)님, 반갑습니다!"
+        lbl.text = "\(nickname)님, 오늘도 좋은 하루 보내세요 : )"
         lbl.font = .ptdSemiBoldFont(ofSize: 18)
         lbl.textAlignment = .left
     }
@@ -30,12 +25,14 @@ class HomeView: UIView {
         view.register(FlowSectionCell.self, forCellWithReuseIdentifier: FlowSectionCell.id)
         
         // 헤더 등록
-        view.register(HeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCell.id)
+        view.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.id)
+        
+        view.backgroundColor = .clear
     }
     
     // '오늘의 취침 시간 버튼'
     public let btnRecommendDrink = CustomButton().then { btn in
-        btn.configure(title: "지금, 커피 하잔", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 14), radius: 10, backgroundColor: .mainColor ?? .systemBlue, isEnabled: true)
+        btn.configure(title: "지금, 커피 한 잔 추천", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 14), radius: 10, backgroundColor: .mainColor ?? .systemBlue, isEnabled: true)
     }
     
     init(nickname: String) {
@@ -82,7 +79,7 @@ class HomeView: UIView {
         }
         
         btnRecommendDrink.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().offset(52)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(52)
             make.width.equalTo(192)
             make.height.equalTo(54)
             make.centerX.equalToSuperview()
@@ -109,12 +106,20 @@ class HomeView: UIView {
     private func createBannerSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .absolute(240))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(ScreenWidth - 32), heightDimension: .absolute(200))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(26))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+        
+        section.boundarySupplementaryItems = [header]
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 16)
+        
         
         return section
     }
@@ -123,12 +128,19 @@ class HomeView: UIView {
     private func createFlowSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(116), heightDimension: .absolute(140))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .absolute(140))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(26))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+        
+        section.boundarySupplementaryItems = [header]
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 16)
         
         return section
     }
