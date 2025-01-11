@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 class RegisterViewController: UIViewController {
     private let registerView = AuthView()
@@ -107,7 +108,7 @@ class RegisterViewController: UIViewController {
                     self.navigationController?.popViewController(animated: true)
                 }
             case .failure(let error):
-                print(error)
+                Toaster.shared.makeToast("\(error)", .short)
             }
         }
     }

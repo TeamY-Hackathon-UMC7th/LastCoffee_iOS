@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 class NoteDetailViewController: UIViewController {
     public var receivedData: NoteModel?
