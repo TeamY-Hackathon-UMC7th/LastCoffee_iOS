@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import KeychainSwift
 
 class LoginViewController: UIViewController {
     private let loginView = LoginView()
+    public static let keychain = KeychainSwift()
 
     override func viewDidLoad() {
         super.viewDidLoad()
