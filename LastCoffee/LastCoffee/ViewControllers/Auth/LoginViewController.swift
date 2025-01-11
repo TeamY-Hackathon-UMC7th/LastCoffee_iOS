@@ -7,6 +7,7 @@
 
 import UIKit
 import KeychainSwift
+import SwiftyToaster
 
 class LoginViewController: UIViewController {
     private let loginView = LoginView()
@@ -87,7 +88,7 @@ class LoginViewController: UIViewController {
                     self.goToNextView()
                 }
             case .failure(let error):
-                print(error)
+                Toaster.shared.makeToast("\(error)", .short)
             }
         }
     }

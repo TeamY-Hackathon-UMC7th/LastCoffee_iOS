@@ -39,5 +39,9 @@ public final class ReviewService : NetworkManager {
     public func getReviews(completion: @escaping (Result<[Review]?, NetworkError>) -> Void) {
         requestOptional(target: .getAllReviews, decodingType: [Review].self, completion: completion)
     }
+    
+    public func deleteReview(reviewId: Int, completion: @escaping (Result<String, NetworkError>) -> Void) {
+        request(target: .deleteReview(reviewId: reviewId), decodingType: String.self, completion: completion)
+    }
 
 }
