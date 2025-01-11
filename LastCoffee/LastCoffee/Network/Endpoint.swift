@@ -14,6 +14,9 @@ public enum AllEndpoint {
     case checkNickname(nickname: String) //path
     
     case getPopularCoffees
+    case getRecommandCoffees(time: String)
+    case getSearchCoffee(keyword: String)
+    
     
 //    case getAllReviews
 //    case postReview
@@ -29,7 +32,7 @@ extension AllEndpoint: TargetType {
             }
             return url
             // case 처리
-        case .getPopularCoffees:
+        case .getPopularCoffees, .getRecommandCoffees, .getSearchCoffee:
             guard let url = URL(string: API.coffeeURL) else {
                 fatalError("baseURL 오류")
             }
@@ -47,7 +50,10 @@ extension AllEndpoint: TargetType {
             return "/check/\(nickname)"
         case .getPopularCoffees:
             return "/popular"
-
+        case .getRecommandCoffees:
+            return "/recommend"
+        case .getSearchCoffee:
+            return "/search"
         }
     }
     
@@ -70,6 +76,10 @@ extension AllEndpoint: TargetType {
             return .requestPlain
         case .getPopularCoffees:
             return .requestPlain
+        case .getRecommandCoffees(let time):
+            return .requestParameters(parameters: ["time" : time], encoding: URLEncoding.queryString)
+        case .getSearchCoffee(let keyword):
+            return .requestParameters(parameters: ["keyword" : keyword], encoding: URLEncoding.queryString)
         }
     }
     
