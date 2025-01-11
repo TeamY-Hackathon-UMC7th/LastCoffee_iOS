@@ -17,7 +17,7 @@ class RecommandDrinkViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         self.view = recommandView
-        
+        setDataSource()
         // API 연결
     }
     
@@ -29,6 +29,10 @@ class RecommandDrinkViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+    }
+    
+    private func setDataSource() {
+        
     }
 }
 
