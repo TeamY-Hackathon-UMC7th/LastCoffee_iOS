@@ -11,10 +11,10 @@ import Then
 class HomeView: UIView {
     private let nickname: String
     
-    // 로고 이미지 뷰
-    private let logoImageView = UIImageView().then { view in
-        view.image = .lastCoffeeText
-    }
+//    // 로고 이미지 뷰
+//    private let logoImageView = UIImageView().then { view in
+//        view.image = .lastCoffeeText
+//    }
     
     // 닉네임 라벨
     private lazy var lblNickname = UILabel().then { lbl in
@@ -55,7 +55,7 @@ class HomeView: UIView {
     private func setSubView() {
 
         [
-            logoImageView,
+//            logoImageView,
             lblNickname,
             collectionView,
             btnRecommandDrink
@@ -65,14 +65,14 @@ class HomeView: UIView {
     // 오토레이아웃 설정
     private func setUI(){
 
-        logoImageView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(25.5)
-            make.centerX.equalToSuperview()
-        }
+//        logoImageView.snp.makeConstraints { make in
+//            make.top.equalTo(safeAreaLayoutGuide).inset(25.5)
+//            make.centerX.equalToSuperview()
+//        }
         
         lblNickname.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(16)
-            make.top.equalTo(logoImageView.snp.bottom).offset(27.5)
+            make.top.equalTo(safeAreaLayoutGuide).offset(18)
         }
         
         collectionView.snp.makeConstraints { make in

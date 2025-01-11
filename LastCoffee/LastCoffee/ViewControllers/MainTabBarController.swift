@@ -29,8 +29,8 @@ public class MainTabBarController: UITabBarController {
     
     public func configureTabs() {
         let homeViewController = HomeViewController()
-        let homeNavigationController = UINavigationController(rootViewController: homeViewController)
-        homeNavigationController.isNavigationBarHidden = true // 네비게이션 바 숨김
+//        let homeNavigationController = UINavigationController(rootViewController: homeViewController)
+//        homeNavigationController.isNavigationBarHidden = true // 네비게이션 바 숨김
         
         let nav1 = UINavigationController(rootViewController: homeViewController)
         let nav2 = UINavigationController(rootViewController: ViewController())
