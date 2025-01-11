@@ -28,6 +28,12 @@ class SelectTimeViewController: UIViewController {
         setAction()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.navigationBar.isHidden = false
+    }
+    
     private func setAction() {
         selectTimeView.btnNext.addTarget(self, action: #selector(touchUpInsideBtnNext), for: .touchUpInside)
     }

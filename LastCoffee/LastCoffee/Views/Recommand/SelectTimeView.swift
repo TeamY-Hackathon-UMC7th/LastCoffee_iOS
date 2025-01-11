@@ -25,7 +25,7 @@ class SelectTimeView: UIView {
     
     // 달 이미지뷰
     private let imageView = UIImageView().then { view in
-        view.image = .init(systemName: "moon.fill")
+        view.image = .moon
         view.tintColor = .mainColor
     }
     
@@ -85,7 +85,7 @@ class SelectTimeView: UIView {
         
         // 피커
         timePickerView.snp.makeConstraints { make in
-            make.width.equalTo(180)
+            make.width.equalTo(153)
             make.center.equalToSuperview()
         }
         

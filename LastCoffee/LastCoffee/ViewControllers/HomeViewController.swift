@@ -13,7 +13,7 @@ class HomeViewController: UIViewController {
     private let homeView : HomeView
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     private var popularData = [CoffeeDetailResponse]()
-    private var recommendData = [CoffeeDetailResponse]()
+    private var recommendData = [CoffeeData]()
     
     private let networkService = CoffeeService()
     let coffeeManager = CoffeeManager()
@@ -41,15 +41,17 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.isTabBarHidden = false
-        
-        self.setDataSource()
         // API 연결 후 스냅샷 생성 추가 예정
         Task {
             guard let datas = await getLastRecommand() else {return}
+            self.recommendData = datas
             print(datas)
+            self.setDataSource()
+            self.setSnapShot()
+            homeView.lblEmptyMenu.isHidden = !recommendData.isEmpty
         }
-        setSnapShot()
-        homeView.lblEmptyMenu.isHidden = !recommendData.isEmpty
+        
+        
     }
     
     private func setDataSource() {
