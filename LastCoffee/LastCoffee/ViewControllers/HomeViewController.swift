@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 class HomeViewController: UIViewController {
     private let dummy = CoffeeDetailResponse.dummy()
@@ -134,7 +135,7 @@ class HomeViewController: UIViewController {
                 self.setDataSource()
                 self.setSnapShot()
             case .failure(let error):
-                print(error)
+                Toaster.shared.makeToast("\(error)", .short)
             }
         }
     }
@@ -143,7 +144,7 @@ class HomeViewController: UIViewController {
         do {
             return try await self.coffeeManager.fetchCoffeeData()
         } catch {
-            print(error)
+            Toaster.shared.makeToast("\(error)", .short)
             return nil
         }
     }

@@ -14,7 +14,7 @@ public struct LoginResponseDto : Decodable {
 
 
 public struct JoinResponseDto: Decodable {
-    public let status: Bool
+    public let status: Bool?
 }
 
 public struct CoffeeFirstDTO: Decodable {

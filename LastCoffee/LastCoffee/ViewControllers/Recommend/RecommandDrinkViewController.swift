@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 class RecommendDrinkViewController: UIViewController {
     private let dummy = CoffeeDetailResponse.dummy()
@@ -92,7 +93,7 @@ class RecommendDrinkViewController: UIViewController {
                     self.makeData(selectedHour: self.selectedHour, coffee: response.coffees)
                 }
             case .failure(let error):
-                print(error)
+                Toaster.shared.makeToast("\(error)", .short)
             }
         }
     }

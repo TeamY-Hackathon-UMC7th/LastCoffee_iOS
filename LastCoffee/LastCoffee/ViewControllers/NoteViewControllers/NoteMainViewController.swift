@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 class NoteMainViewController: UIViewController {
     let networkService = ReviewService()
@@ -72,13 +73,16 @@ class NoteMainViewController: UIViewController {
                     guard let drinkTimeString = convertISO8601ToCustomFormat(data.drinkTime) else {
                         return
                     }
+                    let drinkStrings = drinkTimeString.split(separator: " ").map{String($0)}
                     guard let sleepTimeString = convertISO8601ToCustomFormat(data.sleepTime) else {return}
-                    
+
+                    let sleepStrings = sleepTimeString.split(separator: " ").map{String($0)}
                     let i = NoteModel(
+                        id: data.id,
                         coffeeName: data.coffee.name,
                         brand: data.coffee.brand,
-                        drinkDate: drinkTimeString,
-                        sleepDate: sleepTimeString,
+                        drinkDate: drinkStrings[0],
+                        sleepDate: sleepStrings[0],
                         comment: data.comment,
                         coffeeImgUrl: data.coffee.coffeeImgUrl
                     )
@@ -90,7 +94,7 @@ class NoteMainViewController: UIViewController {
                 }
                 
             case .failure(let error):
-                print(error)
+                Toaster.shared.makeToast("\(error)", .short)
             }
         }
     }
@@ -120,18 +124,42 @@ extension NoteMainViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            completion(true)
+        let action = UIContextualAction(style: .destructive, title: nil) { [weak self] (action, view, completion) in
+            guard let self = self else { return }
+            let deleteId = self.data[indexPath.row].id
+            
+            // 임시로 삭제할 데이터를 저장 (복구를 위해)
+            let deletedItem = self.data[indexPath.row]
+            
+            // 네트워크 요청
+            self.networkService.deleteReview(reviewId: deleteId) { [weak self] result in
+                guard let self = self else { return }
+                
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success:
+                        // 성공 시 데이터 소스와 테이블뷰 동기화
+                        self.data.remove(at: indexPath.row)
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                        
+                    case .failure(let error):
+                        Toaster.shared.makeToast("\(error)", .short)
+                        
+                        self.data.insert(deletedItem, at: indexPath.row)
+                        tableView.reloadRows(at: [indexPath], with: .automatic)
+                    }
+                    completion(true) // 작업 완료
+                }
+            }
         }
         
-        action.backgroundColor = .background
-        action.image = UIImage(named: "trash")?.withTintColor(.subColor ?? .red)
-
+        action.backgroundColor = .red
+        action.image = UIImage(systemName: "trash")
+        
         let configuration = UISwipeActionsConfiguration(actions: [action])
         configuration.performsFirstActionWithFullSwipe = false
         return configuration
-   }
+    }
     
     // 셀이 선택되었을 때 호출되는 메서드
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

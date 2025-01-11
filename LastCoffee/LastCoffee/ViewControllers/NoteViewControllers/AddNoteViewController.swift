@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 class AddNoteViewController: UIViewController {
     let networkService = ReviewService()
@@ -80,7 +81,7 @@ class AddNoteViewController: UIViewController {
             case .success(let success):
                 print(success)
             case .failure(let error):
-                print(error)
+                Toaster.shared.makeToast("\(error)", .short)
             }
         })
     }

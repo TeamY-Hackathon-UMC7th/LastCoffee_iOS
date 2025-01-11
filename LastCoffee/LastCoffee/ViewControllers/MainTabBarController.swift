@@ -5,6 +5,7 @@
 //  Created by 김도연 on 1/11/25.
 //
 import UIKit
+import SwiftyToaster
 
 public class MainTabBarController: UITabBarController {
 
@@ -29,17 +30,12 @@ public class MainTabBarController: UITabBarController {
     
     public func configureTabs() {
         let homeViewController = HomeViewController()
-//        let homeNavigationController = UINavigationController(rootViewController: homeViewController)
-//        homeNavigationController.isNavigationBarHidden = true // 네비게이션 바 숨김
-        
         let noteMainViewController = NoteMainViewController()
-//        let noteMainNavigationController = UINavigationController(rootViewController: noteMainViewController)
-//        noteMainNavigationController.isNavigationBarHidden = true // 네비게이션 바 숨김
-        
         let searchViewController = SearchViewController()
         
         let nav1 = UINavigationController(rootViewController: homeViewController)
         let nav2 = UINavigationController(rootViewController: noteMainViewController)
+//        nav1.navigationBar.isHidden = true
         let nav3 = UINavigationController(rootViewController: searchViewController)
         nav1.navigationBar.isHidden = true
         nav2.navigationBar.isHidden = true

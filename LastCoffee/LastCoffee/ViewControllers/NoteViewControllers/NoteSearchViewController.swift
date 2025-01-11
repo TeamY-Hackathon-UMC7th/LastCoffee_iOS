@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 class NoteSearchViewController: UIViewController, UITextFieldDelegate {
     let networkService = CoffeeService()
@@ -68,10 +69,9 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
                 
                 noteSearchView.noteSearchTableView.reloadData()
             case .failure(let error):
-                print(error)
-                
                 noteSearchView.noteSearchTableView.isHidden = true
                 noteSearchView.emptyLabel.isHidden = false
+                Toaster.shared.makeToast("\(error)", .short)
             }
         }
         )

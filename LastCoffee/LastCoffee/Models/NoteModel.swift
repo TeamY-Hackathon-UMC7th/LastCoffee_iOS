@@ -9,6 +9,7 @@ import Foundation
 
 // 임시 모델
 struct NoteModel: Codable {
+    let id: Int
     let coffeeName: String
     let brand: String
     let drinkDate: String
