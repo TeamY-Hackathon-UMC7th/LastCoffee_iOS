@@ -1,5 +1,5 @@
 //
-//  RecommandDrinkViewController.swift
+//  RecommendDrinkViewController.swift
 //  LastCoffee
 //
 //  Created by 이수현 on 1/12/25.
@@ -7,17 +7,17 @@
 
 import UIKit
 
-class RecommandDrinkViewController: UIViewController {
+class RecommendDrinkViewController: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     private let selectedHour : String
-    private let recommandView : RecommandDrinkView
+    private let recommendView : RecommendDrinkView
    
     init(selectedHour: String) {
         self.selectedHour = selectedHour
-        self.recommandView = RecommandDrinkView(selectedHour: selectedHour)
+        self.recommendView = RecommendDrinkView(selectedHour: selectedHour)
         super.init(nibName: nil, bundle: nil)
         
-        self.view = recommandView
+        self.view = recommendView
         setDataSource()
         setNavigationBar()
         // API 연결
@@ -46,10 +46,10 @@ class RecommandDrinkViewController: UIViewController {
     
     
     private func setDataSource() {
-//        self.dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: recommandView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-//            
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommandBannerCell.id, for: indexPath)
-//            (cell as? RecommandBannerCell)?.config(title: <#T##String#>, imageURL: <#T##String#>)
+//        self.dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: recommendView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+//
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendBannerCell.id, for: indexPath)
+//            (cell as? RecommendBannerCell)?.config(title: <#T##String#>, imageURL: <#T##String#>)
 //            return cell
 //        })
     }

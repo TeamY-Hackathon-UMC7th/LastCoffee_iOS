@@ -9,7 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    private let homeView = HomeView()
+    private let homeView = HomeView(nickname: "soo")
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     
     
@@ -18,6 +18,7 @@ class HomeViewController: UIViewController {
         self.view = homeView
         self.addAction()
         self.setDataSource()
+        self.setNavigation()
         
         // API 연결 후 스냅샷 생성 추가 예정
     }
@@ -34,20 +35,29 @@ class HomeViewController: UIViewController {
 //        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
 //            switch itemIdentifier {
 //            case .popularMenu: // 각 셀에 config 설정
-//            case .recommandMenu:
+//            case .recommendMenu:
 //            default:
 //                return UICollectionViewCell()
 //            }
 //        })
     }
+    
+    private func setNavigation() {
+        // 로고 이미지 뷰
+         let logoImageView = UIImageView().then { view in
+            view.image = .lastCoffeeText
+        }
+        
+        self.navigationItem.titleView = logoImageView
+    }
 
     private func addAction() {
         // '오늘의 취침 시간' 버튼 선택
-        homeView.btnRecommandDrink.addTarget(self, action: #selector(touchUpInsideBtnRecommandDrink), for: .touchUpInside)
+        homeView.btnRecommendDrink.addTarget(self, action: #selector(touchUpInsideBtnRecommendDrink), for: .touchUpInside)
     }
     
     // '오늘의 취침 시간' 버튼 선택
-    @objc private func touchUpInsideBtnRecommandDrink() {
+    @objc private func touchUpInsideBtnRecommendDrink() {
 //        let nextVC = SelectTimeViewController()
 //        self.navigationController?.pushViewController(nextVC, animated: true)
     }

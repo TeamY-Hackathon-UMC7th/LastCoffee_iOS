@@ -41,8 +41,7 @@ class SelectTimeView: UIView {
     
     // 다음 버튼
     public let btnNext = CustomButton().then { btn in
-        btn.configure(title: "다음", titleColor: .white, radius: 10, backgroundColor: .mainColor ?? .tintColor, isEnabled: true)
-        btn.titleLabel?.font = .ptdSemiBoldFont(ofSize: 18)
+        btn.configure(title: "다음", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 18), radius: 10, backgroundColor: .mainColor ?? .tintColor, isEnabled: true)
     }
     
     override init(frame: CGRect) {
