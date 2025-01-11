@@ -34,7 +34,7 @@ class HomeView: UIView {
     }
     
     // '오늘의 취침 시간 버튼'
-    public let btnRecommandDrink = CustomButton().then { btn in
+    public let btnRecommendDrink = CustomButton().then { btn in
         btn.configure(title: "지금, 커피 하잔", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 14), radius: 10, backgroundColor: .mainColor ?? .systemBlue, isEnabled: true)
     }
     
@@ -58,7 +58,7 @@ class HomeView: UIView {
 //            logoImageView,
             lblNickname,
             collectionView,
-            btnRecommandDrink
+            btnRecommendDrink
         ].forEach{self.addSubview($0)}
     }
     
@@ -78,10 +78,10 @@ class HomeView: UIView {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(lblNickname.snp.bottom).offset(17)
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(btnRecommandDrink.snp.top)
+            make.bottom.equalTo(btnRecommendDrink.snp.top)
         }
         
-        btnRecommandDrink.snp.makeConstraints { make in
+        btnRecommendDrink.snp.makeConstraints { make in
             make.bottom.equalToSuperview().offset(52)
             make.width.equalTo(192)
             make.height.equalTo(54)

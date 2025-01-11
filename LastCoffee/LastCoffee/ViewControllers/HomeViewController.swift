@@ -35,7 +35,7 @@ class HomeViewController: UIViewController {
 //        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: homeView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
 //            switch itemIdentifier {
 //            case .popularMenu: // 각 셀에 config 설정
-//            case .recommandMenu:
+//            case .recommendMenu:
 //            default:
 //                return UICollectionViewCell()
 //            }
@@ -53,11 +53,11 @@ class HomeViewController: UIViewController {
 
     private func addAction() {
         // '오늘의 취침 시간' 버튼 선택
-        homeView.btnRecommandDrink.addTarget(self, action: #selector(touchUpInsideBtnRecommandDrink), for: .touchUpInside)
+        homeView.btnRecommendDrink.addTarget(self, action: #selector(touchUpInsideBtnRecommendDrink), for: .touchUpInside)
     }
     
     // '오늘의 취침 시간' 버튼 선택
-    @objc private func touchUpInsideBtnRecommandDrink() {
+    @objc private func touchUpInsideBtnRecommendDrink() {
 //        let nextVC = SelectTimeViewController()
 //        self.navigationController?.pushViewController(nextVC, animated: true)
     }
