@@ -22,6 +22,10 @@ class LoginViewController: UIViewController {
         setupActions()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
     func viewSetting() {
         view.addSubview(loginView)
         loginView.snp.makeConstraints { make in
@@ -52,6 +56,7 @@ class LoginViewController: UIViewController {
     
     @objc private func joinButtonTapped() {
         let joinViewController = RegisterViewController()
+        self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.pushViewController(joinViewController, animated: true)
     }
     
@@ -63,6 +68,7 @@ class LoginViewController: UIViewController {
     
     func goToNextView() {
         let tabVC = MainTabBarController()
+        self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.pushViewController(tabVC, animated: true)
     }
     

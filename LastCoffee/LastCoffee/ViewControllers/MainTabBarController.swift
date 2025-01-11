@@ -39,7 +39,7 @@ public class MainTabBarController: UITabBarController {
         
         let nav1 = UINavigationController(rootViewController: homeViewController)
         let nav2 = UINavigationController(rootViewController: noteMainViewController)
-        nav1.navigationBar.isHidden = true
+//        nav1.navigationBar.isHidden = true
         nav2.navigationBar.isHidden = true
         
         let home = UIImage(named: "TabHome")?.resize(to: CGSize(width: 25, height: 25))

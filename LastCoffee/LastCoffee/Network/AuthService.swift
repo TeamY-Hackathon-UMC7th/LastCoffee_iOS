@@ -31,8 +31,9 @@ public final class AuthService : NetworkManager {
     }
     
 
-    public func join(nickname: String, completion: @escaping (Result<JoinResponseDto, NetworkError>) -> Void) {
-        request(target: .postSignup(nickname: nickname), decodingType: JoinResponseDto.self, completion: completion)
+    public func join(nickname: String, completion: @escaping (Result<JoinResponseDto?, NetworkError>) -> Void) {
+        requestOptional(target: .postSignup(nickname: nickname), decodingType: JoinResponseDto.self, completion: completion)
+//        request(target: .postSignup(nickname: nickname), decodingType: JoinResponseDto.self, completion: completion)
     }
 
     
