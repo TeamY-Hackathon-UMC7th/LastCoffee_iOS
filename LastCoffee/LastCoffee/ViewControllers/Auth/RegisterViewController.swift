@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 class RegisterViewController: UIViewController {
     private let registerView = AuthView()
@@ -17,6 +18,7 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.background
         viewSetting()
+        setNavigationBar()
         setupActions()
     }
     
@@ -25,6 +27,16 @@ class RegisterViewController: UIViewController {
         
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.tintColor = .black
+    }
+    
+    private func setNavigationBar() {
+        let leftBarButton = UIBarButtonItem(image: .init(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popButton))
+        leftBarButton.tintColor = .black
+        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
+    }
+    
+    @objc private func popButton() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     func viewSetting() {
@@ -67,7 +79,8 @@ class RegisterViewController: UIViewController {
             case .success(let response):
                 // 비동기 UI 업데이트
                 DispatchQueue.main.async {
-                    self.canUser = response.status
+                    guard let status = response.status else { return }
+                    self.canUser = status
                     
                     if self.canUser {
                         self.registerView.nickNameField.updateValidationText(
@@ -107,7 +120,7 @@ class RegisterViewController: UIViewController {
                     self.navigationController?.popViewController(animated: true)
                 }
             case .failure(let error):
-                print(error)
+                Toaster.shared.makeToast("\(error)", .short)
             }
         }
     }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 class NoteSearchViewController: UIViewController, UITextFieldDelegate {
     let networkService = CoffeeService()
@@ -53,7 +54,7 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
                 data = response.coffees
                 noteSearchView.noteSearchTableView.reloadData()
             case .failure(let error):
-                print(error)
+                Toaster.shared.makeToast("\(error)", .short)
             }
         }
         )
