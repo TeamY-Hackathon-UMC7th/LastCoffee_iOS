@@ -81,7 +81,7 @@ class AddNoteViewController: UIViewController {
             case .success(let success):
                 print(success)
             case .failure(let error):
-                Toaster.shared.makeToast("\(error)", .short)
+                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
             }
         })
     }

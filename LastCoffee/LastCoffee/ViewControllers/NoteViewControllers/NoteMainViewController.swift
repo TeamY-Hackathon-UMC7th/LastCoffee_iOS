@@ -94,7 +94,7 @@ class NoteMainViewController: UIViewController {
                 }
                 
             case .failure(let error):
-                Toaster.shared.makeToast("\(error)", .short)
+                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
             }
         }
     }
@@ -143,7 +143,7 @@ extension NoteMainViewController: UITableViewDataSource, UITableViewDelegate {
                         tableView.deleteRows(at: [indexPath], with: .automatic)
                         
                     case .failure(let error):
-                        Toaster.shared.makeToast("\(error)", .short)
+                        Toaster.shared.makeToast("\(error.errorDescription!)", .short)
                         
                         self.data.insert(deletedItem, at: indexPath.row)
                         tableView.reloadRows(at: [indexPath], with: .automatic)

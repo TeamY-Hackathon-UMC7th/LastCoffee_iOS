@@ -94,7 +94,7 @@ class LoginViewController: UIViewController {
                     self.goToNextView()
                 }
             case .failure(let error):
-                Toaster.shared.makeToast("\(error)", .short)
+                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
             }
         }
     }

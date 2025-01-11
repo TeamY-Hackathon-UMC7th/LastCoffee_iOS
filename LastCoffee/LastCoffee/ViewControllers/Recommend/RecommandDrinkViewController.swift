@@ -93,7 +93,7 @@ class RecommendDrinkViewController: UIViewController {
                     self.makeData(selectedHour: self.selectedHour, coffee: response.coffees)
                 }
             case .failure(let error):
-                Toaster.shared.makeToast("\(error)", .short)
+                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
             }
         }
     }

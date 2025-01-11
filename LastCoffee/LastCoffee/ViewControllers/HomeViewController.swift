@@ -135,7 +135,7 @@ class HomeViewController: UIViewController {
                 self.setDataSource()
                 self.setSnapShot()
             case .failure(let error):
-                Toaster.shared.makeToast("\(error)", .short)
+                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
             }
         }
     }

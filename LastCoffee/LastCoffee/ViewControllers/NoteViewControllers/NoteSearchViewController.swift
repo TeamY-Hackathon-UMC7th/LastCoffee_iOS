@@ -69,9 +69,9 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
                 
                 noteSearchView.noteSearchTableView.reloadData()
             case .failure(let error):
+                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
                 noteSearchView.noteSearchTableView.isHidden = true
                 noteSearchView.emptyLabel.isHidden = false
-                Toaster.shared.makeToast("\(error)", .short)
             }
         }
         )
