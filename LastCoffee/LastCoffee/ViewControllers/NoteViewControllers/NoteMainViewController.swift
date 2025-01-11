@@ -61,12 +61,19 @@ class NoteMainViewController: UIViewController {
                     guard let drinkTimeString = convertISO8601ToCustomFormat(data.drinkTime) else {
                         return
                     }
+                    let drinkStrings = drinkTimeString.split(separator: " ").map{String($0)}
                     guard let sleepTimeString = convertISO8601ToCustomFormat(data.sleepTime) else {return}
-                    
-                    let i = NoteModel(coffeeName: data.coffee.name,
-                              drinkDate: drinkTimeString,
-                              sleepDate: sleepTimeString,
-                              comment: data.comment)
+
+                    let sleepStrings = sleepTimeString.split(separator: " ").map{String($0)}
+                    let i = NoteModel(
+                        id: data.id,
+                        coffeeName: data.coffee.name,
+                        brand: data.coffee.brand,
+                        drinkDate: drinkStrings[0],
+                        sleepDate: sleepStrings[0],
+                        comment: data.comment,
+                        coffeeImgUrl: data.coffee.coffeeImgUrl
+                    )
                     
                     self.data.append(i)
                 }
