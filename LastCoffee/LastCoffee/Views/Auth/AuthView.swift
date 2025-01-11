@@ -32,7 +32,7 @@ class AuthView: UIView {
     }
     
     let duplicateButton = CustomButton(
-        backgroundColor: .gray,
+        backgroundColor: UIColor.coffeeGray!,
         title: "중복확인",
         titleColor: .white,
         font: .ptdMediumFont(ofSize: 14),
@@ -41,7 +41,7 @@ class AuthView: UIView {
     )
     
     let checkButton = CustomButton(
-        backgroundColor: .gray,
+        backgroundColor: UIColor.coffeeGray!,
         title: "가입하기",
         titleColor: .white,
         font: .ptdSemiBoldFont(ofSize: 18),

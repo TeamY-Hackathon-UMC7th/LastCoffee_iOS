@@ -32,7 +32,7 @@ class LoginView: UIView {
     }
     
     let checkButton = CustomButton(
-        backgroundColor: .gray,
+        backgroundColor: UIColor.coffeeGray!,
         title: "로그인",
         titleColor: .white,
         font: .ptdSemiBoldFont(ofSize: 18),

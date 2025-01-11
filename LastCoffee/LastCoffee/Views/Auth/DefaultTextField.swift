@@ -48,12 +48,12 @@ public class DefaultTextField: UIView, UITextFieldDelegate {
         textField.font = UIFont.systemFont(ofSize: 14)
         textField.backgroundColor = UIColor.white
         textField.delegate = self
-        textField.layer.borderColor = UIColor.brown.cgColor
+        textField.layer.borderColor = UIColor.mainColor?.cgColor
         textField.layer.borderWidth = 0.7
         textField.layer.cornerRadius = 10
         
         validationLabel.text = validationText
-        validationLabel.textColor = UIColor.red
+        validationLabel.textColor = UIColor.errorRed
         validationLabel.font = UIFont.systemFont(ofSize: 12)
         validationLabel.isHidden = true
         
@@ -86,7 +86,7 @@ public class DefaultTextField: UIView, UITextFieldDelegate {
     private func showCharacterLimit(message: String) {
         validationLabel.text = message
         validationLabel.isHidden = false
-        validationLabel.textColor = UIColor.red
+        validationLabel.textColor = UIColor.errorRed
     }
     
     // MARK: - 텍스트필드 델리게이트

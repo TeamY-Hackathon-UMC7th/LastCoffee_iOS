@@ -12,7 +12,7 @@ class RegisterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.background
         viewSetting()
         setupActions()
     }
@@ -57,10 +57,10 @@ class RegisterViewController: UIViewController {
         
 //        let isButtonEnabled = // api call success
 //        registerView.checkButton.setEnabled(isButtonEnabled)
-        registerView.nickNameField.updateValidationText(text: "사용 가능한 닉네임입니다.", isHidden: false, color: .green)
+        registerView.nickNameField.updateValidationText(text: "사용 가능한 닉네임입니다.", isHidden: false, color: UIColor.rightGreen)
         registerView.checkButton.setEnabled(true)
         // 중복이면
-//        registerView.nickNameField.updateValidationText(text: "중복된 닉네임입니다.", isHidden: false, color: .red)
+//        registerView.nickNameField.updateValidationText(text: "중복된 닉네임입니다.", isHidden: false, color: UIColor.rightGreen)
         
     }
     
