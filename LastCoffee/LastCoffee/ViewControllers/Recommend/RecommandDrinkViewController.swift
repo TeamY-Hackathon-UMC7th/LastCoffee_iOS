@@ -8,9 +8,13 @@
 import UIKit
 
 class RecommendDrinkViewController: UIViewController {
+    private let dummy = CoffeeDetailResponse.dummy()
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     private let selectedHour : String
     private let recommendView : RecommendDrinkView
+    private let networkService = CoffeeService()
+    private var recommendData = [CoffeeDetailResponse]()
+    let coffeeManager = CoffeeManager()
    
     init(selectedHour: String) {
         self.selectedHour = selectedHour
@@ -18,9 +22,9 @@ class RecommendDrinkViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         self.view = recommendView
-        setDataSource()
+        setAction()
         setNavigationBar()
-        // API 연결
+        getRecommend()
     }
     
     required init?(coder: NSCoder) {
@@ -30,8 +34,20 @@ class RecommendDrinkViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
+    }
+    
+    private func setAction() {
+        recommendView.btnCheck.addTarget(self, action: #selector(touchUpInsideBtnCheck), for: .touchUpInside)
+    }
+    
+    @objc private func touchUpInsideBtnCheck() {
+        guard let navigationController = navigationController else { return }
+         // VisiterHomeViewController를 스택에서 찾기
+        if let targetIndex = navigationController.viewControllers.firstIndex(where: { $0 is HomeViewController }) {
+             // VisiterHomeViewController까지의 스택만 유지
+             let newStack = Array(navigationController.viewControllers[...targetIndex])
+             navigationController.setViewControllers(newStack, animated: true)
+         }
     }
     
     private func setNavigationBar() {
@@ -46,12 +62,60 @@ class RecommendDrinkViewController: UIViewController {
     
     
     private func setDataSource() {
-//        self.dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: recommendView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-//
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendBannerCell.id, for: indexPath)
-//            (cell as? RecommendBannerCell)?.config(title: <#T##String#>, imageURL: <#T##String#>)
-//            return cell
-//        })
+        self.dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: recommendView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendBannerCell.id, for: indexPath)
+            (cell as? RecommendBannerCell)?.config(title: self.recommendData[indexPath.row].name, brand: self.recommendData[indexPath.row].brand, imageURL: self.recommendData[indexPath.row].coffeeImgUrl)
+            return cell
+        })
+    }
+    
+    private func setSnapShot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        let recommendSection = Section.recommmandBanner
+        
+        snapshot.appendSections([recommendSection])
+        snapshot.appendItems(recommendData.map{Item.recommendMenu($0)}, toSection: recommendSection)
+        
+        dataSource?.apply(snapshot)
+    }
+    
+    private func getRecommend(){
+        networkService.getRecommandCoffee(time: self.selectedHour){ [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let response):
+                self.recommendData = response.coffees
+                self.setDataSource()
+                self.setSnapShot()
+                
+                Task {
+                    self.makeData(selectedHour: self.selectedHour, coffee: response.coffees)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func makeData(selectedHour : String, coffee : [CoffeeDetailResponse]) {
+        var coffees = [CoffeeData]()
+        for data in coffee {
+            coffees.append(CoffeeData(searchTime: selectedHour,
+                                      id: data.id,
+                                      name: data.name,
+                                      brand: data.brand,
+                                      sugar: data.sugar,
+                                      caffeine: data.caffeine,
+                                      calories: data.calories,
+                                      protein: data.protein,
+                                      coffeeImgUrl: data.coffeeImgUrl))
+        }
+        Task {
+            try await self.coffeeManager.deleteAllCoffeeData()
+            try await self.coffeeManager.saveCoffeeData(coffees: coffees)
+        }
     }
 }
 

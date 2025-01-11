@@ -25,6 +25,8 @@ class RecommendDrinkView: UIView {
     
     public lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: self.createLayout()).then { view in
         view.register(RecommendBannerCell.self, forCellWithReuseIdentifier: RecommendBannerCell.id)
+    }.then { view in
+        view.backgroundColor = .clear
     }
     
     public let btnCheck = CustomButton().then { btn in
@@ -53,12 +55,14 @@ class RecommendDrinkView: UIView {
     
     private func setUI() {
         lblTitle.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(80)
+            make.top.equalTo(safeAreaLayoutGuide).inset(32)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(lblTitle.snp.bottom).offset(46)
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalTo(btnCheck.snp.top)
         }
         
         btnCheck.snp.makeConstraints { make in
@@ -79,8 +83,7 @@ class RecommendDrinkView: UIView {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 14)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(396))
-//        let group = NSCollectionLayoutGroup(layoutSize: groupSize, supplementaryItems:)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(286), heightDimension: .absolute(396))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
