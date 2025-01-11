@@ -15,7 +15,7 @@ class HomeViewController: UIViewController {
     private var recommendData = [CoffeeDetailResponse]()
     
     private let networkService = CoffeeService()
-    
+    let coffeeManager = CoffeeManager()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -40,6 +40,10 @@ class HomeViewController: UIViewController {
         
         self.setDataSource()
         // API 연결 후 스냅샷 생성 추가 예정
+        Task {
+            guard let datas = await getLastRecommand() else {return}
+            print(datas)
+        }
         setSnapShot()
     }
     
@@ -125,6 +129,15 @@ class HomeViewController: UIViewController {
             case .failure(let error):
                 print(error)
             }
+        }
+    }
+    
+    func getLastRecommand() async -> [CoffeeData]? {
+        do {
+            return try await self.coffeeManager.fetchCoffeeData()
+        } catch {
+            print(error)
+            return nil
         }
     }
 }
