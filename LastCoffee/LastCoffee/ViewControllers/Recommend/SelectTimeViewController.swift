@@ -72,6 +72,5 @@ extension SelectTimeViewController: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.selectedHour = hours[row]
-        print("selectedHour: \(selectedHour)")
     }
 }

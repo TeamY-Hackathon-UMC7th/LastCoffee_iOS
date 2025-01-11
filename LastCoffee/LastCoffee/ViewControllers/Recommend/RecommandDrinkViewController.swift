@@ -12,6 +12,8 @@ class RecommendDrinkViewController: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     private let selectedHour : String
     private let recommendView : RecommendDrinkView
+    private let networkService = CoffeeService()
+    private var recommendData = [CoffeeDetailResponse]()
    
     init(selectedHour: String) {
         self.selectedHour = selectedHour
@@ -19,12 +21,9 @@ class RecommendDrinkViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         self.view = recommendView
-        setDataSource()
-        setSnapShot()
         setAction()
         setNavigationBar()
-        
-        // API 연결
+        getRecommend()
     }
     
     required init?(coder: NSCoder) {
@@ -65,7 +64,7 @@ class RecommendDrinkViewController: UIViewController {
         self.dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: recommendView.collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
 
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommendBannerCell.id, for: indexPath)
-            (cell as? RecommendBannerCell)?.config(title: self.dummy[indexPath.row].name, brand: self.dummy[indexPath.row].brand, imageURL: self.dummy[indexPath.row].coffeeImgUrl)
+            (cell as? RecommendBannerCell)?.config(title: self.recommendData[indexPath.row].name, brand: self.recommendData[indexPath.row].brand, imageURL: self.recommendData[indexPath.row].coffeeImgUrl)
             return cell
         })
     }
@@ -75,10 +74,24 @@ class RecommendDrinkViewController: UIViewController {
         let recommendSection = Section.recommmandBanner
         
         snapshot.appendSections([recommendSection])
-        
-        snapshot.appendItems(dummy.map{Item.recommendMenu($0)}, toSection: recommendSection)
+        snapshot.appendItems(recommendData.map{Item.recommendMenu($0)}, toSection: recommendSection)
         
         dataSource?.apply(snapshot)
+    }
+    
+    private func getRecommend(){
+        networkService.getRecommandCoffee(time: self.selectedHour){ [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let response):
+                self.recommendData = response.coffees
+                self.setDataSource()
+                self.setSnapShot()
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 

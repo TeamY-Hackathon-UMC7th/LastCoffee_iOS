@@ -52,7 +52,6 @@ class HomeView: UIView {
     private func setSubView() {
 
         [
-//            logoImageView,
             lblNickname,
             collectionView,
             btnRecommendDrink
@@ -62,10 +61,6 @@ class HomeView: UIView {
     // 오토레이아웃 설정
     private func setUI(){
 
-//        logoImageView.snp.makeConstraints { make in
-//            make.top.equalTo(safeAreaLayoutGuide).inset(25.5)
-//            make.centerX.equalToSuperview()
-//        }
         
         lblNickname.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(16)
