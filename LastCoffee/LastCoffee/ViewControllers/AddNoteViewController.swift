@@ -8,7 +8,10 @@
 import UIKit
 
 class AddNoteViewController: UIViewController {
-    public var receivedData: NoteSearchModel?
+    public var receivedData: NoteSearchModel!
+    
+    public var drinkingDate: Date!
+    public var sleepingDate: Date!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +27,19 @@ class AddNoteViewController: UIViewController {
     
     private lazy var addNoteView: AddNoteView = {
         let view = AddNoteView()
+        view.drinkingPicker.addTarget(self, action: #selector(drinkingDateValueChanged(_:)), for: .valueChanged)
+        view.sleepingPicker.addTarget(self, action: #selector(sleepingDateValueChanged(_:)), for: .valueChanged)
         return view
     }()
-
+    
+    @objc func drinkingDateValueChanged(_ sender: UIDatePicker) {
+        let date = sender.date
+        drinkingDate = date
+    }
+    
+    @objc func sleepingDateValueChanged(_ sender: UIDatePicker) {
+        let date = sender.date
+        sleepingDate = date
+    }
 }
 
