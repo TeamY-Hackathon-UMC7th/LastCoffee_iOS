@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import KeychainSwift
 
 class LoginViewController: UIViewController {
     private let loginView = LoginView()
+    public static let keychain = KeychainSwift()
+    let networkServcie = AuthService()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +56,11 @@ class LoginViewController: UIViewController {
     
     // push
     @objc private func loginButtonTapped() {
+        guard let nickname = loginView.nickNameField.textField.text else { return }
+        callLoginAPI(nickname: nickname)
+    }
+    
+    func goToNextView() {
         let tabVC = MainTabBarController()
         self.navigationController?.pushViewController(tabVC, animated: true)
     }
@@ -65,6 +73,23 @@ class LoginViewController: UIViewController {
         }
         view.updateValidationText(text: "", isHidden: true)
         return true
+    }
+    
+    func callLoginAPI(nickname: String) {
+        networkServcie.login(nickname: nickname) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let response):
+                Task{
+                    LoginViewController.keychain.set(response.token, forKey: "serverAccessToken")
+                    LoginViewController.keychain.set(response.nickname, forKey: "userNickname")
+                    self.goToNextView()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
 }

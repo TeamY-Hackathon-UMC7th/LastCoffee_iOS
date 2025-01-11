@@ -11,14 +11,9 @@ import Then
 class HomeView: UIView {
     private let nickname: String
     
-//    // 로고 이미지 뷰
-//    private let logoImageView = UIImageView().then { view in
-//        view.image = .lastCoffeeText
-//    }
-    
     // 닉네임 라벨
     private lazy var lblNickname = UILabel().then { lbl in
-        lbl.text = "\(nickname)님, 반갑습니다!"
+        lbl.text = "\(nickname)님, 오늘도 좋은 하루 보내세요 : )"
         lbl.font = .ptdSemiBoldFont(ofSize: 18)
         lbl.textAlignment = .left
     }
@@ -30,13 +25,23 @@ class HomeView: UIView {
         view.register(FlowSectionCell.self, forCellWithReuseIdentifier: FlowSectionCell.id)
         
         // 헤더 등록
-        view.register(HeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderCell.id)
+        view.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.id)
+        
+        view.backgroundColor = .clear
     }
     
     // '오늘의 취침 시간 버튼'
     public let btnRecommendDrink = CustomButton().then { btn in
-        btn.configure(title: "지금, 커피 하잔", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 14), radius: 10, backgroundColor: .mainColor ?? .systemBlue, isEnabled: true)
+        btn.configure(title: "지금, 커피 한 잔 추천", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 14), radius: 10, backgroundColor: .mainColor ?? .systemBlue, isEnabled: true)
     }
+    
+    public let lblEmptyMenu = UILabel().then { lbl in
+        lbl.text = "아직 추천 받은 메뉴가 없어요"
+        lbl.textColor = UIColor(hex: "111111")
+        lbl.textAlignment = .center
+        lbl.font = .ptdMediumFont(ofSize: 14)
+        lbl.isHidden = true
+   }
     
     init(nickname: String) {
         self.nickname = nickname
@@ -55,20 +60,16 @@ class HomeView: UIView {
     private func setSubView() {
 
         [
-//            logoImageView,
             lblNickname,
             collectionView,
-            btnRecommendDrink
+            btnRecommendDrink,
+            lblEmptyMenu
         ].forEach{self.addSubview($0)}
     }
     
     // 오토레이아웃 설정
     private func setUI(){
 
-//        logoImageView.snp.makeConstraints { make in
-//            make.top.equalTo(safeAreaLayoutGuide).inset(25.5)
-//            make.centerX.equalToSuperview()
-//        }
         
         lblNickname.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(16)
@@ -81,8 +82,13 @@ class HomeView: UIView {
             make.bottom.equalTo(btnRecommendDrink.snp.top)
         }
         
+        lblEmptyMenu.snp.makeConstraints { make in
+            make.bottom.equalTo(btnRecommendDrink.snp.top).offset(-81)
+            make.centerX.equalToSuperview()
+        }
+        
         btnRecommendDrink.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().offset(52)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(52)
             make.width.equalTo(192)
             make.height.equalTo(54)
             make.centerX.equalToSuperview()
@@ -109,12 +115,20 @@ class HomeView: UIView {
     private func createBannerSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .absolute(240))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(ScreenWidth - 32), heightDimension: .absolute(200))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(26))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+        
+        section.boundarySupplementaryItems = [header]
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 16)
+        
         
         return section
     }
@@ -123,12 +137,19 @@ class HomeView: UIView {
     private func createFlowSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(116), heightDimension: .absolute(140))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .absolute(140))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(26))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .topLeading)
+        
+        section.boundarySupplementaryItems = [header]
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 16)
         
         return section
     }
