@@ -83,7 +83,7 @@ class LoginViewController: UIViewController {
             case .success(let response):
                 Task{
                     LoginViewController.keychain.set(response.token, forKey: "serverAccessToken")
-                    LoginViewController.keychain.set(response.token, forKey: "userNickname")
+                    LoginViewController.keychain.set(response.nickname, forKey: "userNickname")
                     self.goToNextView()
                 }
             case .failure(let error):
