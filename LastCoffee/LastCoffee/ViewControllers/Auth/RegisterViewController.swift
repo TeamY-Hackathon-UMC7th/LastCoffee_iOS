@@ -9,6 +9,9 @@ import UIKit
 
 class RegisterViewController: UIViewController {
     private let registerView = AuthView()
+    let networkService = AuthService()
+    
+    var canUser : Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,16 +55,27 @@ class RegisterViewController: UIViewController {
     }
     
     @objc private func checkDuplicateButtonTapped() {
-        // api call
-        // TODO : 중복체크 API 연결
-        
-//        let isButtonEnabled = // api call success
-//        registerView.checkButton.setEnabled(isButtonEnabled)
-        registerView.nickNameField.updateValidationText(text: "사용 가능한 닉네임입니다.", isHidden: false, color: UIColor.rightGreen)
-        registerView.checkButton.setEnabled(true)
-        // 중복이면
-//        registerView.nickNameField.updateValidationText(text: "중복된 닉네임입니다.", isHidden: false, color: UIColor.rightGreen)
-        
+        guard let nickname = registerView.nickNameField.textField.text else { return }
+        callCheckAPI(nickname: nickname)
+        if canUser {
+            registerView.nickNameField.updateValidationText(text: "사용 가능한 닉네임입니다.", isHidden: false, color: UIColor.rightGreen)
+            registerView.checkButton.setEnabled(true)
+        } else {
+            registerView.nickNameField.updateValidationText(text: "중복된 닉네임입니다.", isHidden: false, color: UIColor.errorRed)
+        }
+    }
+    
+    func callCheckAPI(nickname: String) {
+        networkService.checkEmail(nickname: nickname) { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let response):
+                self.canUser = response.status
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     @objc private func joinButtonTapped() {

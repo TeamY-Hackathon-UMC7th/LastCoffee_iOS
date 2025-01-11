@@ -11,6 +11,7 @@ import KeychainSwift
 class LoginViewController: UIViewController {
     private let loginView = LoginView()
     public static let keychain = KeychainSwift()
+    let networkServcie = AuthService()
 
     override func viewDidLoad() {
         super.viewDidLoad()

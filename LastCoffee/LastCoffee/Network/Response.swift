@@ -14,5 +14,5 @@ public struct LoginResponseDto : Decodable {
 
 
 public struct JoinResponseDto: Decodable {
-    public let status: String
+    public let status: Bool
 }
