@@ -29,11 +29,17 @@ public class MainTabBarController: UITabBarController {
     
     public func configureTabs() {
         let homeViewController = HomeViewController()
-        let homeNavigationController = UINavigationController(rootViewController: homeViewController)
-        homeNavigationController.isNavigationBarHidden = true // 네비게이션 바 숨김
+//        let homeNavigationController = UINavigationController(rootViewController: homeViewController)
+//        homeNavigationController.isNavigationBarHidden = true // 네비게이션 바 숨김
+        
+        let noteMainViewController = NoteMainViewController()
+//        let noteMainNavigationController = UINavigationController(rootViewController: noteMainViewController)
+//        noteMainNavigationController.isNavigationBarHidden = true // 네비게이션 바 숨김
         
         let nav1 = UINavigationController(rootViewController: homeViewController)
-        let nav2 = UINavigationController(rootViewController: ViewController())
+        let nav2 = UINavigationController(rootViewController: noteMainViewController)
+        nav1.navigationBar.isHidden = true
+        nav2.navigationBar.isHidden = true
         
         let home = UIImage(named: "TabHome")?.resize(to: CGSize(width: 25, height: 25))
         let note = UIImage(named: "TabNote")?.resize(to: CGSize(width: 25, height: 25))
