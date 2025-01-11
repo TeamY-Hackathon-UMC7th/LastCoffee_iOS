@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // 화면을 구성하는 UIWindow 인스턴스 생성
         let window = UIWindow(windowScene: windowScene)
         // 실제 첫 화면이 되는 MainViewController 인스턴스 생성
-        let vc = OnboardingViewController()
+        let vc = SplashViewController()
         // NavigationController을 사용할 경우, MainViewController를 rootViewController로 갖는 NavigationController을 생성해야한다.
         let navigationController = UINavigationController(rootViewController: vc)
         navigationController.isNavigationBarHidden = true
