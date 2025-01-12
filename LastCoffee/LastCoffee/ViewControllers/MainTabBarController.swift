@@ -35,9 +35,9 @@ public class MainTabBarController: UITabBarController {
         
         let nav1 = UINavigationController(rootViewController: homeViewController)
         let nav2 = UINavigationController(rootViewController: noteMainViewController)
-//        nav1.navigationBar.isHidden = true
+
         let nav3 = UINavigationController(rootViewController: searchViewController)
-        nav1.navigationBar.isHidden = true
+//        nav1.navigationBar.isHidden = true
         nav2.navigationBar.isHidden = true
         nav3.navigationBar.isHidden = true
         

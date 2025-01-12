@@ -9,7 +9,6 @@ import UIKit
 
 class NoteMainViewController: UIViewController {
     let networkService = ReviewService()
-    // 임시 데이터
     private var data: [NoteModel] = []
     
     override func viewDidLoad() {
