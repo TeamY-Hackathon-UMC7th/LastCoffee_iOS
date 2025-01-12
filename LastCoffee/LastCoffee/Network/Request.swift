@@ -36,23 +36,23 @@ public func convertDateToISO8601(_ date: Date) -> String {
     return formatter.string(from: date)
 }
 
-public func convertISO8601ToCustomFormat(_ dateString: String) -> String? {
-    // 1. ISO 8601 Date Formatter
-    let isoFormatter = ISO8601DateFormatter()
-    isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-    isoFormatter.timeZone = TimeZone(secondsFromGMT: 0) // UTC 기준으로 파싱
-    
-    // 2. 입력된 문자열을 Date로 변환
-    guard let date = isoFormatter.date(from: dateString) else {
-        print("Invalid ISO8601 date string.")
-        return nil
-    }
-    
-    // 3. Custom Date Formatter
-    let customFormatter = DateFormatter()
-    customFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-    customFormatter.timeZone = TimeZone.current // 로컬 시간대 사용
-    
-    // 4. Date를 원하는 형식의 문자열로 변환
-    return customFormatter.string(from: date)
-}
+//public func convertISO8601ToCustomFormat(_ dateString: String) -> String? {
+//    // 1. ISO 8601 Date Formatter
+//    let isoFormatter = ISO8601DateFormatter()
+//    isoFormatter.formatOptions = [.withInternetDateTime] // Fractional Seconds 제거
+//    isoFormatter.timeZone = TimeZone(secondsFromGMT: 0) // UTC 기준으로 파싱
+//    
+//    // 2. 입력된 문자열을 Date로 변환
+//    guard let date = isoFormatter.date(from: dateString) else {
+//        print("Invalid ISO8601 date string.")
+//        return nil
+//    }
+//    
+//    // 3. Custom Date Formatter
+//    let customFormatter = DateFormatter()
+//    customFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+//    customFormatter.timeZone = TimeZone.current // 로컬 시간대 사용
+//    
+//    // 4. Date를 원하는 형식의 문자열로 변환
+//    return customFormatter.string(from: date)
+//}

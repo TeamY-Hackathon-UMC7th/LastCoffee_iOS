@@ -71,6 +71,8 @@ extension AllEndpoint: TargetType {
         switch self {
         case .postLogin, .postSignup, .postReview:
             return .post
+        case .deleteReview:
+            return .delete
         default :
             return .get
         }

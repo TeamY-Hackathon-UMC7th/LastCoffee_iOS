@@ -64,6 +64,7 @@ class LoginViewController: UIViewController {
     @objc private func loginButtonTapped() {
         guard let nickname = loginView.nickNameField.textField.text else { return }
         callLoginAPI(nickname: nickname)
+//        self.goToNextView()
     }
     
     func goToNextView() {

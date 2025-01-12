@@ -27,6 +27,7 @@ class NoteDetailView: UIView {
         $0.layer.shadowOffset = CGSize(width: 0, height: 2)
         $0.layer.shadowRadius = 4
         $0.layer.shadowOpacity = 0.08
+        $0.contentMode = .scaleAspectFit
     }
     
     public lazy var coffeeName = UILabel().then {
