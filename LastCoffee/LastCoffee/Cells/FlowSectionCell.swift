@@ -14,6 +14,7 @@ class FlowSectionCell: UICollectionViewCell {
     private let imageView = UIImageView().then { view in
         view.layer.cornerRadius = 6.1
         view.clipsToBounds = true
+        view.contentMode = .scaleAspectFit
     }
     
     private let lblTitle = UILabel().then { lbl in

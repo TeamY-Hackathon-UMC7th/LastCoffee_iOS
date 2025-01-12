@@ -27,6 +27,8 @@ class HomeViewController: UIViewController {
         self.addAction()
         self.setNavigation()
         self.getPopular()
+        
+        self.homeView.collectionView.delegate = self
 
     }
     
@@ -151,3 +153,25 @@ class HomeViewController: UIViewController {
 }
 
 
+
+extension HomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let section = dataSource?.sectionIdentifier(for: indexPath.section)
+        
+        switch section {
+        case .popularBanner:
+            let nextVC = DetailViewController()
+            nextVC.receivedData = popularData[indexPath.row]
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        case .flow:
+            let nextVC = DetailViewController()
+            let item = recommendData[indexPath.row]
+            let receivedData = CoffeeDetailResponse(id: item.id, name: item.name, brand: item.brand, sugar: item.sugar, caffeine: item.caffeine, calories: item.calories, protein: item.protein, coffeeImgUrl: item.coffeeImgUrl)
+            nextVC.receivedData = receivedData
+            self.navigationController?.pushViewController(nextVC, animated: true)
+        default:
+            return
+        }
+        
+    }
+}

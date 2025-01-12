@@ -14,6 +14,7 @@ class RecommendBannerCell: UICollectionViewCell {
     private let imageView = UIImageView().then { view in
         view.layer.cornerRadius = 10
         view.clipsToBounds = true
+        view.contentMode = .scaleAspectFit
     }
     
     private let lblTitle = UILabel().then { lbl in

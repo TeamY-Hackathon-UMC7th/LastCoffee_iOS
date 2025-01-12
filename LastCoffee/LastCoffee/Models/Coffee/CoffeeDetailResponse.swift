@@ -17,6 +17,17 @@ public struct CoffeeDetailResponse: Codable, Hashable {
     let calories: Int
     let protein: Int
     let coffeeImgUrl: String
+    
+    init(id: Int, name: String, brand: String, sugar: Int, caffeine: Int, calories: Int, protein: Int, coffeeImgUrl: String) {
+        self.id = id
+        self.name = name
+        self.brand = brand
+        self.sugar = sugar
+        self.caffeine = caffeine
+        self.calories = calories
+        self.protein = protein
+        self.coffeeImgUrl = coffeeImgUrl
+    }
 }
 
 

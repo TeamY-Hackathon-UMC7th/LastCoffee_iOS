@@ -12,6 +12,7 @@ class PopularBannerSectionCell: UICollectionViewCell {
     
     private let imageView = UIImageView().then { view in
         view.layer.cornerRadius = 10
+        view.contentMode = .scaleAspectFit
         view.clipsToBounds = true
     }
     
