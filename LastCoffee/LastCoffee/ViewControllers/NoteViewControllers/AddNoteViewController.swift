@@ -12,8 +12,8 @@ class AddNoteViewController: UIViewController {
     
     public var receivedData: CoffeeDetailResponse!
     
-    public var drinkingDate: Date!
-    public var sleepingDate: Date!
+    public var drinkingDate: Date = Date()
+    public var sleepingDate: Date = Date()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,8 +61,6 @@ class AddNoteViewController: UIViewController {
     }
     
     func callPostAPI() {
-        guard let drinkingDate = self.drinkingDate,
-              let sleepingDate = self.sleepingDate else { return }
         let review = networkService.makeReviewDto(coffeeKey: receivedData.id, comment: addNoteView.reviewTextView.text, drinkTime: drinkingDate, sleepTime: sleepingDate)
         
         networkService.postReview(reviewDto: review, completion: { [weak self] result in
