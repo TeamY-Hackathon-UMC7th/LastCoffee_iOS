@@ -25,6 +25,7 @@ class AddNoteViewController: UIViewController {
             addNoteView.selectedCoffee.text = data.name
             self.view.layoutIfNeeded()
         }
+        setNavigationBar()
     }
     
     private lazy var addNoteView: AddNoteView = {
@@ -47,6 +48,16 @@ class AddNoteViewController: UIViewController {
     
     @objc func clickBtn() {
         callPostAPI()
+    }
+    
+    private func setNavigationBar() {
+        let leftBarButton = UIBarButtonItem(image: .init(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popButton))
+        leftBarButton.tintColor = .black
+        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
+    }
+    
+    @objc private func popButton() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     func callPostAPI() {
