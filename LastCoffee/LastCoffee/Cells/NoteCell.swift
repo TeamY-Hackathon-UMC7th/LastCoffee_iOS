@@ -61,7 +61,7 @@ class NoteCell: UITableViewCell {
         $0.layer.cornerRadius = 3
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFit
-        $0.backgroundColor = .gray
+        $0.backgroundColor = .white
     }
     
     private lazy var title = UILabel().then {
