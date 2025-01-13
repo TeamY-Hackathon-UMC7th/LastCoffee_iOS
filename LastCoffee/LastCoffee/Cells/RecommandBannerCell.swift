@@ -19,6 +19,7 @@ class RecommendBannerCell: UICollectionViewCell {
     
     private let lblTitle = UILabel().then { lbl in
         lbl.font = .ptdMediumFont(ofSize: 14)
+        lbl.textAlignment = .center
         lbl.numberOfLines = 1
     }
     
@@ -51,7 +52,7 @@ class RecommendBannerCell: UICollectionViewCell {
         }
         
         lblTitle.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(10)
             make.top.equalTo(imageView.snp.bottom).offset(34)
         }
     }

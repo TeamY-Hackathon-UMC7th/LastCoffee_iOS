@@ -35,7 +35,7 @@ class NoteSearchCell: UITableViewCell {
     }
     
     private lazy var image = UIImageView().then {
-        $0.backgroundColor = UIColor(hex: "#D9D9D9")
+        $0.backgroundColor = .white
         $0.layer.cornerRadius = 6
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFit

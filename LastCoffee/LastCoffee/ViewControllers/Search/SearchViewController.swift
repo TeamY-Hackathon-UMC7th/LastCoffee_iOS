@@ -69,7 +69,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     
     // 셀 클릭 시 실행할 함수
     private func handleCellTap(_ item: CoffeeDetailResponse) {
-        let detailVC = DetailViewController()
+        let detailVC = SearchDetailViewController()
         detailVC.receivedData = item
         detailVC.navigationController?.navigationBar.isHidden = false
         navigationController?.pushViewController(detailVC, animated: true)

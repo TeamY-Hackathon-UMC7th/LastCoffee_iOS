@@ -54,4 +54,5 @@ class DetailViewController: UIViewController {
         let view = DetailView()
         return view
     }()
+
 }

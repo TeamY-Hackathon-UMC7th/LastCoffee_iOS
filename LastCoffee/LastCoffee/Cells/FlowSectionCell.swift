@@ -54,7 +54,7 @@ class FlowSectionCell: UICollectionViewCell {
         
         lblTitle.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(5)
-            make.horizontalEdges.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(5)
         }
     }
     
