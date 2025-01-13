@@ -168,3 +168,19 @@ fix/#32: 로그인 api 오류 수정
 ┣ 📂Extension              # Extension 파일 관리
 ┗ 📂Font                   # Font 파일 관리
 ```
+--- 
+## 🎥 주요 기능 시연 영상
+### 온보딩 / 로그인 / 홈
+
+![온보딩_로그인_홈](https://github.com/user-attachments/assets/eb368485-41b1-41b9-a02d-9df9be366899)
+
+### 커피 기록
+
+![커피 기록](https://github.com/user-attachments/assets/ce262cdf-878f-4dc8-bae3-45ca01bcc8b8)
+
+### 커피 추천
+![커피 추천](https://github.com/user-attachments/assets/a99a3d8a-6e48-4a3c-96d4-9031482ba451)
+
+### 커피 검색
+![커피검색](https://github.com/user-attachments/assets/c803497a-8167-4f02-94d6-d27bd0101ce3)
+]()
