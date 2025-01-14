@@ -1,17 +1,24 @@
-
 > UMC 7기 해커톤
 <div align=center>
 
 # LastCoffee_iOS
+**10시에 자고 싶은데🛌,,, 지금 커피 마셔도 될까?☕☕ <br/>당신이 원하는 시간에 잘 수 있도록 라스트커피가 마지막 커피 한 잔을 추천드려요!**
 
 ## 🍎 Developers
 <img width="160px" src="https://avatars.githubusercontent.com/u/80318425?v=4"/> | <img width="160px" src="https://avatars.githubusercontent.com/u/105594739?v=4"/> | <img width="160px" src="https://avatars.githubusercontent.com/u/65756020?v=4"/> | 
 |:-----:|:-----:|:-----:|
 |[김도연 (참치마요)](https://github.com/doyeonk429)|[이수현 (Soo)](https://github.com/LeeeeSuHyeon)|[주민영 (민요이)](https://github.com/minyoy)|
 |팀장 👑|팀원 👨🏻‍💻|팀원 👨🏻‍💻|
-|`온보딩`<br/>`로그인 / 회원가입 기능`<br/>`네트워크 관리`<br/>`캐시데이터 관리`<br/>`음료 비교 기능`<br/>|`홈 뷰`<br/>`음료 추천 기능`<br/>|`음료 검색 기능`<br/>`리뷰 조회 / 작성 / 삭제 기능`<br/>
+|`온보딩`<br/>`로그인 / 회원가입 기능`<br/>`네트워크 관리`<br/>`음료 비교 기능`<br/>|`홈 뷰`<br/>`음료 추천 기능`<br/>|`음료 검색 기능`<br/>`리뷰 조회 / 작성 / 삭제 기능`<br/>
 </div>
 <br/>
+
+## 🎥 주요 기능 시연 영상
+
+| 👋 온보딩 / 로그인 / 홈 | 📝 커피 기록 | 🥤 커피 추천 | ☕ 커피 검색 | 🆚 음료 비교 |
+| --- | --- | --- | --- | --- |
+| ![온보딩_로그인_홈](https://github.com/user-attachments/assets/eb368485-41b1-41b9-a02d-9df9be366899) | ![커피 기록](https://github.com/user-attachments/assets/826d6b97-3838-4b09-9a36-773c7a00605c) | ![커피 추천](https://github.com/user-attachments/assets/a99a3d8a-6e48-4a3c-96d4-9031482ba451) | ![커피 검색](https://github.com/user-attachments/assets/c803497a-8167-4f02-94d6-d27bd0101ce3) | ![음료 비교](https://github.com/user-attachments/assets/016d4a18-d10a-4a09-a254-35c816e97e74) |
+
 
 ## 🛠️ Development Environment 🛠️
 ![iOS](https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white)
@@ -60,7 +67,8 @@
     5. **Pull Request 생성**
     - `develop` 브랜치 대상으로 Pull Request 생성
     - 리뷰어의 리뷰를 받은 후 PR을 승인 받고 `develop` 브랜치에 병합 후 브랜치 삭제
----
+
+
 ## 🧑‍💻 Code Convention 🧑‍💻
 **저희는 Swift Style Guide을 따릅니다.**
 
@@ -168,19 +176,3 @@ fix/#32: 로그인 api 오류 수정
 ┣ 📂Extension              # Extension 파일 관리
 ┗ 📂Font                   # Font 파일 관리
 ```
---- 
-## 🎥 주요 기능 시연 영상
-### 온보딩 / 로그인 / 홈
-
-![온보딩_로그인_홈](https://github.com/user-attachments/assets/eb368485-41b1-41b9-a02d-9df9be366899)
-
-### 커피 기록
-
-![커피 기록](https://github.com/user-attachments/assets/ce262cdf-878f-4dc8-bae3-45ca01bcc8b8)
-
-### 커피 추천
-![커피 추천](https://github.com/user-attachments/assets/a99a3d8a-6e48-4a3c-96d4-9031482ba451)
-
-### 커피 검색
-![커피검색](https://github.com/user-attachments/assets/c803497a-8167-4f02-94d6-d27bd0101ce3)
-]()
