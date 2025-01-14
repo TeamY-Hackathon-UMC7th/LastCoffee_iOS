@@ -15,10 +15,28 @@
 
 ## 🎥 주요 기능 시연 영상
 
-| 👋 온보딩 / 로그인 / 홈 | 📝 커피 기록 | 🥤 커피 추천 | ☕ 커피 검색 | 🆚 음료 비교 |
-| --- | --- | --- | --- | --- |
-| ![온보딩_로그인_홈](https://github.com/user-attachments/assets/eb368485-41b1-41b9-a02d-9df9be366899) | ![커피 기록](https://github.com/user-attachments/assets/826d6b97-3838-4b09-9a36-773c7a00605c) | ![커피 추천](https://github.com/user-attachments/assets/a99a3d8a-6e48-4a3c-96d4-9031482ba451) | ![커피 검색](https://github.com/user-attachments/assets/c803497a-8167-4f02-94d6-d27bd0101ce3) | ![음료 비교](https://github.com/user-attachments/assets/016d4a18-d10a-4a09-a254-35c816e97e74) |
-
+<table>
+  <tr>
+    <td align="center">👋 온보딩 / 로그인 / 홈</td>
+    <td align="center">📝 커피 기록</td>
+    <td align="center">🥤 커피 추천</td>
+    <td align="center">🔍 커피 검색 및 비교</td>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/eb368485-41b1-41b9-a02d-9df9be366899" width="200">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/a9f3877d-e8cf-4542-b4de-1d366854c6e8" width="200">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/a99a3d8a-6e48-4a3c-96d4-9031482ba451" width="200">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/2ddc5ce2-0af8-4308-8737-02e7552c85db" width="200">
+    </td>
+  </tr>
+</table>
 
 ## 🛠️ Development Environment 🛠️
 ![iOS](https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white)
