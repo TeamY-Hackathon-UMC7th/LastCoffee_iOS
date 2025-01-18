@@ -1,4 +1,4 @@
-> UMC 7기 해커톤
+> UMC 7기 해커톤 대상작
 <div align=center>
 
 # LastCoffee_iOS
