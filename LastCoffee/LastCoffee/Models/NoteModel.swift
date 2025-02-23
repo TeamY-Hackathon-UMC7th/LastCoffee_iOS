@@ -16,4 +16,5 @@ struct NoteModel: Codable {
     let sleepDate: String
     let comment: String
     let coffeeImgUrl: String
+    let createdAt: String
 }

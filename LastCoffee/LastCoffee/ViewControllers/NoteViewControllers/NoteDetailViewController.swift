@@ -14,13 +14,15 @@ class NoteDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = noteDetailView
+        self.tabBarController?.tabBar.isHidden = true
         
         if let data = receivedData {
             noteDetailView.imageView.sd_setImage(with: URL(string: data.coffeeImgUrl))
             noteDetailView.coffeeName.text = "[\(data.brand)] \(data.coffeeName)"
-            noteDetailView.drinking.text = "마신 일시 | \(data.drinkDate)"
-            noteDetailView.sleeping.text = "취침 시간 | \(data.sleepDate)"
+            noteDetailView.drinking.text = "마신 일시  |  \(extractDateTime(from: data.drinkDate))"
+            noteDetailView.sleeping.text = "취침 시간  |  \(extractDateTime(from: data.sleepDate))"
             noteDetailView.reviewContents.text = data.comment
+            noteDetailView.createdAt.text = extractDateTime(from: data.createdAt)
         }
         
         setNavigationBar()
@@ -30,13 +32,15 @@ class NoteDetailViewController: UIViewController {
         super.viewWillAppear(false)
         self.view = noteDetailView
         self.navigationController?.isNavigationBarHidden = false
+        self.tabBarController?.tabBar.isHidden = true
         
         if let data = receivedData {
             noteDetailView.imageView.sd_setImage(with: URL(string: data.coffeeImgUrl))
             noteDetailView.coffeeName.text = "[\(data.brand)] \(data.coffeeName)"
-            noteDetailView.drinking.text = "마신 일시 | \(data.drinkDate)"
-            noteDetailView.sleeping.text = "취침 시간 | \(data.sleepDate)"
+            noteDetailView.drinking.text = "마신 일시  |  \(extractDateTime(from: data.drinkDate))"
+            noteDetailView.sleeping.text = "취침 시간  |  \(extractDateTime(from: data.sleepDate))"
             noteDetailView.reviewContents.text = data.comment
+            noteDetailView.createdAt.text = extractDateTime(from: data.createdAt)
         }
         
         setNavigationBar()
@@ -49,13 +53,27 @@ class NoteDetailViewController: UIViewController {
     }()
     
     private func setNavigationBar() {
-        let leftBarButton = UIBarButtonItem(image: .init(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popButton))
+        let leftBarButton = UIBarButtonItem(image: .init(named: "Back"), style: .plain, target: self, action: #selector(popButton))
         leftBarButton.tintColor = .black
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
     }
     
     @objc private func popButton() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func extractDateTime(from dateTimeString: String) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
+        if let date = inputFormatter.date(from: dateTimeString) {
+            let outputFormatter = DateFormatter()
+            outputFormatter.locale = Locale(identifier: "ko_KR")
+            outputFormatter.dateFormat = "yyyy년 MM월 dd일 a h시"
+            return outputFormatter.string(from: date)
+        } else {
+            return "날짜 형식 없음"
+        }
     }
 }
 

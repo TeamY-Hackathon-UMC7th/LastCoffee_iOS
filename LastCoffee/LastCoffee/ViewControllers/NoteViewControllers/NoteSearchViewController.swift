@@ -21,7 +21,7 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.title = "새 기록"
         self.view = noteSearchView
-        self.tabBarController?.isTabBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
         setNavigationBar()
     }
     
@@ -41,7 +41,7 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func setNavigationBar() {
-        let leftBarButton = UIBarButtonItem(image: .init(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popButton))
+        let leftBarButton = UIBarButtonItem(image: .init(named: "Back"), style: .plain, target: self, action: #selector(popButton))
         leftBarButton.tintColor = .black
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
     }
