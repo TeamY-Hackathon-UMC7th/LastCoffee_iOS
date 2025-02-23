@@ -6,11 +6,32 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 class SearchViewController: UIViewController, UITextFieldDelegate {
     let networkService = CoffeeService()
     
-    private var data: [CoffeeDetailResponse] = []
+    private var brandData: [String] = [
+        "전체",
+        "스타벅스",
+        "컴포즈",
+        "폴바셋",
+        "빽다방",
+        "할리스",
+        "메가커피",
+        "커피빈",
+        "이디야",
+        "바나프레소",
+        "매머드",
+    ]
+    
+    var selectedBrands: [String] = []
+    
+    private var data: [CoffeeDetailResponse] = [
+        CoffeeDetailResponse(id: 0, name: "콜드 브루", brand: "스타벅스", sugar: 0, caffeine: 0, calories: 0, protein: 3, coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000000038]_20210430113202458.jpg"),
+        CoffeeDetailResponse(id: 0, name: "블루베리라떼", brand: "컴포즈", sugar: 0, caffeine: 0, calories: 0, protein: 0, coffeeImgUrl: "https://composecoffee.com/files/thumbnails/891/064/1515x2083.crop.jpg?t=1733793666"),
+        CoffeeDetailResponse(id: 0, name: "유자티", brand: "컴포즈", sugar: 0, caffeine: 0, calories: 0, protein: 0, coffeeImgUrl: "https://composecoffee.com/files/thumbnails/682/038/1515x2083.crop.jpg?t=1733794981")
+    ]
     
     private var selectedIndexPath: IndexPath?
     private var selectedItem: CoffeeDetailResponse?
@@ -18,30 +39,42 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = false
+        self.tabBarController?.tabBar.isHidden = false
         self.view = searchView
+        setupDelegate()
+        
+        let defaultIndexPath = IndexPath(item: 0, section: 0)
+        searchView.brandCollectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: [])
+        selectedBrands.append(brandData[0])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.navigationController?.navigationBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     private lazy var searchView: SearchView = {
         let view = SearchView()
-        view.noteSearchTableView.delegate = self
-        view.noteSearchTableView.dataSource = self
-        view.searchBar.delegate = self
         return view
     }()
+    
+    private func setupDelegate() {
+        searchView.brandCollectionView.delegate = self
+        searchView.brandCollectionView.dataSource = self
+        searchView.noteSearchTableView.delegate = self
+        searchView.noteSearchTableView.dataSource = self
+        searchView.searchBar.delegate = self
+    }
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.searchView.noteSearchTableView.reloadData()
         callPostAPI(searchView.searchBar.text ?? "")
-        searchView.initLabel.isHidden = true
         return true
     }
     
@@ -58,7 +91,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
                 
                 searchView.noteSearchTableView.reloadData()
             case .failure(let error):
-                print(error)
+                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
                 
                 searchView.noteSearchTableView.isHidden = true
                 searchView.emptyLabel.isHidden = false
@@ -72,6 +105,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
         let detailVC = SearchDetailViewController()
         detailVC.receivedData = item
         detailVC.navigationController?.navigationBar.isHidden = false
+        detailVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }
@@ -101,5 +135,76 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         let selectedItem = data[indexPath.row]
         print("선택된 항목: \(selectedItem)")
         handleCellTap(selectedItem)
+    }
+}
+
+extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return brandData.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChipButtonCell.identifier, for: indexPath) as! ChipButtonCell
+        cell.configure(brand: brandData[indexPath.row], tag: indexPath.row)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        if let selectedIndexPaths = collectionView.indexPathsForSelectedItems,
+           selectedIndexPaths.contains(indexPath) {
+            collectionView.deselectItem(at: indexPath, animated: true)
+            return false
+        }
+        return true
+    }
+    
+    // 셀 선택 시 동작
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // 만약 "전체" 버튼을 탭한 경우, 다른 모든 셀 deselect
+        if indexPath.item == 0 {
+            if let selectedItems = collectionView.indexPathsForSelectedItems {
+                for ip in selectedItems where ip.item != 0 {
+                    collectionView.deselectItem(at: ip, animated: false)
+                    if let idx = selectedBrands.firstIndex(of: brandData[ip.item]) {
+                        selectedBrands.remove(at: idx)
+                    }
+                }
+            }
+            // "전체"가 선택되어 있지 않다면 추가
+            if !selectedBrands.contains(brandData[0]) {
+                selectedBrands.append(brandData[0])
+            }
+        } else { // "전체"가 아닌 다른 버튼을 탭한 경우
+            // 만약 "전체" 버튼이 선택되어 있다면, deselect 처리
+            let allIndexPath = IndexPath(item: 0, section: 0)
+            if let selectedItems = collectionView.indexPathsForSelectedItems, selectedItems.contains(allIndexPath) {
+                collectionView.deselectItem(at: allIndexPath, animated: false)
+                if let idx = selectedBrands.firstIndex(of: brandData[0]) {
+                    selectedBrands.remove(at: idx)
+                }
+            }
+            // 선택된 브랜드 추가 (중복 체크)
+            let brand = brandData[indexPath.item]
+            if !selectedBrands.contains(brand) {
+                selectedBrands.append(brand)
+            }
+        }
+        print("현재 선택된 브랜드: \(selectedBrands)")
+    }
+    
+    // 셀 선택 해제 시 동작
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        let brand = brandData[indexPath.item]
+        if let idx = selectedBrands.firstIndex(of: brand) {
+            selectedBrands.remove(at: idx)
+        }
+        // 만약 선택된 항목이 없다면 자동으로 "전체" 버튼을 선택
+        if selectedBrands.isEmpty {
+            let allIndexPath = IndexPath(item: 0, section: 0)
+            collectionView.selectItem(at: allIndexPath, animated: false, scrollPosition: .left)
+            selectedBrands.append(brandData[0])
+        }
+        print("현재 선택된 브랜드: \(selectedBrands)")
     }
 }
