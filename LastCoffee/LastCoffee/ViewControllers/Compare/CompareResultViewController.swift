@@ -16,7 +16,7 @@ class CompareResultViewController: UIViewController, UITableViewDataSource, UITa
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.title = "비교 결과"
-        self.tabBarController?.isTabBarHidden = false
+        self.tabBarController?.tabBar.isHidden = true
         viewSetting()
         setNavigationBar()
         setDrinkStack()
@@ -55,6 +55,7 @@ class CompareResultViewController: UIViewController, UITableViewDataSource, UITa
         $0.bounces = false
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
+        $0.backgroundColor = UIColor.background
     }
     
     func setDrinkStack() {
@@ -70,7 +71,7 @@ class CompareResultViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     private func setNavigationBar() {
-        let leftBarButton = UIBarButtonItem(image: .init(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popButton))
+        let leftBarButton = UIBarButtonItem(image: .init(named: "Back"), style: .plain, target: self, action: #selector(popButton))
         leftBarButton.tintColor = .black
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
     }
@@ -92,15 +93,15 @@ class CompareResultViewController: UIViewController, UITableViewDataSource, UITa
         }
         
         middleLine.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(1)
-            make.top.equalTo(coffeeResultView.snp.bottom).offset(20)
+            make.top.equalTo(coffeeResultView.snp.bottom).offset(45)
         }
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(middleLine.snp.bottom)
             make.leading.equalToSuperview()
-            make.trailing.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview().inset(16)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }

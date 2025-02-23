@@ -22,8 +22,14 @@ class CoffeeCompareSearchViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.title = ""
         self.view = coffeeSearchView
-        self.tabBarController?.isTabBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
         setNavigationBar()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = false
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     private lazy var coffeeSearchView: CompareSearchView = {
@@ -48,7 +54,7 @@ class CoffeeCompareSearchViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func setNavigationBar() {
-        let leftBarButton = UIBarButtonItem(image: .init(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popButton))
+        let leftBarButton = UIBarButtonItem(image: .init(named: "Back"), style: .plain, target: self, action: #selector(popButton))
         leftBarButton.tintColor = .black
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
     }
