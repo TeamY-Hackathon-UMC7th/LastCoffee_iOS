@@ -37,6 +37,7 @@ class SearchView: UIView {
         $0.separatorStyle = .singleLine
         $0.backgroundColor = .clear
         $0.allowsMultipleSelection = false
+        $0.separatorInset = .zero
     }
     
     public lazy var emptyLabel = UILabel().then {
