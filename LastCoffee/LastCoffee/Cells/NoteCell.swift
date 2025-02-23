@@ -57,10 +57,9 @@ class NoteCell: UITableViewCell {
     }
     
     private lazy var image = UIImageView().then {
-        $0.image = UIImage()
-        $0.layer.cornerRadius = 3
+        $0.layer.cornerRadius = 4
         $0.clipsToBounds = true
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
         $0.backgroundColor = .white
     }
     
@@ -119,9 +118,9 @@ class NoteCell: UITableViewCell {
         }
         
         image.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(15)
             $0.leading.equalToSuperview().offset(20)
-            $0.bottom.equalToSuperview().offset(-15)
+            $0.centerY.equalToSuperview()
+            $0.width.height.equalTo(52)
         }
         
         lastLabel.snp.makeConstraints {
@@ -157,16 +156,26 @@ class NoteCell: UITableViewCell {
     }
     
     func extractDate(from dateTimeString: String) -> String {
-        if let range = dateTimeString.range(of: "\\d{4}-\\d{2}-\\d{2}", options: .regularExpression) {
-            return String(dateTimeString[range])
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
+        if let date = inputFormatter.date(from: dateTimeString) {
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = "yyyy.MM.dd"
+            return outputFormatter.string(from: date)
         } else {
             return "날짜 형식 없음"
         }
     }
     
     func extractTime(from dateTimeString: String) -> String {
-        if let range = dateTimeString.range(of: "\\d{2}:\\d{2}", options: .regularExpression) {
-            return String(dateTimeString[range])
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
+        if let date = inputFormatter.date(from: dateTimeString) {
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = "HH시"
+            return outputFormatter.string(from: date)
         } else {
             return "시간 형식 없음"
         }

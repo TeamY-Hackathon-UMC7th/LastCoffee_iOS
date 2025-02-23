@@ -31,13 +31,6 @@ class NoteMainView: UIView {
         $0.tintColor = .mainColor
     }
     
-    private lazy var topStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.distribution = .fill
-        $0.alignment = .center
-        $0.spacing = 264
-    }
-    
     public lazy var noteTableView = UITableView().then {
         $0.register(NoteCell.self, forCellReuseIdentifier: NoteCell.identifier)
         $0.separatorStyle = .none
@@ -45,27 +38,27 @@ class NoteMainView: UIView {
     }
     
     private func setupView() {
-        topStackView.addArrangedSubview(title)
-        topStackView.addArrangedSubview(addBtn)
-        
         [
-            topStackView,
+            title,
+            addBtn,
             noteTableView
         ].forEach {
             addSubview($0)
         }
         
+        title.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide).offset(30)
+            $0.leading.equalToSuperview().offset(20)
+        }
+        
         addBtn.snp.makeConstraints {
+            $0.centerY.equalTo(title.snp.centerY)
+            $0.trailing.equalToSuperview().offset(-20)
             $0.width.height.equalTo(28)
         }
         
-        topStackView.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).offset(29)
-            $0.centerX.equalToSuperview()
-        }
-        
         noteTableView.snp.makeConstraints {
-            $0.top.equalTo(topStackView.snp.bottom).offset(52)
+            $0.top.equalTo(title.snp.bottom).offset(55)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
             $0.bottom.equalToSuperview()

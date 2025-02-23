@@ -64,8 +64,8 @@ class NoteSearchCell: UITableViewCell {
         
         title.snp.makeConstraints {
             $0.centerY.equalTo(image.snp.centerY)
-            $0.leading.equalTo(image.snp.trailing).offset(12)
-            $0.trailing.equalToSuperview().offset(-12)
+            $0.leading.equalTo(image.snp.trailing).offset(11)
+            $0.trailing.equalToSuperview().offset(-11)
         }
     }
     
