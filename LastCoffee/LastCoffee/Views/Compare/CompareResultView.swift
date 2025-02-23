@@ -69,7 +69,7 @@ class CompareResultView: UIView {
         }
         
         firstDrink.snp.makeConstraints { make in
-            make.top.equalTo(titleLbl.snp.bottom).offset(20)
+            make.top.equalTo(titleLbl.snp.bottom).offset(37)
             make.leading.equalToSuperview().offset(37)
             make.width.equalTo(110)
             make.bottom.equalToSuperview()
@@ -77,7 +77,7 @@ class CompareResultView: UIView {
         
         resultImage.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(firstDrink.snp.top).offset(90)
+            make.bottom.equalTo(firstDrink.snp.centerY)
         }
         
         secondDrink.snp.makeConstraints { make in
