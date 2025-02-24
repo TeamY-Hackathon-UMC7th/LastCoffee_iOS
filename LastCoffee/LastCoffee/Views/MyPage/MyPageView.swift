@@ -31,10 +31,10 @@ class MyPageView: UIView {
     }
     
     // 커피 기록 뷰
-    private let coffeRecordView = RecordInfoView(type: .coffeeRecord)
+    public let coffeRecordView = RecordInfoView(type: .coffeeRecord)
     
     // 추천 내역
-    private let recommendRecordView = RecordInfoView(type: .recommendRecord)
+    public let recommendRecordView = RecordInfoView(type: .recommendRecord)
     
     // 프로필 그룹
     private let profileGroupView = UIView()
