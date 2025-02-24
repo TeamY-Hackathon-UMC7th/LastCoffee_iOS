@@ -9,5 +9,11 @@ import UIKit
 
 
 class MyPageViewController: UIViewController {
+    private let myPageView = MyPageView()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view = myPageView
+    }
 }
