@@ -32,7 +32,7 @@ extension UIColor {
 
 extension UIColor {
     
-    static let mainColor = UIColor(hex: "994E24") // main color
+    static let mainColor = UIColor(hex: "592401") // main color 이전: 994E24, 변경: 592401
     static let subColor = UIColor(hex: "EE633A") // sub color
     static let background = UIColor(hex: "FFF9F4") // 배경색
     static let errorRed = UIColor(hex: "FF2929") // 액션 컬러
