@@ -32,11 +32,12 @@ public class MainTabBarController: UITabBarController {
         let homeViewController = HomeViewController()
         let noteMainViewController = NoteMainViewController()
         let searchViewController = SearchViewController()
+        let myPageViewController = MyPageViewController()
         
         let nav1 = UINavigationController(rootViewController: homeViewController)
         let nav2 = UINavigationController(rootViewController: noteMainViewController)
-
         let nav3 = UINavigationController(rootViewController: searchViewController)
+        let nav4 = UINavigationController(rootViewController: myPageViewController)
 //        nav1.navigationBar.isHidden = true
         nav2.navigationBar.isHidden = true
         nav3.navigationBar.isHidden = true
@@ -44,10 +45,12 @@ public class MainTabBarController: UITabBarController {
         let home = UIImage(named: "TabHome")?.resize(to: CGSize(width: 25, height: 25))
         let note = UIImage(named: "TabNote")?.resize(to: CGSize(width: 25, height: 25))
         let search = UIImage(named: "search")?.resize(to: CGSize(width: 25, height: 25))
+        let myPage = UIImage(named: "TabMyPage")?.resize(to: CGSize(width: 25, height: 25))
 
         nav1.tabBarItem = UITabBarItem(title: "", image: home, tag: 0)
         nav2.tabBarItem = UITabBarItem(title: "", image: note, tag: 1)
         nav3.tabBarItem = UITabBarItem(title: "", image: search, tag: 2)
+        nav4.tabBarItem = UITabBarItem(title: "", image: myPage, tag: 3)
         
         UITabBar.clearShadow()
         tabBar.layer.applyShadow(color: .gray, alpha: 0.3, x: 0, y: 0, blur: 15)
@@ -58,7 +61,7 @@ public class MainTabBarController: UITabBarController {
         tabBar.tintColor = UIColor.mainColor
         tabBar.unselectedItemTintColor = UIColor.coffeeGray
         
-        setViewControllers([nav1, nav2, nav3], animated: true)
+        setViewControllers([nav1, nav2, nav3, nav4], animated: true)
     }
 }
 
