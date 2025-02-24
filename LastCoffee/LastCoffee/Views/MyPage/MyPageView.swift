@@ -13,6 +13,7 @@ class MyPageView: UIView {
     private let scrollView = UIScrollView().then { view in
         view.showsHorizontalScrollIndicator = false
         view.showsVerticalScrollIndicator = false
+        view.isScrollEnabled = true
     }
     private let contentView = UIView()
     
@@ -159,8 +160,9 @@ class MyPageView: UIView {
         }
         
         contentView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalToSuperview()
+            make.top.horizontalEdges.equalToSuperview()
+            make.width.equalTo(scrollView)
+            make.bottom.equalTo(helpGroupView)
         }
         
         
@@ -236,7 +238,8 @@ class MyPageView: UIView {
         // 도움말
         helpGroupView.snp.makeConstraints { make in
             make.top.equalTo(serviceGroupView.snp.bottom).offset(26)
-            make.bottom.horizontalEdges.equalToSuperview().inset(16)
+            make.horizontalEdges.equalToSuperview().inset(16)
+            make.bottom.equalTo(safeAreaLayoutGuide)
         }
         
         helpLabel.snp.makeConstraints { make in
@@ -250,7 +253,7 @@ class MyPageView: UIView {
         
         serviceInfoView.snp.makeConstraints { make in
             make.top.equalTo(personalInfoView.snp.bottom).offset(22)
-            make.horizontalEdges.equalToSuperview()
+            make.horizontalEdges.bottom.equalToSuperview()
         }
     }
 }

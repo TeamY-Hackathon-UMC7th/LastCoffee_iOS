@@ -18,6 +18,18 @@ class MyPageViewController: UIViewController {
         setAction()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.navigationController?.navigationBar.isHidden = false
+    }
+    
     private func setAction() {
         // 추천 내역 탭 제스처
         let recommendRecordViewTapGesutre = UITapGestureRecognizer(target: self, action: #selector(recommendRecordViewTapGesture))
@@ -26,6 +38,10 @@ class MyPageViewController: UIViewController {
         // 커피 기록 탭 제스처
         let coffeeRecordViewTapGesture = UITapGestureRecognizer(target: self, action: #selector(coffeeRecordViewTapGesture))
         myPageView.coffeRecordView.addGestureRecognizer(coffeeRecordViewTapGesture)
+        
+        
+        // 계정 정보 버튼 액션
+        myPageView.accountInfoView.button.addTarget(self, action: #selector(touchUpInsideAccountInfo), for: .touchUpInside)
     }
     
     // 커피 기록 탭 제스처
@@ -36,6 +52,12 @@ class MyPageViewController: UIViewController {
     // 추천 내역 탭 제스처
     @objc private func recommendRecordViewTapGesture() {
         let nextVC = RecommendRecordViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    // 계정 정보 버튼 액션
+    @objc private func touchUpInsideAccountInfo() {
+        let nextVC = AccountInfoViewController()
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
