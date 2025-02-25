@@ -84,8 +84,7 @@ class MyPageView: UIView {
     }
     
     // 스위치
-    public let darkModeSwitch = UISwitch().then { sw in
-    }
+    public let darkModeSwitch = SwitchView()
     
     // 분리선
     private let seperatorLineService = UIView().then { view in

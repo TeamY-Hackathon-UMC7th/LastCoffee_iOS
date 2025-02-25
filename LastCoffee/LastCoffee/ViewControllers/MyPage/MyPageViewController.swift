@@ -42,6 +42,9 @@ class MyPageViewController: UIViewController {
         
         // 계정 정보 버튼 액션
         myPageView.accountInfoView.button.addTarget(self, action: #selector(touchUpInsideAccountInfo), for: .touchUpInside)
+        
+        // 알림 설정 버튼 액션
+        myPageView.alertSettingView.button.addTarget(self, action: #selector(touchUpInsideAlertSettingButton), for: .touchUpInside)
     }
     
     // 커피 기록 탭 제스처
@@ -58,6 +61,12 @@ class MyPageViewController: UIViewController {
     // 계정 정보 버튼 액션
     @objc private func touchUpInsideAccountInfo() {
         let nextVC = AccountInfoViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    // 알림 설정 버튼 액션
+    @objc private func touchUpInsideAlertSettingButton() {
+        let nextVC = AlertSettingViewController()
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
