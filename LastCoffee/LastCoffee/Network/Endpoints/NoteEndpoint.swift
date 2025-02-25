@@ -2,7 +2,7 @@
 //  Endpoint.swift
 //  LastCoffee
 //
-//  Created by 김도연 on 1/12/25.
+//  Created by 김도연 on 2/26/25.
 //
 
 import UIKit
@@ -58,7 +58,6 @@ extension NoteEndpoint: TargetType {
         var headers: [String: String] = [
             "Content-type": "application/json"
         ]
-
         return headers
     }
 }
