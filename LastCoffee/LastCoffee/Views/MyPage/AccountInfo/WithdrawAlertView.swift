@@ -1,5 +1,5 @@
 //
-//  LogoutAlertView.swift
+//  WithdrawAlertView.swift
 //  LastCoffee
 //
 //  Created by 이수현 on 2/25/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LogoutAlertView: UIView {
+class WithdrawAlertView: UIView {
     // 가운데 얼럿 뷰
     private let groupView = UIView().then { view in
         view.backgroundColor = UIColor(hex: "FFFEFB")
@@ -16,9 +16,18 @@ class LogoutAlertView: UIView {
     
     // 타이틀
     private let titleLabel = UILabel().then { lbl in
-        lbl.text = "로그아웃 하시겠습니까?"
+        lbl.text = "정말 탈퇴하시겠습니까?"
         lbl.font = .ptdSemiBoldFont(ofSize: 16)
         lbl.textColor = .black
+        lbl.textAlignment = .center
+    }
+    
+    // descriptionLabel
+    private let descriptionLabel = UILabel().then { lbl in
+        lbl.text = "탈퇴 버튼 선택 시, 계정은\n삭제되며 복구되지 않습니다."
+        lbl.numberOfLines = 2
+        lbl.font = .ptdMediumFont(ofSize: 12)
+        lbl.textColor = UIColor(hex: "2C2C2C")
         lbl.textAlignment = .center
     }
     
@@ -32,8 +41,8 @@ class LogoutAlertView: UIView {
     // 취소 버튼
     public let cancelButton = AccountInfoAlertButton(type: .cancel)
     
-    // 확인 버튼
-    public let confirmButton = AccountInfoAlertButton(type: .confirm)
+    // 탈퇴 버튼
+    public let withdrawButton = AccountInfoAlertButton(type: .withdraw)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,12 +60,13 @@ class LogoutAlertView: UIView {
         
         [
             titleLabel,
+            descriptionLabel,
             stackView
         ].forEach{groupView.addSubview($0)}
         
         [
             cancelButton,
-            confirmButton
+            withdrawButton
         ].forEach{stackView.addArrangedSubview($0)}
     }
     
@@ -68,8 +78,13 @@ class LogoutAlertView: UIView {
         }
         
         titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(DynamicPadding.dynamicValue(26))
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(DynamicPadding.dynamicValue(46))
+        }
+        
+        descriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(DynamicPadding.dynamicValue(8))
+            make.centerX.equalToSuperview()
         }
         
         stackView.snp.makeConstraints { make in

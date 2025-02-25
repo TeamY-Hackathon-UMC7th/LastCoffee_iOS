@@ -19,6 +19,7 @@ class AccountInfoViewController: UIViewController {
     
     private func setAction() {
         accountInfoView.logoutButton.addTarget(self, action: #selector(touchUpInsideLogoutButton), for: .touchUpInside)
+        accountInfoView.withdrawButton.addTarget(self, action: #selector(touchUpInsideWitdhdarwButton), for: .touchUpInside)
     }
     
     private func setNavigationBar() {
@@ -42,6 +43,14 @@ class AccountInfoViewController: UIViewController {
         self.present(alertVC, animated: true)
     }
     
+    // 탈퇴 버튼
+    @objc private func touchUpInsideWitdhdarwButton() {
+        setBackgroundView(isHidden: false)
+        let alertVC = WithdrawAlertViewController()
+        alertVC.modalPresentationStyle = .overFullScreen
+        alertVC.delegate = self  // Delegate 설정
+        self.present(alertVC, animated: true)
+    }
     
     // 얼럿 띄웠을 떄 백그라운드 투명도 처리
     public func setBackgroundView(isHidden: Bool) {
