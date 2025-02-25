@@ -48,7 +48,7 @@ public class DefaultTextField: UIView, UITextFieldDelegate {
         textField.font = UIFont.systemFont(ofSize: 14)
         textField.backgroundColor = UIColor.white
         textField.delegate = self
-        textField.layer.borderColor = UIColor.mainColor?.cgColor
+        textField.layer.borderColor = UIColor.mainColor.cgColor
         textField.layer.borderWidth = 0.7
         textField.layer.cornerRadius = 10
         

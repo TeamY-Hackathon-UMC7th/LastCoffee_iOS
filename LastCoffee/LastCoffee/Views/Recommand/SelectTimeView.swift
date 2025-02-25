@@ -19,7 +19,7 @@ class SelectTimeView: UIView {
     // 시간 선택 그룹
     private let grpSelectTime = UIView().then { view in
         view.layer.cornerRadius = 10
-        view.layer.borderColor = UIColor.mainColor?.cgColor
+        view.layer.borderColor = UIColor.mainColor.cgColor
         view.layer.borderWidth = 0.7
     }
     

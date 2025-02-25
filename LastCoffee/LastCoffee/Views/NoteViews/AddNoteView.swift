@@ -47,7 +47,7 @@ class AddNoteView: UIView, UITextViewDelegate {
         $0.isScrollEnabled = true
         $0.textContainerInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
         
-        $0.layer.borderColor = UIColor.mainColor?.cgColor
+        $0.layer.borderColor = UIColor.mainColor.cgColor
         $0.layer.borderWidth = 0.7
         $0.layer.cornerRadius = 10
         
@@ -78,7 +78,7 @@ class AddNoteView: UIView, UITextViewDelegate {
             self.saveBtn.setEnabled(false)
         } else {
             warningLabel.isHidden = true
-            textView.layer.borderColor = UIColor.mainColor?.cgColor
+            textView.layer.borderColor = UIColor.mainColor.cgColor
             self.saveBtn.setEnabled(true)
         }
     }
@@ -91,7 +91,7 @@ class AddNoteView: UIView, UITextViewDelegate {
     }
 
     public lazy var saveBtn = CustomButton(
-        backgroundColor: .mainColor!,
+        backgroundColor: .mainColor,
         title: "저장하기",
         titleColor: .white,
         font: UIFont.ptdSemiBoldFont(ofSize: 18),

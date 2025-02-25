@@ -63,7 +63,7 @@ public class SearchBar: UITextField {
         if didBecomeFirstResponder {
             self.backgroundColor = UIColor(hex: "#FFFBF8")
             self.layer.borderWidth = 0.7
-            self.layer.borderColor = UIColor.mainColor?.cgColor
+            self.layer.borderColor = UIColor.mainColor.cgColor
             self.imageView.tintColor = .mainColor
         }
         return didBecomeFirstResponder
