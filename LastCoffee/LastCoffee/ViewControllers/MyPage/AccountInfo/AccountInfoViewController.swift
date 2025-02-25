@@ -30,8 +30,14 @@ class AccountInfoViewController: UIViewController {
     }
     
     private func setAction() {
+        // 로그아웃 버튼 액션
         accountInfoView.logoutButton.addTarget(self, action: #selector(touchUpInsideLogoutButton), for: .touchUpInside)
+        
+        // 회원탈퇴 버튼 액션
         accountInfoView.withdrawButton.addTarget(self, action: #selector(touchUpInsideWitdhdarwButton), for: .touchUpInside)
+        
+        // 비밀번호 변경 버튼 액션
+        accountInfoView.changePasswordButton.addTarget(self, action: #selector(touchUpInsideChangePasswordButton), for: .touchUpInside)
     }
     
     private func setNavigationBar() {
@@ -44,6 +50,12 @@ class AccountInfoViewController: UIViewController {
     // 내비게이션 바 뒤로 가기 버튼
     @objc private func popButton() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    // 비밀 번호 변경 버튼 액션
+    @objc private func touchUpInsideChangePasswordButton(){
+        let nextVC = ChangePasswordViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
     // 로그아웃 버튼

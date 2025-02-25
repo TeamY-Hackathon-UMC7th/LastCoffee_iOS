@@ -32,8 +32,8 @@ class ChangeNicknameView: UIView {
         lbl.isHidden = true
     }
     
-    // 다음 버튼
-    public lazy var confirmButton = CustomButton().then { btn in
+    // 확인 버튼
+    public let confirmButton = CustomButton().then { btn in
         btn.configure(title: "확인", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 18), radius: 6, backgroundColor: UIColor(hex: "#D4D4D4") ?? .mainColor, isEnabled: false)
     }
     

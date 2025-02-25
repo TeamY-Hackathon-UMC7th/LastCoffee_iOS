@@ -73,7 +73,7 @@ class MyPageViewController: UIViewController {
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
-    // 닉네임 변경 탭
+    // 닉네임 변경 버튼 액션
     @objc private func touchUpInsideChangeNicknameButton(){
         let nextVC = ChangeNicknameViewController()
         self.navigationController?.pushViewController(nextVC, animated: true)
