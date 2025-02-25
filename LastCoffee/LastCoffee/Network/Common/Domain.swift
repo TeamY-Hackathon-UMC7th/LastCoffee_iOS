@@ -1,4 +1,9 @@
-// Copyright © 2024 DRINKIG. All rights reserved
+//
+//  API.swift
+//  LastCoffee
+//
+//  Created by 김도연 on 1/12/25.
+//
 
 import UIKit
 

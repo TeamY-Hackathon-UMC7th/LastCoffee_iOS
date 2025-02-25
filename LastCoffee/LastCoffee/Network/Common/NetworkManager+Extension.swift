@@ -1,164 +1,142 @@
-// Copyright © 2024 DRINKIG. All rights reserved
+//
+//  NetworkManager.swift
+//  LastCoffee
+//
+//  Created by 김도연 on 1/12/25.
+//
 
 import Moya
 import Foundation
 
 extension NetworkManager {
-    // ✅ 1. 필수 데이터 요청
-    func request<T: Decodable>(
+    //MARK: - Concurrency로 모두 리팩토링
+    // ✅ 1. 비동기 데이터 요청
+    func requestAsync<T: Decodable>(
         target: Endpoint,
-        decodingType: T.Type,
-        completion: @escaping (Result<T, NetworkError>) -> Void
-    ) {
-        provider.request(target) { result in
-            switch result {
-            case .success(let response):
-                print(response.statusCode)
-                let result: Result<T, NetworkError> = self.handleResponse(response, decodingType: decodingType)
-                completion(result)
-            case .failure(let error):
-                let networkError = self.handleNetworkError(error)
-                completion(.failure(networkError))
-            }
-        }
+        decodingType: T.Type = String.self
+    ) async throws -> T {
+        let response = try await provider.request(target)
+        return try await handleResponseRequired(response, decodingType: decodingType, target: target)
     }
-    
-    // ✅ 2. 옵셔널 데이터 요청
-    func requestOptional<T: Decodable>(
+
+    // ✅ 2. 옵셔널 응답 (데이터가 없을 수도 있음)
+    func requestOptionalAsync<T: Decodable>(
         target: Endpoint,
-        decodingType: T.Type,
-        completion: @escaping (Result<T?, NetworkError>) -> Void
-    ) {
-        provider.request(target) { result in
-            switch result {
-            case .success(let response):
-                let result: Result<T?, NetworkError> = self.handleResponseOptional(response, decodingType: decodingType)
-                completion(result)
-            case .failure(let error):
-                let networkError = self.handleNetworkError(error)
-                completion(.failure(networkError))
-            }
-        }
+        decodingType: T.Type = String.self
+    ) async throws -> T? {
+        let response = try await provider.request(target)
+        
+        // 서버 응답이 비어있는 경우 nil 반환
+        if response.data.isEmpty { return nil }
+        
+        return try await handleResponseOptional(response, decodingType: decodingType, target: target)
     }
-    
-    // ✅ 3. 상태 코드만 확인
-    func requestStatusCode(
-        target: Endpoint,
-        completion: @escaping (Result<Void, NetworkError>) -> Void
-    ) {
-        provider.request(target) { result in
-            switch result {
-            case .success(let response):
-                let result: Result<ApiResponse<String?>?, NetworkError> = self.handleResponseOptional(
-                    response,
-                    decodingType: ApiResponse<String?>.self
-                )
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            case .failure(let error):
-                let networkError = self.handleNetworkError(error)
-                completion(.failure(networkError))
-            }
-        }
-    }
-    
+
     // MARK: - 상태 코드 처리 처리 함수
-    private func handleResponse<T: Decodable>(
+    // ✅ 공통 응답 처리 함수
+    func handleResponseRequired<T: Decodable>(
         _ response: Response,
-        decodingType: T.Type
-    ) -> Result<T, NetworkError> { // ✅ 옵셔널 미지원
-        do {
-            // 1. 상태 코드 확인
-            guard (200...299).contains(response.statusCode) else {
-                let errorMessage: String
-                switch response.statusCode {
-                case 300..<400:
-                    errorMessage = "리다이렉션 오류 발생: \(response.statusCode)"
-                case 400..<500:
-                    errorMessage = "클라이언트 오류 발생: \(response.statusCode)"
-                case 500..<600:
-                    errorMessage = "서버 오류 발생: \(response.statusCode)"
-                default:
-                    errorMessage = "알 수 없는 오류 발생: \(response.statusCode)"
-                }
-
-                // 2. 서버 응답 메시지 처리
-                let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: response.data)
-                let finalMessage = errorResponse?.message ?? errorMessage
-                return .failure(.serverError(statusCode: response.statusCode, message: finalMessage))
-            }
-
-            // 3. 응답 디코딩
-            let apiResponse = try JSONDecoder().decode(ApiResponse<T>.self, from: response.data)
-
-            // 4. result 처리 (빈 데이터 불허)
-            guard let result = apiResponse.result else {
-                return .failure(.serverError(statusCode: response.statusCode, message: "결과 데이터가 없습니다."))
-            }
-
-            return .success(result) // ✅ 반드시 데이터가 필요함
-
-        } catch {
-            return .failure(.decodingError) // 디코딩 실패
+        decodingType: T.Type,
+        target: Endpoint,
+        retryCount: Int = 1
+    ) async throws -> T {
+        guard (200...299).contains(response.statusCode) else {
+            return try await handleErrorResponseRequired(response, target: target, decodingType: decodingType)
         }
+        
+        let decodedResponse = try JSONDecoder().decode(ApiResponse<T>.self, from: response.data)
+        guard let result = decodedResponse.result else {
+            throw NetworkError.decodingError(devMessage: "[데이터 변환 실패] DTO 양식 확인 필요", userMessage: "데이터 변환에 실패했습니다.\n관리자에게 문의하세요.")
+        }
+        
+        return result
     }
     
-    private func handleResponseOptional<T: Decodable>(
+    func handleResponseOptional<T: Decodable>(
         _ response: Response,
-        decodingType: T.Type
-    ) -> Result<T?, NetworkError> { // ✅ 옵셔널 지원
-        do {
-            // 1. 상태 코드 확인
-            guard (200...299).contains(response.statusCode) else {
-                let errorMessage: String
-                switch response.statusCode {
-                case 300..<400:
-                    errorMessage = "리다이렉션 오류가 발생했습니다. 코드: \(response.statusCode)"
-                case 400..<500:
-                    errorMessage = "클라이언트 오류가 발생했습니다. 코드: \(response.statusCode)"
-                case 500..<600:
-                    errorMessage = "서버 오류가 발생했습니다. 코드: \(response.statusCode)"
-                default:
-                    errorMessage = "알 수 없는 오류가 발생했습니다. 코드: \(response.statusCode)"
-                }
-
-                // 서버 응답 메시지 디코딩
-                let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: response.data)
-                let finalMessage = errorResponse?.message ?? errorMessage
-                return .failure(.serverError(statusCode: response.statusCode, message: finalMessage))
-            }
-
-            // 2. 빈 데이터 처리
-            if response.data.isEmpty {
-                return .success(nil) // ✅ 빈 데이터 처리 (옵셔널 허용)
-            }
-
-            // 3. 응답 디코딩
-            let apiResponse = try JSONDecoder().decode(ApiResponse<T>.self, from: response.data)
-
-            // 4. result 처리
-            return .success(apiResponse.result) // ✅ result가 옵셔널이라면 nil 반환 가능
-
-        } catch {
-            return .failure(.decodingError) // 디코딩 에러 처리
+        decodingType: T.Type,
+        target: Endpoint,
+        retryCount: Int = 1
+    ) async throws -> T? {
+        guard (200...299).contains(response.statusCode) else {
+            return try await handleErrorResponseOptional(response, target: target, decodingType: decodingType)
         }
+        
+        let decodedResponse = try JSONDecoder().decode(ApiResponse<T>.self, from: response.data)
+        guard let result = decodedResponse.result else {
+            throw NetworkError.decodingError(devMessage: "[데이터 변환 실패] DTO 양식 확인 필요", userMessage: "데이터 변환에 실패했습니다.\n관리자에게 문의하세요.")
+        }
+        
+        return result
     }
     
-    // MARK: - 네트워크 오류 처리 함수
-    func handleNetworkError(_ error: Error) -> NetworkError {
-        let nsError = error as NSError
-        switch nsError.code {
-        case NSURLErrorNotConnectedToInternet:
-            return .networkError(message: "인터넷 연결이 끊겼습니다.")
-        case NSURLErrorTimedOut:
-            return .networkError(message: "요청 시간이 초과되었습니다.")
-        default:
-            return .networkError(message: "네트워크 오류가 발생했습니다.")
+    private func handleErrorResponseRequired<T: Decodable>(
+        _ response: Response,
+        target: Endpoint,
+        decodingType: T.Type,
+        retryCount: Int = 1 // ✅ 재시도 횟수 제한 추가
+    ) async throws -> T {
+        let errorResponse = try JSONDecoder().decode(ErrorResponse.self, from: response.data)
+        
+        let devMessage = errorResponse.message
+        let serverErrorCode = ServerErrorCode(rawValue: errorResponse.code) ?? .unknown
+        let userMessage = serverErrorCode.errorMessage
+        
+        if serverErrorCode == .refreshTokenExpired {
+            throw NetworkError.refreshTokenExpiredError(statusCode: response.statusCode, devMessage: devMessage, userMessage: userMessage)
         }
+        
+        // 🔄 [토큰 만료] ACCESS_TOKEN4001 또는 ACCESS_TOKEN4002 → 토큰 재발급 후 API 재시도
+        if serverErrorCode == .accessTokenExpired || serverErrorCode == .accessTokenInvalid {
+            guard retryCount > 0 else {
+                let addDevMessage = "[자동 인증 재시도 한도 초과] " + devMessage
+                throw NetworkError.tokenExpiredError(statusCode: response.statusCode, devMessage: addDevMessage, userMessage: userMessage)
+            }
+            
+            do {
+                try await AuthService().reissueTokenAsync()
+                return try await requestAsync(target: target, decodingType: decodingType)
+            } catch {
+                let addDevMessage = "[자동 인증 시도 실패]" + devMessage
+                throw NetworkError.tokenExpiredError(statusCode: response.statusCode, devMessage: addDevMessage, userMessage: userMessage)
+            }
+        }
+        
+        throw NetworkError.serverError(statusCode: response.statusCode, devMessage: devMessage, userMessage: userMessage)
     }
+    
+    func handleErrorResponseOptional<T: Decodable>(
+        _ response: Response,
+        target: Endpoint,
+        decodingType: T.Type,
+        retryCount: Int = 1 // ✅ 재시도 횟수 제한 추가
+    ) async throws -> T? {
+        let errorResponse = try JSONDecoder().decode(ErrorResponse.self, from: response.data)
+        
+        let devMessage = errorResponse.message
+        let serverErrorCode = ServerErrorCode(rawValue: errorResponse.code) ?? .unknown
+        let userMessage = serverErrorCode.errorMessage
+        
+        if serverErrorCode == .refreshTokenExpired {
+            throw NetworkError.refreshTokenExpiredError(statusCode: response.statusCode, devMessage: devMessage, userMessage: userMessage)
+        }
 
+        if serverErrorCode == .accessTokenExpired || serverErrorCode == .accessTokenInvalid {
+            guard retryCount > 0 else {
+                let addDevMessage = "[자동 인증 재시도 한도 초과] " + devMessage
+                throw NetworkError.tokenExpiredError(statusCode: response.statusCode, devMessage: addDevMessage, userMessage: userMessage)
+            }
+            
+            do {
+                try await AuthService().reissueTokenAsync() // 토큰 재발급 성공하면,
+                return try await requestOptionalAsync(target: target, decodingType: decodingType) // 기존 요청 재시도
+            } catch {
+                let addDevMessage = "[자동 인증 시도 실패]" + devMessage
+                throw NetworkError.tokenExpiredError(statusCode: response.statusCode, devMessage: addDevMessage, userMessage: userMessage)
+            }
+        }
+        
+        throw NetworkError.serverError(statusCode: response.statusCode, devMessage: devMessage, userMessage: userMessage)
+    }
+    
 }
