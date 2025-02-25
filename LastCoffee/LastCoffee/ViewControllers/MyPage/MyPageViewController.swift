@@ -45,6 +45,9 @@ class MyPageViewController: UIViewController {
         
         // 알림 설정 버튼 액션
         myPageView.alertSettingView.button.addTarget(self, action: #selector(touchUpInsideAlertSettingButton), for: .touchUpInside)
+        
+        // 닉네임 변경 버튼 액션
+        myPageView.changeNicknameView.button.addTarget(self, action: #selector(touchUpInsideChangeNicknameButton), for: .touchUpInside)
     }
     
     // 커피 기록 탭 제스처
@@ -67,6 +70,12 @@ class MyPageViewController: UIViewController {
     // 알림 설정 버튼 액션
     @objc private func touchUpInsideAlertSettingButton() {
         let nextVC = AlertSettingViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    // 닉네임 변경 탭
+    @objc private func touchUpInsideChangeNicknameButton(){
+        let nextVC = ChangeNicknameViewController()
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
