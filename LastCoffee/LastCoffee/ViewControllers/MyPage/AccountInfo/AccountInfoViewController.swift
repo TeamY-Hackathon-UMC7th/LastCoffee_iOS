@@ -17,6 +17,18 @@ class AccountInfoViewController: UIViewController {
         setAction()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     private func setAction() {
         accountInfoView.logoutButton.addTarget(self, action: #selector(touchUpInsideLogoutButton), for: .touchUpInside)
         accountInfoView.withdrawButton.addTarget(self, action: #selector(touchUpInsideWitdhdarwButton), for: .touchUpInside)

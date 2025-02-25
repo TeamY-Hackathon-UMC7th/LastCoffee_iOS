@@ -1,29 +1,29 @@
 //
-//  SelectTimeViewController.swift
+//  AlertSelectTimeViewController.swift
 //  LastCoffee
 //
-//  Created by 이수현 on 1/11/25.
+//  Created by 이수현 on 2/25/25.
 //
 
 import UIKit
-import SwiftyToaster
 
-class SelectTimeViewController: UIViewController {
+class AlertSelectTimeViewController: UIViewController {
     private let hours = [
         "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12",
         "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"
     ]
     
-    private var selectedHour = "22"
-    private let selectTimeView = SelectTimeView(type: .inRecommend)
+    private var selectedHour = "16"
+    private let selectTimeView = SelectTimeView(type: .inAlert)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.selectTimeView.timePickerView.delegate = self
         self.selectTimeView.timePickerView.dataSource = self
-        self.selectTimeView.timePickerView.selectRow(22, inComponent: 0, animated: true)
+        self.selectTimeView.timePickerView.selectRow(16, inComponent: 0, animated: true)
         
         view = selectTimeView
+        
         setNavigationBar()
         setAction()
     }
@@ -31,7 +31,13 @@ class SelectTimeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.navigationController?.navigationBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     private func setAction() {
@@ -48,13 +54,15 @@ class SelectTimeViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    // 확인 버튼 액션
     @objc private func touchUpInsideBtnNext() {
-        let nextVC = RecommendDrinkViewController(selectedHour: selectedHour)
-        self.navigationController?.pushViewController(nextVC, animated: true)
+        // 알림 및 시간 저장
+         
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
-extension SelectTimeViewController: UIPickerViewDataSource {
+extension AlertSelectTimeViewController: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -69,7 +77,7 @@ extension SelectTimeViewController: UIPickerViewDataSource {
 }
 
 
-extension SelectTimeViewController: UIPickerViewDelegate {
+extension AlertSelectTimeViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return hours[row]
     }

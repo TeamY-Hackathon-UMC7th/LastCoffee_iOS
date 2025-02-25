@@ -19,6 +19,18 @@ class RecommendRecordViewController: UIViewController {
         setProtocol()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     private func setProtocol() {
         recommendRecordView.tableView.dataSource = self
         recommendRecordView.tableView.delegate = self

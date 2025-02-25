@@ -7,11 +7,23 @@
 
 import UIKit
 
+enum SelectTimeType {
+    case inRecommend
+    case inAlert
+}
+
+
 class SelectTimeView: UIView {
+    private let type: SelectTimeType
     
     // 타이틀
-    private let lblTitle = UILabel().then { lbl in
-        lbl.text = "오늘 몇 시에 주무실 예정인가요?"
+    private lazy var lblTitle = UILabel().then { lbl in
+        switch type {
+        case .inRecommend:
+            lbl.text = "오늘 몇 시에 주무실 예정인가요?"
+        case .inAlert:
+            lbl.text = "커피 추천 알림을 언제 보내드릴까요?"
+        }
         lbl.font = .ptdSemiBoldFont(ofSize: 18)
         lbl.textAlignment = .center
     }
@@ -24,9 +36,10 @@ class SelectTimeView: UIView {
     }
     
     // 달 이미지뷰
-    private let imageView = UIImageView().then { view in
+    private lazy var imageView = UIImageView().then { view in
         view.image = .moon
         view.tintColor = .mainColor
+        view.isHidden = type == .inAlert
     }
     
     // 시간 선택 피커
@@ -40,12 +53,13 @@ class SelectTimeView: UIView {
     }
     
     // 다음 버튼
-    public let btnNext = CustomButton().then { btn in
-        btn.configure(title: "다음", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 18), radius: 10, backgroundColor: .mainColor ?? .tintColor, isEnabled: true)
+    public lazy var btnNext = CustomButton().then { btn in
+        btn.configure(title: type == .inAlert ? "확인" : "다음", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 18), radius: 10, backgroundColor: UIColor(hex: "592401") ?? .mainColor, isEnabled: true)
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(type: SelectTimeType) {
+        self.type = type
+        super.init(frame: .zero)
         
         self.backgroundColor = .background
         setSubView()

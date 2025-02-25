@@ -15,6 +15,24 @@ class AlertSettingViewController: UIViewController {
         view = alertSettingView
         
         setNavigationBar()
+        setAction()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    private func setAction() {
+        let changeAlertTimeGroupTapGesture = UITapGestureRecognizer(target: self, action: #selector(changeAlertTimeGroupTapGesutre))
+        alertSettingView.changeAlertTimeGroupView.addGestureRecognizer(changeAlertTimeGroupTapGesture)
     }
     
     
@@ -29,4 +47,9 @@ class AlertSettingViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @objc private func changeAlertTimeGroupTapGesutre(){
+        print("changeAlertTimeGroupTapGesutre")
+        let nextVC = AlertSelectTimeViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
 }

@@ -20,7 +20,9 @@ class AlertSettingView: UIView {
         view.backgroundColor = UIColor(hex: "D9D9D9")
     }
     
-    public let changeAlertTimeGroupView = UIView()
+    public let changeAlertTimeGroupView = UIView().then { view in
+        view.isUserInteractionEnabled = true
+    }
     
     private let changeAlertTitleLabel = UILabel().then { lbl in
         lbl.text = "알림 시간 변경하기"
@@ -82,6 +84,8 @@ class AlertSettingView: UIView {
         changeAlertTimeGroupView.snp.makeConstraints { make in
             make.top.equalTo(seperatorLine.snp.bottom).offset(16.51)
             make.leading.equalToSuperview().inset(16)
+            make.width.equalTo(124)
+            make.height.equalTo(16)
         }
         
         changeAlertTitleLabel.snp.makeConstraints { make in
