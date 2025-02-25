@@ -39,7 +39,22 @@ class PasswordView: UIView {
         txt.layer.cornerRadius = 6
         txt.layer.borderColor = UIColor(hex: "592401")?.cgColor
         txt.layer.borderWidth = 0.7
+        txt.isSecureTextEntry = true
     }
+    
+    // 비밀번호 확인 버튼
+    public let hiddenPasswordButton = UIButton().then { btn in
+        btn.setImage(UIImage(systemName: "eye.slash.fill"), for: .normal)
+        btn.setImage(UIImage(systemName: "eye.fill"), for: .selected)
+        btn.tintColor = UIColor(hex: "5D5D5D")
+    }
+    
+    // 경고 메시지
+    private let errorLabel = UILabel().then { lbl in
+        lbl.font = .ptdRegularFont(ofSize: 12)
+        lbl.isHidden = true
+    }
+    
     
     init(type: PasswordViewType) {
         self.type = type
@@ -65,7 +80,9 @@ class PasswordView: UIView {
         [
             imageView,
             titleLabel,
-            textField
+            textField,
+            hiddenPasswordButton,
+            errorLabel
         ].forEach{self.addSubview($0)}
     }
     
@@ -85,6 +102,41 @@ class PasswordView: UIView {
             make.top.equalTo(imageView.snp.bottom).offset(11)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(DynamicPadding.dynamicValue(52))
+        }
+        
+        hiddenPasswordButton.snp.makeConstraints { make in
+            make.centerY.equalTo(textField)
+            make.trailing.equalTo(textField).offset(-16)
+            make.width.height.equalTo(DynamicPadding.dynamicValue(20))
+        }
+        
+        errorLabel.snp.makeConstraints { make in
+            make.top.equalTo(textField.snp.bottom)
+            make.leading.equalTo(textField).offset(4)
+            make.height.equalTo(DynamicPadding.dynamicValue(28))
+        }
+    }
+    
+    // 비밀번호 보기 버튼
+    public func setHiddenPassword(){
+        let current = !hiddenPasswordButton.isSelected
+        hiddenPasswordButton.isSelected = current
+        textField.isSecureTextEntry = !current
+    }
+    
+    // 에러 라벨
+    public func setErrorLabel(isError: Bool, isEmpty: Bool){
+        errorLabel.isHidden = isEmpty
+        errorLabel.textColor = isError && !isEmpty ? UIColor.errorRed : UIColor(hex: "592401")
+        textField.layer.borderColor = isError && !isEmpty ? UIColor.errorRed.cgColor : UIColor(hex: "592401")?.cgColor
+        
+        switch type {
+        case .newPassrod: // 새로운 비밀번호
+            errorLabel.text = isError && !isEmpty ? "비밀번호는 영문/숫자/특수문자 포함 8~20자로 입력해주세요." : "사용할 수 있는 비밀번호입니다."
+        case .confirmPassword: // 비밀번호 확인
+            errorLabel.text = isError && !isEmpty ? "비밀번호가 일치하지 않습니다." : "비밀번호가 일치합니다."
+        default:
+            return
         }
     }
 }
