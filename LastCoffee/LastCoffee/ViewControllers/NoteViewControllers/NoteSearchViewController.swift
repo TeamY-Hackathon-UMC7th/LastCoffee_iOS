@@ -11,7 +11,11 @@ import SwiftyToaster
 class NoteSearchViewController: UIViewController, UITextFieldDelegate {
     let networkService = CoffeeService()
     
-    private var data: [CoffeeDetailResponse] = []
+    private var data: [CoffeeDetailResponse] = [
+        CoffeeDetailResponse(id: 1, name: "아메리카노", brand: "스타벅스", sugar: 2, caffeine: 2, calories: 2, protein: 2, coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/%5B110563%5D_20210426095937947.jpg"),
+        CoffeeDetailResponse(id: 2, name: "블루베리라떼", brand: "컴포즈", sugar: 3, caffeine: 3, calories: 2, protein: 1, coffeeImgUrl: "https://composecoffee.com/files/thumbnails/891/064/1515x2083.crop.jpg?t=1733793666"),
+        CoffeeDetailResponse(id: 3, name: "유자티", brand: "컴포즈", sugar: 4, caffeine: 2, calories: 2, protein: 4, coffeeImgUrl: "https://composecoffee.com/files/thumbnails/682/038/1515x2083.crop.jpg?t=1733794981"),
+    ]
     
     private var selectedIndexPath: IndexPath?
     private var selectedItem: CoffeeDetailResponse?

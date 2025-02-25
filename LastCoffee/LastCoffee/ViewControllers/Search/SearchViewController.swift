@@ -28,9 +28,9 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     var selectedBrands: [String] = []
     
     private var data: [CoffeeDetailResponse] = [
-        CoffeeDetailResponse(id: 0, name: "콜드 브루", brand: "스타벅스", sugar: 0, caffeine: 0, calories: 0, protein: 3, coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000000038]_20210430113202458.jpg"),
-        CoffeeDetailResponse(id: 0, name: "블루베리라떼", brand: "컴포즈", sugar: 0, caffeine: 0, calories: 0, protein: 0, coffeeImgUrl: "https://composecoffee.com/files/thumbnails/891/064/1515x2083.crop.jpg?t=1733793666"),
-        CoffeeDetailResponse(id: 0, name: "유자티", brand: "컴포즈", sugar: 0, caffeine: 0, calories: 0, protein: 0, coffeeImgUrl: "https://composecoffee.com/files/thumbnails/682/038/1515x2083.crop.jpg?t=1733794981")
+        CoffeeDetailResponse(id: 1, name: "아메리카노", brand: "스타벅스", sugar: 2, caffeine: 2, calories: 2, protein: 2, coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/%5B110563%5D_20210426095937947.jpg"),
+        CoffeeDetailResponse(id: 2, name: "블루베리라떼", brand: "컴포즈", sugar: 3, caffeine: 3, calories: 2, protein: 1, coffeeImgUrl: "https://composecoffee.com/files/thumbnails/891/064/1515x2083.crop.jpg?t=1733793666"),
+        CoffeeDetailResponse(id: 3, name: "유자티", brand: "컴포즈", sugar: 4, caffeine: 2, calories: 2, protein: 4, coffeeImgUrl: "https://composecoffee.com/files/thumbnails/682/038/1515x2083.crop.jpg?t=1733794981"),
     ]
     
     private var selectedIndexPath: IndexPath?

@@ -11,9 +11,9 @@ import SwiftyToaster
 class NoteMainViewController: UIViewController {
     let networkService = ReviewService()
     private var data: [NoteModel] = [
-//        NoteModel(id: 13,coffeeName: "콜드 브루", brand: "스타벅스", drinkDate: "2024-11-12 16:34", sleepDate: "2024-11-12 23:25", comment: "콜드브루도 잠이 안온다...", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000000038]_20210430113202458.jpg", createdAt: "2024-11-13 00:30"),
-//        NoteModel(id: 59,coffeeName: "블루베리라떼", brand: "컴포즈", drinkDate: "2025-01-09 19:34", sleepDate: "2025-01-09 22:06", comment: "블루베리라떼 맛있음", coffeeImgUrl: "https://composecoffee.com/files/thumbnails/891/064/1515x2083.crop.jpg?t=1733793666", createdAt: "2025-01-09 23:00"),
-//        NoteModel(id: 85,coffeeName: "유자티", brand: "컴포즈", drinkDate: "2025-01-09 20:34", sleepDate: "2025-01-09 23:56", comment: "유자티는 따뜻하다..", coffeeImgUrl: "https://composecoffee.com/files/thumbnails/682/038/1515x2083.crop.jpg?t=1733794981", createdAt: "2025-02-13 00:20")
+        NoteModel(id: 13,coffeeName: "아메리카노", brand: "스타벅스", drinkDate: "2024-11-12 16:34", sleepDate: "2024-11-12 23:25", comment: "아메리카노도 잠이 안온다...", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/%5B110563%5D_20210426095937947.jpg", createdAt: "2024-11-13 00:30"),
+        NoteModel(id: 59,coffeeName: "블루베리라떼", brand: "컴포즈", drinkDate: "2025-01-09 19:34", sleepDate: "2025-01-09 22:06", comment: "블루베리라떼 맛있음", coffeeImgUrl: "https://composecoffee.com/files/thumbnails/891/064/1515x2083.crop.jpg?t=1733793666", createdAt: "2025-01-09 23:00"),
+        NoteModel(id: 85,coffeeName: "유자티", brand: "컴포즈", drinkDate: "2025-01-09 20:34", sleepDate: "2025-01-09 23:56", comment: "유자티는 따뜻하다..", coffeeImgUrl: "https://composecoffee.com/files/thumbnails/682/038/1515x2083.crop.jpg?t=1733794981", createdAt: "2025-02-13 00:20")
     ]
     
     override func viewDidLoad() {
