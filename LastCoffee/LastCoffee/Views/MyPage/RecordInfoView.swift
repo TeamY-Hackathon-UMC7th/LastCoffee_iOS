@@ -39,8 +39,7 @@ class RecordInfoView: UIView {
     
     // 이미지뷰
     private lazy var imageView = UIImageView().then { view in
-        view.image = type == .coffeeRecord ? .coffee : .coffeeBeanEmpty
-        view.tintColor = UIColor(hex: "592401")
+        view.image = type == .coffeeRecord ? .myPageCoffee : .coffeeBeanEmpty
         view.contentMode = .scaleAspectFit
     }
     

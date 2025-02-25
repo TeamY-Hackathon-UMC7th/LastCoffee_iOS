@@ -56,6 +56,7 @@ class MyPageLabel: UIView {
         titleLabel.snp.makeConstraints { make in
             make.leading.verticalEdges.equalToSuperview()
             make.trailing.equalTo(button.snp.leading)
+            make.height.equalTo(18)
         }
         
         button.snp.makeConstraints { make in
