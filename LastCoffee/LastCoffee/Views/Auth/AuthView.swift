@@ -80,7 +80,7 @@ class AuthView: UIView {
         nickNameField.snp.makeConstraints { make in
             make.top.equalTo(descriptionlabel.snp.bottom).offset(10)
             make.leading.equalToSuperview().inset(16)
-            make.width.equalTo(ScreenWidth * 0.7)
+            make.width.equalTo(DynamicPadding.superViewWidth * 0.7)
             make.height.equalTo(52)
         }
         
