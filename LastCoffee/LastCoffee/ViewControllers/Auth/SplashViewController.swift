@@ -47,7 +47,7 @@ public class SplashViewController : UIViewController {
         
         logoImage.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.top.equalTo(ScreenHeight * 0.4)
+            make.top.equalTo(DynamicPadding.superViewHeight * 0.4)
         }
     }
     

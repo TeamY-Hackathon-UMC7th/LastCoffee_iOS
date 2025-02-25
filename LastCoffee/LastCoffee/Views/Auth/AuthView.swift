@@ -4,9 +4,6 @@
 //
 //  Created by 김도연 on 1/11/25.
 //
-public let ScreenHeight = UIScreen.main.bounds.height
-public let ScreenWidth = UIScreen.main.bounds.width
-
 import UIKit
 import SnapKit
 import Then
@@ -71,8 +68,8 @@ class AuthView: UIView {
         logoImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(140) // 상단 여백
-            make.width.equalTo(ScreenWidth * 0.4)
-            make.height.equalTo(ScreenHeight * 0.08)
+            make.width.equalTo(DynamicPadding.superViewWidth * 0.4)
+            make.height.equalTo(DynamicPadding.superViewHeight * 0.08)
         }
         
         descriptionlabel.snp.makeConstraints { make in
@@ -97,7 +94,7 @@ class AuthView: UIView {
         checkButton.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(52)
-            make.bottom.equalToSuperview().inset(ScreenHeight * 0.1)
+            make.bottom.equalToSuperview().inset(DynamicPadding.superViewHeight * 0.1)
         }
     }
 }
