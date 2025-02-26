@@ -31,15 +31,12 @@ extension UIColor {
 
 
 extension UIColor {
-    
-    static let mainColor = UIColor(hex: "994E24") // main color
-    static let subColor = UIColor(hex: "EE633A") // sub color
-    static let background = UIColor(hex: "FFF9F4") // 배경색
-    static let errorRed = UIColor(hex: "FF2929") // 액션 컬러
-    static let rightGreen = UIColor(hex: "25C951") // 액션 컬러
-    static let coffeeGray = UIColor(hex: "D4D4D4") // 액션 컬러
-
+    // 다크모드 적용을 위해서 에셋 사용
+    static let mainColor = UIColor.main
+    static let subColor = UIColor.sub
+    static let background = UIColor.bg
+    static let errorRed = UIColor.action
+    static let rightGreen = UIColor(hex: "25C951") // 피그마에 컬러칩 업데이트가 안됨
+    static let coffeeGray = UIColor(hex: "D4D4D4") // 피그마에 컬러칩 업데이트가 안됨
 }
-// Example
-// let buttonColor = .mainColor // Hex: #994E24
-// let backgroundColor = UIColor.background // Hex: #FFF9F4
+

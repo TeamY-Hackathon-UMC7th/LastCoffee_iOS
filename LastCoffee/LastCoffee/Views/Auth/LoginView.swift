@@ -64,7 +64,7 @@ class LoginView: UIView {
         logoImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().offset(128) // 상단 여백
-            make.width.equalTo(ScreenWidth * 0.3)
+            make.width.equalTo(DynamicPadding.superViewWidth * 0.3)
         }
 
         nickNameField.snp.makeConstraints { make in

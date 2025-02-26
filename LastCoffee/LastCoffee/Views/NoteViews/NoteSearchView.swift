@@ -36,7 +36,7 @@ class NoteSearchView: UIView {
     }
     
     public lazy var nextBtn = CustomButton(
-        backgroundColor: UIColor.mainColor!,
+        backgroundColor: UIColor.mainColor,
         title: "다음으로",
         titleColor: .white,
         radius: 10,

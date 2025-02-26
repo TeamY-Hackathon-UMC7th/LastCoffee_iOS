@@ -85,7 +85,7 @@ class NoteSearchCell: UITableViewCell {
         let attributedString = NSMutableAttributedString(string: text)
         let range = (text.lowercased() as NSString).range(of: highlight.lowercased())
         if range.location != NSNotFound {
-            attributedString.addAttribute(.foregroundColor, value: UIColor.mainColor!, range: range)
+            attributedString.addAttribute(.foregroundColor, value: UIColor.mainColor, range: range)
         }
         return attributedString
     }
@@ -93,7 +93,7 @@ class NoteSearchCell: UITableViewCell {
     public func setSelectedBorder(isSelected: Bool) {
         self.layer.borderWidth = isSelected ? 0.7 : 0
         self.layer.cornerRadius = isSelected ? 10 : 0
-        self.layer.borderColor = isSelected ? UIColor.mainColor?.cgColor : UIColor.clear.cgColor
+        self.layer.borderColor = isSelected ? UIColor.mainColor.cgColor : UIColor.clear.cgColor
     }
 }
 

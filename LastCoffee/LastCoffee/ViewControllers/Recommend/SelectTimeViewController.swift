@@ -15,7 +15,7 @@ class SelectTimeViewController: UIViewController {
     ]
     
     private var selectedHour = "22"
-    private let selectTimeView = SelectTimeView()
+    private let selectTimeView = SelectTimeView(type: .inRecommend)
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -68,7 +68,7 @@ class OnboardingView: UIView {
     }
     
     let checkButton = CustomButton(
-        backgroundColor: UIColor.mainColor!,
+        backgroundColor: UIColor.mainColor,
         title: "시작하기",
         titleColor: .white,
         font: .ptdSemiBoldFont(ofSize: 18),
@@ -140,7 +140,7 @@ class OnboardingView: UIView {
         checkButton.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(52)
-            make.bottom.equalToSuperview().inset(ScreenHeight * 0.1)
+            make.bottom.equalToSuperview().inset(DynamicPadding.superViewHeight * 0.1)
         }
         
     }

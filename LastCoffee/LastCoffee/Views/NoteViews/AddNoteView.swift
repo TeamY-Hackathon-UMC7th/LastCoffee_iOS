@@ -50,7 +50,7 @@ class AddNoteView: UIView {
         $0.isScrollEnabled = true
         $0.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         
-        $0.layer.borderColor = UIColor.mainColor?.cgColor
+        $0.layer.borderColor = UIColor.mainColor.cgColor
         $0.layer.borderWidth = 0.7
         $0.layer.cornerRadius = 6
         
@@ -69,7 +69,7 @@ class AddNoteView: UIView {
     }
 
     public lazy var saveBtn = CustomButton(
-        backgroundColor: .mainColor!,
+        backgroundColor: .mainColor,
         title: "저장하기",
         titleColor: .white,
         font: UIFont.ptdSemiBoldFont(ofSize: 18),

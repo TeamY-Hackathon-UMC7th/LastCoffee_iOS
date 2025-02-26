@@ -48,7 +48,7 @@ public class CustomTextFieldView: UIView, UITextFieldDelegate {
 
         iconImageView.image = UIImage(named: descriptionImageIcon)
         iconImageView.contentMode = .scaleAspectFit
-        iconImageView.tintColor = UIColor.mainColor!
+        iconImageView.tintColor = UIColor.mainColor
         
         // 텍스트 필드 설정
         textField.placeholder = textFieldPlaceholder
@@ -56,7 +56,7 @@ public class CustomTextFieldView: UIView, UITextFieldDelegate {
         textField.font = UIFont.systemFont(ofSize: 14)
         textField.backgroundColor = UIColor.white
         textField.delegate = self
-        textField.layer.borderColor = UIColor.mainColor?.cgColor
+        textField.layer.borderColor = UIColor.mainColor.cgColor
         textField.layer.borderWidth = 0.7
         textField.layer.cornerRadius = 10
         

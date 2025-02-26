@@ -52,7 +52,7 @@ class CompareDetailView: UIView {
     }
     
     public lazy var nextBtn = CustomButton(
-        backgroundColor: UIColor.mainColor!,
+        backgroundColor: UIColor.mainColor,
         title: "다른 메뉴와 비교하기",
         titleColor: .white,
         radius: 10,
