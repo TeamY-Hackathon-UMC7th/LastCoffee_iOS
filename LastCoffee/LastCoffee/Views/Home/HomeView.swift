@@ -88,7 +88,7 @@ class HomeView: UIView {
         }
         
         btnRecommendDrink.snp.makeConstraints { make in
-            make.bottom.equalTo(safeAreaLayoutGuide).inset(DynamicPadding.dynamicValue(37) + Constants.seBottomExtraPadding)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(DynamicPadding.dynamicValue(37) + (Constants.isSeDevice ? Constants.seBottomExtraPadding : 0))
             make.width.equalTo(DynamicPadding.dynamicValuebyWidth(174))
             make.height.equalTo(DynamicPadding.dynamicValue(54))
             make.centerX.equalToSuperview()

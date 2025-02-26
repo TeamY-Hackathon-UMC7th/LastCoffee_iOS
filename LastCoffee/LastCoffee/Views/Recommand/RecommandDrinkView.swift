@@ -30,7 +30,7 @@ class RecommendDrinkView: UIView {
     }
     
     public let btnCheck = CustomButton().then { btn in
-        btn.configure(title: "확인", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 18), radius: 10, backgroundColor: .mainColor ?? .tintColor, isEnabled: true)
+        btn.configure(title: "확인", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 18), radius: 10, backgroundColor: .mainColor, isEnabled: true)
     }
     
     init(selectedHour: String) {
@@ -55,14 +55,14 @@ class RecommendDrinkView: UIView {
     
     private func setUI() {
         lblTitle.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(32)
+            make.top.equalTo(safeAreaLayoutGuide).inset(DynamicPadding.dynamicValue(32))
             make.horizontalEdges.equalToSuperview().inset(20)
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(lblTitle.snp.bottom).offset(46)
+            make.top.equalTo(lblTitle.snp.bottom).offset(DynamicPadding.dynamicValue(46))
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(btnCheck.snp.top)
+            make.bottom.equalTo(btnCheck.snp.top).offset(-(DynamicPadding.dynamicValue(76)))
         }
         
         btnCheck.snp.makeConstraints { make in
@@ -83,13 +83,13 @@ class RecommendDrinkView: UIView {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 14)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(286), heightDimension: .absolute(396))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(DynamicPadding.dynamicValuebyWidth(286)), heightDimension: .absolute(DynamicPadding.dynamicValue(396)))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 45, bottom: 0, trailing: 45)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: DynamicPadding.dynamicValuebyWidth(45), bottom: 0, trailing: DynamicPadding.dynamicValuebyWidth(45))
         
         return section
     }
