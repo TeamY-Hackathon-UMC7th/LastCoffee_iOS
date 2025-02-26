@@ -54,7 +54,7 @@ class NoteMainView: UIView {
         addBtn.snp.makeConstraints {
             $0.centerY.equalTo(title.snp.centerY)
             $0.trailing.equalToSuperview().offset(-20)
-            $0.width.height.equalTo(28)
+            $0.width.height.equalTo(32)
         }
         
         noteTableView.snp.makeConstraints {

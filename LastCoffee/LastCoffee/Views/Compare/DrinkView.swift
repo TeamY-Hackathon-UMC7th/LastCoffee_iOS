@@ -44,7 +44,7 @@ class DrinkView: UIView {
     }
     
     func setGoodCoffeeNameColor() {
-        coffeeName.textColor = UIColor.mainColor ?? .brown
+        coffeeName.textColor = UIColor(hex: "994E24")
     }
     
     func setDrinkInfo(image : String, brand: String, name : String) {

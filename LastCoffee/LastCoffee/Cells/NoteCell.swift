@@ -43,7 +43,7 @@ class NoteCell: UITableViewCell {
     }
     
     let last = UIView().then {
-        $0.backgroundColor = UIColor(hex: "#EE633A")
+        $0.backgroundColor = UIColor.background
         $0.layer.cornerRadius = 4
         $0.layer.maskedCorners = [.layerMinXMaxYCorner]
         $0.isHidden = true
@@ -70,7 +70,7 @@ class NoteCell: UITableViewCell {
     
     private lazy var subTitle = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor.neutral300
     }
     
     private lazy var titleStackView = UIStackView().then {
@@ -82,7 +82,7 @@ class NoteCell: UITableViewCell {
     
     private lazy var drinkingDate = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 12)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor.neutral300
     }
     
     private func setupView() {

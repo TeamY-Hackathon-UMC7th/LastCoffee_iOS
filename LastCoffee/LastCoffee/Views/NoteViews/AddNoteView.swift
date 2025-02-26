@@ -20,12 +20,14 @@ class AddNoteView: UIView {
     
     private lazy var selectedCoffeeIcon = UIImageView().then {
         $0.image = UIImage(named: "coffee-bean")
+        $0.tintColor = .subColor
     }
     
     public lazy var selectedCoffee = UILabel().then {
         $0.font = UIFont.ptdMediumFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#EE633A")
+        $0.textColor = UIColor.subColor
         $0.textAlignment = .left
+        
         $0.text = "[스타벅스] 아이스 아메리카노"
     }
     
@@ -44,7 +46,7 @@ class AddNoteView: UIView {
     
     public lazy var reviewTextView = UITextView().then {
         $0.textAlignment = .left
-        $0.backgroundColor = UIColor(hex: "#FFFBF8")
+        $0.backgroundColor = UIColor.inputFieldBackground
         
         $0.isEditable = true
         $0.isScrollEnabled = true
@@ -54,7 +56,7 @@ class AddNoteView: UIView {
         $0.layer.borderWidth = 0.7
         $0.layer.cornerRadius = 6
         
-        let textAttributes = textViewAttributes(foregroundColor: UIColor(hex: "#8E8E8E") ?? .gray)
+        let textAttributes = textViewAttributes(foregroundColor: UIColor.neutral300 ?? .gray)
         $0.attributedText = NSAttributedString(string: textViewPlaceHolder, attributes: textAttributes)
         
         $0.returnKeyType = .done
@@ -63,7 +65,7 @@ class AddNoteView: UIView {
     
     private let warningLabel = UILabel().then {
         $0.text = "최대 200자까지 작성 가능합니다."
-        $0.textColor = UIColor(hex: "#FF2929")
+        $0.textColor = UIColor.errorRed
         $0.font = UIFont.ptdRegularFont(ofSize: 12)
         $0.isHidden = true
     }
@@ -111,8 +113,8 @@ class AddNoteView: UIView {
         }
         
         selectedCoffeeIcon.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).offset(25)
-            $0.leading.equalToSuperview().offset(34)
+            $0.top.equalTo(safeAreaLayoutGuide).offset(16)
+            $0.leading.equalToSuperview().offset(27)
             $0.width.height.equalTo(18)
         }
         
@@ -122,35 +124,35 @@ class AddNoteView: UIView {
         }
         
         drinkingStack.snp.makeConstraints {
-            $0.top.equalTo(selectedCoffee.snp.bottom).offset(40)
-            $0.leading.equalToSuperview().offset(32)
+            $0.top.equalTo(selectedCoffeeIcon.snp.bottom).offset(35)
+            $0.leading.equalToSuperview().offset(25)
         }
         
         sleepingStack.snp.makeConstraints {
-            $0.top.equalTo(drinkingStack.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().offset(32)
+            $0.top.equalTo(drinkingStack.snp.bottom).offset(20)
+            $0.leading.equalToSuperview().offset(25)
         }
         
         drinkingPicker.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-33)
+            $0.trailing.equalToSuperview().offset(-23)
             $0.centerY.equalTo(drinkingStack)
         }
         
         sleepingPicker.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-33)
+            $0.trailing.equalToSuperview().offset(-23)
             $0.centerY.equalTo(sleepingStack)
         }
         
         reviewTextView.snp.makeConstraints {
-            $0.top.equalTo(sleepingPicker.snp.bottom).offset(65)
+            $0.top.equalTo(sleepingPicker.snp.bottom).offset(63)
             $0.leading.equalToSuperview().offset(24)
             $0.trailing.equalToSuperview().offset(-24)
-            $0.height.equalTo(260)
+            $0.height.equalTo(240)
         }
         
         warningLabel.snp.makeConstraints {
             $0.top.equalTo(reviewTextView.snp.bottom).offset(5)
-            $0.leading.equalTo(reviewTextView.snp.leading).offset(10)
+            $0.leading.equalTo(reviewTextView.snp.leading).offset(5)
         }
         
         saveBtn.snp.makeConstraints {
@@ -163,7 +165,8 @@ class AddNoteView: UIView {
     
     func createCustomStack(iconName: String, titleText: String) -> UIStackView {
         let icon = UIImageView().then {
-            $0.image = UIImage(named: iconName)
+            $0.image = UIImage(named: iconName)?.withRenderingMode(.alwaysTemplate)
+            $0.tintColor = .mainColor
             $0.contentMode = .scaleAspectFit
         }
 
@@ -203,7 +206,7 @@ extension AddNoteView: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            let textAttributes = textViewAttributes(foregroundColor: UIColor(hex: "#8E8E8E") ?? UIColor.gray)
+            let textAttributes = textViewAttributes(foregroundColor: UIColor.neutral300 ?? UIColor.gray)
             textView.attributedText = NSAttributedString(string: textViewPlaceHolder, attributes: textAttributes)
         }
     }
@@ -212,11 +215,11 @@ extension AddNoteView: UITextViewDelegate {
         let textCount = textView.text.count
         if textCount > 200 {
             warningLabel.isHidden = false
-            textView.layer.borderColor = UIColor(hex: "#FF2929")?.cgColor
+            textView.layer.borderColor = UIColor.errorRed.cgColor
             self.saveBtn.setEnabled(false)
         } else {
             warningLabel.isHidden = true
-            textView.layer.borderColor = UIColor.mainColor?.cgColor
+            textView.layer.borderColor = UIColor.mainColor.cgColor
             self.saveBtn.setEnabled(true)
         }
     }

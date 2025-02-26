@@ -61,14 +61,14 @@ class NoteDetailView: UIView {
     
     public lazy var coffeeName = UILabel().then {
         $0.font = UIFont.ptdMediumFont(ofSize: 16)
-        $0.textColor = .black
+        $0.textColor = .mainColor
         $0.textAlignment = .center
         $0.text = nil
     }
     
     public lazy var drinking = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor.neutral300
         $0.textAlignment = .left
         
         $0.text = "마신 일시 | 2024년 7월 8일 오후 5시"
@@ -76,7 +76,7 @@ class NoteDetailView: UIView {
     
     public lazy var sleeping = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor.neutral300
         $0.textAlignment = .left
         
         $0.text = "취침 시간 | 2024년 7월 9일 오전 2시"
@@ -84,7 +84,7 @@ class NoteDetailView: UIView {
     
     private lazy var review = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor(hex: "994E24")
         $0.textAlignment = .left
         
         $0.text = "후기"
@@ -100,7 +100,7 @@ class NoteDetailView: UIView {
     
     public lazy var createdAt = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor.neutral300
         $0.textAlignment = .left
         
         $0.text = "2024년 7월 8일 오전 2시"

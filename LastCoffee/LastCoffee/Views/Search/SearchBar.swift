@@ -10,6 +10,7 @@ import SnapKit
 import Then
 
 public class SearchBar: UITextField {
+    let searchIconColor = UIColor(hex: "#535353")
     
     public var placeholderText: String?
     private let leftImageView = UIImageView()
@@ -30,7 +31,7 @@ public class SearchBar: UITextField {
         self.attributedPlaceholder = NSAttributedString(
             string: "메뉴명을 입력해주세요.",
             attributes: [
-                .foregroundColor: UIColor(hex: "#8E8E8E") ?? .gray,
+                .foregroundColor: UIColor.neutral300 ?? .gray,
                 .font: UIFont.ptdRegularFont(ofSize: 14)
             ]
         )
@@ -41,15 +42,15 @@ public class SearchBar: UITextField {
         self.layer.cornerRadius = 10
         self.layer.masksToBounds = true
         self.layer.borderWidth = 0.7
-        self.layer.borderColor = UIColor(hex: "#535353")?.cgColor
-        self.backgroundColor = UIColor(hex: "#FFFBF8")
+        self.layer.borderColor = UIColor.neutral300?.cgColor
+        self.backgroundColor = UIColor.inputFieldBackground
         self.contentHorizontalAlignment = .left
         self.clearButtonMode = .never
         
         // 왼쪽 아이콘 설정
         let leftIcon = UIImage(named: "search")?.withRenderingMode(.alwaysTemplate)
         leftImageView.image = leftIcon
-        leftImageView.tintColor = UIColor(hex: "#535353") ?? .gray
+        leftImageView.tintColor = searchIconColor
         leftImageView.contentMode = .scaleAspectFit
         
         let leftContainerView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 24))
@@ -62,7 +63,7 @@ public class SearchBar: UITextField {
         // 오른쪽 아이콘 설정
         let rightIcon = UIImage(named: "x")?.withRenderingMode(.alwaysTemplate)
         rightImageView.image = rightIcon
-        rightImageView.tintColor = UIColor(hex: "#8E8E8E") ?? .gray
+        rightImageView.tintColor = UIColor.neutral300 ?? .gray
         rightImageView.contentMode = .scaleAspectFit
         
         let rightContainerView = UIView(frame: CGRect(x: 0, y: 0, width: 36, height: 24))
@@ -82,10 +83,10 @@ public class SearchBar: UITextField {
     public override func becomeFirstResponder() -> Bool {
         let didBecomeFirstResponder = super.becomeFirstResponder()
         if didBecomeFirstResponder {
-            self.backgroundColor = UIColor(hex: "#FFFBF8")
+            self.backgroundColor = UIColor.inputFieldBackground
             self.layer.borderWidth = 0.7
             self.layer.borderColor = UIColor.mainColor.cgColor
-            self.imageView.tintColor = .mainColor
+            self.leftImageView.tintColor = .mainColor
         }
         return didBecomeFirstResponder
     }
@@ -93,11 +94,11 @@ public class SearchBar: UITextField {
     public override func resignFirstResponder() -> Bool {
         let didResignFirstResponder = super.resignFirstResponder()
         if didResignFirstResponder {
-            self.backgroundColor = UIColor(hex: "#FFFBF8")
+            self.backgroundColor = UIColor.inputFieldBackground
             self.layer.borderWidth = 0.7
-            self.layer.borderColor = UIColor(hex: "#535353")?.cgColor
+            self.layer.borderColor = UIColor.neutral300?.cgColor
             // 아이콘 색상 원래대로
-            leftImageView.tintColor = UIColor(hex: "#535353")
+            leftImageView.tintColor = UIColor.neutral300
         }
         return didResignFirstResponder
     }

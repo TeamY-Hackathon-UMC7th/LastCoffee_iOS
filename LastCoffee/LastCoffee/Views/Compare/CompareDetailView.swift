@@ -21,7 +21,7 @@ class CompareDetailView: UIView {
     func createLabel(text: String, alignment: NSTextAlignment) -> UILabel {
         let label = UILabel().then {
             $0.font = UIFont.ptdRegularFont(ofSize: 14)
-            $0.textColor = UIColor(hex: "#8E8E8E")
+            $0.textColor = UIColor.neutral300
             $0.text = text
             $0.textAlignment = .left
         }

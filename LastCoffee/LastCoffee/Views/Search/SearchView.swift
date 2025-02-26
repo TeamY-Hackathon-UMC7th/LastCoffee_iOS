@@ -42,7 +42,7 @@ class SearchView: UIView {
     
     public lazy var emptyLabel = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 16)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor.neutral300
         $0.textAlignment = .center
         $0.text = "해당하는 음료가 없어요."
         $0.isHidden = true
