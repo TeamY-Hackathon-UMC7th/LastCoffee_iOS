@@ -145,9 +145,9 @@ class NoteCell: UITableViewCell {
     }
     
     public func configure(model: NoteModel) {
-        let drinkDate = extractDate(from: model.drinkDate)
-        let drinkTime = extractTime(from: model.drinkDate)
-        let sleepTime = extractTime(from: model.sleepDate)
+        let drinkDate = extractData(from: model.drinkDate, extractDate: true)
+        let drinkTime = extractData(from: model.drinkDate, extractDate: false)
+        let sleepTime = extractData(from: model.sleepDate, extractDate: false)
         
         self.image.sd_setImage(with: URL(string: model.coffeeImgUrl))
         self.title.text = "[\(model.brand)] \(model.coffeeName)"
@@ -155,29 +155,17 @@ class NoteCell: UITableViewCell {
         self.drinkingDate.text = drinkDate
     }
     
-    func extractDate(from dateTimeString: String) -> String {
+    // 날짜 형식 변환 함수
+    func extractData(from dateTimeString: String, extractDate: Bool) -> String {
         let inputFormatter = DateFormatter()
         inputFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        
+
         if let date = inputFormatter.date(from: dateTimeString) {
             let outputFormatter = DateFormatter()
-            outputFormatter.dateFormat = "yyyy.MM.dd"
+            outputFormatter.dateFormat = extractDate ? "yyyy.MM.dd" : "HH시"
             return outputFormatter.string(from: date)
         } else {
-            return "날짜 형식 없음"
-        }
-    }
-    
-    func extractTime(from dateTimeString: String) -> String {
-        let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        
-        if let date = inputFormatter.date(from: dateTimeString) {
-            let outputFormatter = DateFormatter()
-            outputFormatter.dateFormat = "HH시"
-            return outputFormatter.string(from: date)
-        } else {
-            return "시간 형식 없음"
+            return "추출할 데이터가 없습니다."
         }
     }
 }

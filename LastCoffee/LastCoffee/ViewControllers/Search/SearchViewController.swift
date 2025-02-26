@@ -11,21 +11,9 @@ import SwiftyToaster
 class SearchViewController: UIViewController, UITextFieldDelegate {
     let networkService = CoffeeService()
     
-    private var brandData: [String] = [
-        "전체",
-        "스타벅스",
-        "컴포즈",
-        "폴바셋",
-        "빽다방",
-        "할리스",
-        "메가커피",
-        "커피빈",
-        "이디야",
-        "바나프레소",
-        "매머드",
-    ]
+    let brandData = Brand.allBrands
     
-    var selectedBrands: [String] = []
+    var selectedBrands: [Brand] = []
     
     private var data: [CoffeeDetailResponse] = [
         CoffeeDetailResponse(id: 1, name: "아메리카노", brand: "스타벅스", sugar: 2, caffeine: 2, calories: 2, protein: 2, coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/%5B110563%5D_20210426095937947.jpg"),
@@ -145,7 +133,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChipButtonCell.identifier, for: indexPath) as! ChipButtonCell
-        cell.configure(brand: brandData[indexPath.row], tag: indexPath.row)
+        cell.configure(brand: brandData[indexPath.row].description, tag: indexPath.row)
         
         return cell
     }

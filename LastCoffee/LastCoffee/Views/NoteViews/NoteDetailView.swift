@@ -18,6 +18,31 @@ class NoteDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // 뷰 업데이트 함수
+    func updateNoteDetail(with data: NoteModel) {
+        imageView.sd_setImage(with: URL(string: data.coffeeImgUrl))
+        coffeeName.text = "[\(data.brand)] \(data.coffeeName)"
+        drinking.text = "마신 일시  |  \(extractDateTime(from: data.drinkDate))"
+        sleeping.text = "취침 시간  |  \(extractDateTime(from: data.sleepDate))"
+        reviewContents.text = data.comment
+        createdAt.text = extractDateTime(from: data.createdAt)
+    }
+    
+    // 날짜 형식 변환 함수
+    func extractDateTime(from dateTimeString: String) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
+        if let date = inputFormatter.date(from: dateTimeString) {
+            let outputFormatter = DateFormatter()
+            outputFormatter.locale = Locale(identifier: "ko_KR")
+            outputFormatter.dateFormat = "yyyy년 MM월 dd일 a h시"
+            return outputFormatter.string(from: date)
+        } else {
+            return "날짜 형식 없음"
+        }
+    }
+    
     private lazy var shadowView = UIView().then {
         $0.backgroundColor = .clear
         $0.layer.shadowColor = UIColor.black.cgColor
