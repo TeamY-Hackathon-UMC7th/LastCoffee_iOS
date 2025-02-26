@@ -85,7 +85,8 @@ class CustomButton: UIButton {
     }
     
     private func updateBackgroundColor() {
-        self.backgroundColor = self.isEnabled ? .brown : .gray
+//        self.backgroundColor = self.isEnabled ? .brown : .gray
+        self.backgroundColor = self.isEnabled ? UIColor(hex: "592401") : UIColor(hex: "D4D4D4")
     }
     
     private func setDefaultHeight(_ height: CGFloat) {

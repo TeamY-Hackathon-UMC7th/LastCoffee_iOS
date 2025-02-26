@@ -34,7 +34,7 @@ class MyPageLabel: UIView {
     init(type: MyPageLabelType) {
         self.type = type
         super.init(frame: .zero)
-        
+        self.isUserInteractionEnabled = true
         self.backgroundColor = .clear
         
         setSubView()
@@ -56,6 +56,7 @@ class MyPageLabel: UIView {
         titleLabel.snp.makeConstraints { make in
             make.leading.verticalEdges.equalToSuperview()
             make.trailing.equalTo(button.snp.leading)
+            make.height.equalTo(18)
         }
         
         button.snp.makeConstraints { make in

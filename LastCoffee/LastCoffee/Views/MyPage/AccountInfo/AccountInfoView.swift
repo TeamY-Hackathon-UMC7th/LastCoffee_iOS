@@ -51,6 +51,12 @@ class AccountInfoView: UIView {
         btn.setTitleColor(UIColor(hex: "8E8E8E"), for: .normal)
     }
     
+    // 얼럿 생성 시 백그라운드
+    public let backgroundView = UIView().then { view in
+        view.backgroundColor = .black.withAlphaComponent(0.5)
+        view.isHidden = true
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -71,7 +77,8 @@ class AccountInfoView: UIView {
             seperatorLine,
             changePasswordButton,
             logoutButton,
-            withdrawButton
+            withdrawButton,
+            backgroundView
         ].forEach{self.addSubview($0)}
     }
     
@@ -110,6 +117,10 @@ class AccountInfoView: UIView {
             make.top.equalTo(logoutButton.snp.bottom).offset(24)
             make.leading.equalToSuperview().inset(16)
             make.height.equalTo(25)
+        }
+        
+        backgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 }

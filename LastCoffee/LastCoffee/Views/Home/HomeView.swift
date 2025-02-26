@@ -32,7 +32,7 @@ class HomeView: UIView {
     
     // '오늘의 취침 시간 버튼'
     public let btnRecommendDrink = CustomButton().then { btn in
-        btn.configure(title: "지금, 커피 한 잔 추천", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 14), radius: 10, backgroundColor: .mainColor ?? .systemBlue, isEnabled: true)
+        btn.configure(title: "지금, 커피 한 잔 추천", titleColor: .white, font: .ptdSemiBoldFont(ofSize: 14), radius: 10, backgroundColor: .mainColor, isEnabled: true)
     }
     
     public let lblEmptyMenu = UILabel().then { lbl in
@@ -117,7 +117,7 @@ class HomeView: UIView {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(ScreenWidth - 32), heightDimension: .absolute(200))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(DynamicPadding.superViewWidth - 32), heightDimension: .absolute(200))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)

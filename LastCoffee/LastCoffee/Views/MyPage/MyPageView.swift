@@ -11,9 +11,13 @@ class MyPageView: UIView {
     
     // 스크롤 뷰
     private let scrollView = UIScrollView().then { view in
-        view.showsHorizontalScrollIndicator = false
         view.showsVerticalScrollIndicator = false
+        view.showsHorizontalScrollIndicator = false
+        view.contentInsetAdjustmentBehavior = .never
         view.isScrollEnabled = true
+        view.clipsToBounds = false
+        view.isUserInteractionEnabled = true
+
     }
     private let contentView = UIView()
     
@@ -76,11 +80,11 @@ class MyPageView: UIView {
         lbl.text = "다크 모드"
         lbl.font = .ptdSemiBoldFont(ofSize: 16)
         lbl.textColor = UIColor(hex: "2C2C2C")
+        lbl.baselineAdjustment = .alignCenters
     }
     
     // 스위치
-    public let darkModeSwitch = UISwitch().then { sw in
-    }
+    public let darkModeSwitch = SwitchView()
     
     // 분리선
     private let seperatorLineService = UIView().then { view in
@@ -116,9 +120,6 @@ class MyPageView: UIView {
     }
     
     private func setSubView() {
-        self.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        
         [
             nicknameLabel,
             topStackView,
@@ -152,23 +153,26 @@ class MyPageView: UIView {
             personalInfoView,
             serviceInfoView
         ].forEach{helpGroupView.addSubview($0)}
+
+        scrollView.addSubview(contentView)
+        self.addSubview(scrollView)
+        
     }
     
     private func setUI() {
         scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview().inset(50) // 수정 필요함
         }
         
         contentView.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalToSuperview()
-            make.width.equalTo(scrollView)
-            make.bottom.equalTo(helpGroupView)
+            make.edges.width.equalToSuperview()
         }
         
-        
         nicknameLabel.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(57)
+            make.top.equalToSuperview().offset(DynamicPadding.dynamicValue(57))
             make.horizontalEdges.equalToSuperview().inset(16)
+            make.height.equalTo(26)
         }
         
         topStackView.snp.makeConstraints { make in
@@ -185,21 +189,25 @@ class MyPageView: UIView {
         
         profileLabel.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
+            make.height.equalTo(16)
         }
         
         accountInfoView.snp.makeConstraints { make in
             make.top.equalTo(profileLabel.snp.bottom).offset(18)
             make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(18)
         }
         
         changeNicknameView.snp.makeConstraints { make in
             make.top.equalTo(accountInfoView.snp.bottom).offset(22)
             make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(18)
         }
         
         alertSettingView.snp.makeConstraints { make in
             make.top.equalTo(changeNicknameView.snp.bottom).offset(22)
             make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(18)
         }
         
         seperatorLineProfile.snp.makeConstraints { make in
@@ -216,17 +224,20 @@ class MyPageView: UIView {
         
         serviceLabel.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
+            make.height.equalTo(16)
         }
         
         darkModeLabel.snp.makeConstraints { make in
             make.top.equalTo(serviceLabel.snp.bottom).offset(18)
             make.leading.equalToSuperview()
             make.trailing.equalTo(darkModeSwitch.snp.leading)
+            make.height.equalTo(22.5)
         }
         
         darkModeSwitch.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.centerY.equalTo(darkModeLabel)
+            make.height.equalTo(22.5)
         }
         
         seperatorLineService.snp.makeConstraints { make in
@@ -239,21 +250,25 @@ class MyPageView: UIView {
         helpGroupView.snp.makeConstraints { make in
             make.top.equalTo(serviceGroupView.snp.bottom).offset(26)
             make.horizontalEdges.equalToSuperview().inset(16)
-            make.bottom.equalTo(safeAreaLayoutGuide)
+            make.height.equalTo(150) // 수정 필요함
+            make.bottom.equalTo(contentView)
         }
         
         helpLabel.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
+            make.height.equalTo(16)
         }
         
         personalInfoView.snp.makeConstraints { make in
             make.top.equalTo(helpLabel.snp.bottom).offset(18)
             make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(18)
         }
         
         serviceInfoView.snp.makeConstraints { make in
             make.top.equalTo(personalInfoView.snp.bottom).offset(22)
-            make.horizontalEdges.bottom.equalToSuperview()
+            make.height.equalTo(18)
+            make.horizontalEdges.equalToSuperview()
         }
     }
 }
