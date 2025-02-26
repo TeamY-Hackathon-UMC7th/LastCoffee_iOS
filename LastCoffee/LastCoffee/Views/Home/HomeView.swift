@@ -13,7 +13,7 @@ class HomeView: UIView {
     
     // 닉네임 라벨
     private lazy var lblNickname = UILabel().then { lbl in
-        lbl.text = "\(nickname)님, 오늘도 좋은 하루 보내세요 : )"
+        lbl.text = "\(nickname)님, 행복 가득한 하루 되세요 : )"
         lbl.font = .ptdSemiBoldFont(ofSize: 18)
         lbl.textAlignment = .left
     }
@@ -37,7 +37,7 @@ class HomeView: UIView {
     
     public let lblEmptyMenu = UILabel().then { lbl in
         lbl.text = "아직 추천 받은 메뉴가 없어요"
-        lbl.textColor = UIColor(hex: "111111")
+        lbl.textColor = UIColor(hex: "5D5D5D")
         lbl.textAlignment = .center
         lbl.font = .ptdMediumFont(ofSize: 14)
         lbl.isHidden = true
@@ -79,18 +79,18 @@ class HomeView: UIView {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(lblNickname.snp.bottom).offset(17)
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(btnRecommendDrink.snp.top)
+            make.bottom.equalTo(btnRecommendDrink.snp.top).offset(-(DynamicPadding.dynamicValue(34)))
         }
         
         lblEmptyMenu.snp.makeConstraints { make in
-            make.bottom.equalTo(btnRecommendDrink.snp.top).offset(-81)
+            make.bottom.equalTo(btnRecommendDrink.snp.top).offset(-(DynamicPadding.dynamicValue(80)))
             make.centerX.equalToSuperview()
         }
         
         btnRecommendDrink.snp.makeConstraints { make in
-            make.bottom.equalTo(safeAreaLayoutGuide).inset(52)
-            make.width.equalTo(192)
-            make.height.equalTo(54)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(DynamicPadding.dynamicValue(37) + (Constants.isSeDevice ? Constants.seBottomExtraPadding : 0))
+            make.width.equalTo(DynamicPadding.dynamicValuebyWidth(174))
+            make.height.equalTo(DynamicPadding.dynamicValue(54))
             make.centerX.equalToSuperview()
         }
     }
@@ -98,7 +98,7 @@ class HomeView: UIView {
     // 레아이웃 provider
     private func createLayout() -> UICollectionViewCompositionalLayout{
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 22
+        config.interSectionSpacing = DynamicPadding.dynamicValue(22)
         return UICollectionViewCompositionalLayout(sectionProvider: { sectionIndex, _ in
             switch sectionIndex {
             case 0: // 인기 메뉴
@@ -117,7 +117,7 @@ class HomeView: UIView {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(DynamicPadding.superViewWidth - 32), heightDimension: .absolute(200))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(DynamicPadding.superViewWidth - 32), heightDimension: .absolute(DynamicPadding.dynamicValue(200)))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -139,7 +139,7 @@ class HomeView: UIView {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .absolute(140))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.3), heightDimension: .absolute(DynamicPadding.dynamicValue(140)))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
