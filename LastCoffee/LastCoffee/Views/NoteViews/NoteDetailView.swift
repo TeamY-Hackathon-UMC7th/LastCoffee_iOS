@@ -83,8 +83,8 @@ class NoteDetailView: UIView {
     }
     
     private lazy var review = UILabel().then {
-        $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "994E24")
+        $0.font = UIFont.ptdSemiBoldFont(ofSize: 14)
+        $0.textColor = .mainColor
         $0.textAlignment = .left
         
         $0.text = "후기"
@@ -120,10 +120,10 @@ class NoteDetailView: UIView {
         }
         
         shadowView.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).offset(45)
+            $0.top.equalTo(safeAreaLayoutGuide).offset(DynamicPadding.dynamicValue(48))
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(262)
-            $0.height.equalTo(267)
+            $0.width.equalTo(DynamicPadding.dynamicValuebyWidth(262))
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(267))
         }
         
         shadowView.addSubview(imageView)
@@ -132,32 +132,32 @@ class NoteDetailView: UIView {
         }
         
         coffeeName.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.bottom).offset(35)
+            $0.top.equalTo(imageView.snp.bottom).offset(DynamicPadding.dynamicValue(32))
             $0.centerX.equalToSuperview()
         }
         
         drinking.snp.makeConstraints {
-            $0.top.equalTo(coffeeName.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().offset(44)
+            $0.top.equalTo(coffeeName.snp.bottom).offset(DynamicPadding.dynamicValue(16))
+            $0.leading.equalToSuperview().offset(DynamicPadding.dynamicValue(40))
         }
         
         sleeping.snp.makeConstraints {
-            $0.top.equalTo(drinking.snp.bottom).offset(12)
+            $0.top.equalTo(drinking.snp.bottom).offset(DynamicPadding.dynamicValue(12))
             $0.leading.equalTo(drinking.snp.leading)
         }
         
         review.snp.makeConstraints {
-            $0.top.equalTo(sleeping.snp.bottom).offset(20)
+            $0.top.equalTo(sleeping.snp.bottom).offset(DynamicPadding.dynamicValue(32))
             $0.leading.equalTo(drinking.snp.leading)
         }
         
         reviewContents.snp.makeConstraints {
-            $0.top.equalTo(review.snp.bottom).offset(5)
+            $0.top.equalTo(review.snp.bottom).offset(DynamicPadding.dynamicValue(4))
             $0.leading.equalTo(drinking.snp.leading)
         }
         
         createdAt.snp.makeConstraints {
-            $0.top.equalTo(reviewContents.snp.bottom).offset(30)
+            $0.top.equalTo(reviewContents.snp.bottom).offset(DynamicPadding.dynamicValue(72))
             $0.leading.equalTo(reviewContents.snp.leading)
         }
     }

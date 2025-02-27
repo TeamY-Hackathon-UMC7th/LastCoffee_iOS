@@ -50,7 +50,7 @@ class AddNoteView: UIView {
         
         $0.isEditable = true
         $0.isScrollEnabled = true
-        $0.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        $0.textContainerInset = UIEdgeInsets(top: DynamicPadding.dynamicValue(16), left: DynamicPadding.dynamicValuebyWidth(16), bottom: DynamicPadding.dynamicValue(16), right: DynamicPadding.dynamicValuebyWidth(16))
         
         $0.layer.borderColor = UIColor.mainColor.cgColor
         $0.layer.borderWidth = 0.7
@@ -76,7 +76,7 @@ class AddNoteView: UIView {
         titleColor: .white,
         font: UIFont.ptdSemiBoldFont(ofSize: 18),
         radius: 10,
-        isEnabled: true
+        isEnabled: false
     )
 
     public lazy var drinkingStack = createCustomStack(iconName: "coffee_fill", titleText: "마신 일시")
@@ -113,53 +113,53 @@ class AddNoteView: UIView {
         }
         
         selectedCoffeeIcon.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).offset(16)
-            $0.leading.equalToSuperview().offset(27)
-            $0.width.height.equalTo(18)
+            $0.top.equalTo(safeAreaLayoutGuide).offset(DynamicPadding.dynamicValue(16))
+            $0.leading.equalToSuperview().offset(DynamicPadding.dynamicValue(24))
+            $0.width.height.equalTo(DynamicPadding.dynamicValuebyWidth(18))
         }
         
         selectedCoffee.snp.makeConstraints {
-            $0.leading.equalTo(selectedCoffeeIcon.snp.trailing).offset(6)
+            $0.leading.equalTo(selectedCoffeeIcon.snp.trailing).offset(DynamicPadding.dynamicValue(6))
             $0.centerY.equalTo(selectedCoffeeIcon.snp.centerY)
         }
         
         drinkingStack.snp.makeConstraints {
-            $0.top.equalTo(selectedCoffeeIcon.snp.bottom).offset(35)
-            $0.leading.equalToSuperview().offset(25)
+            $0.top.equalTo(selectedCoffeeIcon.snp.bottom).offset(DynamicPadding.dynamicValue(24))
+            $0.leading.equalToSuperview().offset(DynamicPadding.dynamicValue(24))
         }
         
         sleepingStack.snp.makeConstraints {
-            $0.top.equalTo(drinkingStack.snp.bottom).offset(20)
-            $0.leading.equalToSuperview().offset(25)
+            $0.top.equalTo(drinkingStack.snp.bottom).offset(DynamicPadding.dynamicValue(24))
+            $0.leading.equalTo(drinkingStack.snp.leading)
         }
         
         drinkingPicker.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-23)
+            $0.trailing.equalToSuperview().offset(DynamicPadding.dynamicValue(-24))
             $0.centerY.equalTo(drinkingStack)
+            $0.width.equalTo(DynamicPadding.dynamicValuebyWidth(216))
         }
         
         sleepingPicker.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-23)
+            $0.trailing.equalToSuperview().offset(DynamicPadding.dynamicValue(-24))
             $0.centerY.equalTo(sleepingStack)
+            $0.width.equalTo(DynamicPadding.dynamicValuebyWidth(216))
         }
         
         reviewTextView.snp.makeConstraints {
-            $0.top.equalTo(sleepingPicker.snp.bottom).offset(63)
-            $0.leading.equalToSuperview().offset(24)
-            $0.trailing.equalToSuperview().offset(-24)
-            $0.height.equalTo(240)
+            $0.top.equalTo(sleepingPicker.snp.bottom).offset(DynamicPadding.dynamicValue(56))
+            $0.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(24))
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(242))
         }
         
         warningLabel.snp.makeConstraints {
-            $0.top.equalTo(reviewTextView.snp.bottom).offset(5)
-            $0.leading.equalTo(reviewTextView.snp.leading).offset(5)
+            $0.top.equalTo(reviewTextView.snp.bottom).offset(DynamicPadding.dynamicValue(4))
+            $0.leading.equalTo(reviewTextView.snp.leading).offset(DynamicPadding.dynamicValue(6))
         }
         
         saveBtn.snp.makeConstraints {
-            $0.bottom.equalToSuperview().offset(-76)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.height.equalTo(52)
+            $0.bottom.equalTo(safeAreaLayoutGuide).offset(DynamicPadding.dynamicValue(-64))
+            $0.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(16))
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(48))
         }
     }
     
@@ -178,17 +178,13 @@ class AddNoteView: UIView {
         
         let stack = UIStackView(arrangedSubviews: [icon, title]).then {
             $0.axis = .horizontal
-            $0.spacing = 10
+            $0.spacing = DynamicPadding.dynamicValue(10)
             $0.alignment = .fill
             $0.distribution = .fill
         }
         
-        stack.snp.makeConstraints {
-            $0.height.equalTo(40)
-        }
-        
         icon.snp.makeConstraints {
-            $0.width.height.equalTo(24)
+            $0.width.height.equalTo(DynamicPadding.dynamicValuebyWidth(24))
         }
 
         return stack
@@ -208,11 +204,19 @@ extension AddNoteView: UITextViewDelegate {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             let textAttributes = textViewAttributes(foregroundColor: UIColor.neutral300 ?? UIColor.gray)
             textView.attributedText = NSAttributedString(string: textViewPlaceHolder, attributes: textAttributes)
+            saveBtn.setEnabled(false)
         }
     }
     
     func textViewDidChange(_ textView: UITextView) {
         let textCount = textView.text.count
+        
+        if textCount > 0 {
+            saveBtn.setEnabled(true)
+        } else {
+            saveBtn.setEnabled(false)
+        }
+        
         if textCount > 200 {
             warningLabel.isHidden = false
             textView.layer.borderColor = UIColor.errorRed.cgColor

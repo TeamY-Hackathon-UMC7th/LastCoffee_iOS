@@ -24,6 +24,7 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.title = "새 기록"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.ptdMediumFont(ofSize: 18)]
         self.view = noteSearchView
         self.tabBarController?.tabBar.isHidden = true
         setNavigationBar()

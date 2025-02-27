@@ -19,8 +19,10 @@ class AddNoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = addNoteView
+        
         self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.title = "새 기록"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.ptdMediumFont(ofSize: 18)]
         
         if let data = receivedData {
             addNoteView.selectedCoffee.text = "[\(data.brand)] \(data.name)"

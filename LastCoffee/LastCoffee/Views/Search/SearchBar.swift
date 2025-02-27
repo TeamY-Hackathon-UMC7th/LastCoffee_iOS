@@ -53,8 +53,8 @@ public class SearchBar: UITextField {
         leftImageView.tintColor = searchIconColor
         leftImageView.contentMode = .scaleAspectFit
         
-        let leftContainerView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 24))
-        leftImageView.frame = CGRect(x: 12, y: 0, width: 24, height: 24)
+        let leftContainerView = UIView(frame: CGRect(x: 0, y: 0, width: DynamicPadding.dynamicValuebyWidth(45), height: DynamicPadding.dynamicValue(24)))
+        leftImageView.frame = CGRect(x: 12, y: 0, width: DynamicPadding.dynamicValuebyWidth(24), height: DynamicPadding.dynamicValue(24))
         leftContainerView.addSubview(leftImageView)
         
         self.leftView = leftContainerView
@@ -66,8 +66,8 @@ public class SearchBar: UITextField {
         rightImageView.tintColor = UIColor.neutral300 ?? .gray
         rightImageView.contentMode = .scaleAspectFit
         
-        let rightContainerView = UIView(frame: CGRect(x: 0, y: 0, width: 36, height: 24))
-        rightImageView.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
+        let rightContainerView = UIView(frame: CGRect(x: 0, y: 0, width: DynamicPadding.dynamicValuebyWidth(36), height: DynamicPadding.dynamicValue(24)))
+        rightImageView.frame = CGRect(x: 0, y: 0, width: DynamicPadding.dynamicValuebyWidth(24), height: DynamicPadding.dynamicValue(24))
         rightContainerView.addSubview(rightImageView)
         
         self.rightView = rightContainerView

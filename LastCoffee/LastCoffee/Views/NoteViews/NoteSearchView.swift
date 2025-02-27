@@ -37,7 +37,7 @@ class NoteSearchView: UIView {
     
     public lazy var nextBtn = CustomButton(
         backgroundColor: UIColor.mainColor,
-        title: "다음으로",
+        title: "다음",
         titleColor: .white,
         radius: 10,
         isEnabled: false
@@ -63,36 +63,32 @@ class NoteSearchView: UIView {
         }
         
         title.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).offset(32)
-            $0.leading.equalToSuperview().offset(16)
+            $0.top.equalTo(safeAreaLayoutGuide).offset(DynamicPadding.dynamicValue(40))
+            $0.leading.equalToSuperview().offset(DynamicPadding.dynamicValue(16))
         }
         
         searchBar.snp.makeConstraints {
-            $0.top.equalTo(title.snp.bottom).offset(40)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.height.equalTo(48)
+            $0.top.equalTo(title.snp.bottom).offset(DynamicPadding.dynamicValue(32))
+            $0.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(16))
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(48))
         }
         
         nextBtn.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview().offset(-76)
-            $0.width.equalTo(343)
-            $0.height.equalTo(52)
+            $0.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(16))
+            $0.bottom.equalToSuperview().offset(DynamicPadding.dynamicValue(-64))
+            $0.width.equalTo(DynamicPadding.dynamicValuebyWidth(343))
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(48))
         }
         
         noteSearchTableView.snp.makeConstraints {
             $0.top.equalTo(searchBar.snp.bottom)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
+            $0.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(16))
             $0.bottom.equalTo(nextBtn.snp.top)
         }
         
         emptyLabel.snp.makeConstraints {
-            $0.top.equalTo(searchBar.snp.bottom).offset(184)
-            $0.leading.equalToSuperview().offset(112)
-            $0.trailing.equalToSuperview().offset(-122)
+            $0.top.equalTo(searchBar.snp.bottom).offset(DynamicPadding.dynamicValue(188))
+            $0.centerX.equalToSuperview()
         }
     }
 }

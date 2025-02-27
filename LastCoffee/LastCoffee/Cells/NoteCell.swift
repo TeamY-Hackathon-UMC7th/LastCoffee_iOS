@@ -38,12 +38,12 @@ class NoteCell: UITableViewCell {
     
     private let containerView = UIView().then {
         $0.backgroundColor = .white
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = 6
         $0.layer.masksToBounds = true
     }
     
     let last = UIView().then {
-        $0.backgroundColor = UIColor.background
+        $0.backgroundColor = .subColor
         $0.layer.cornerRadius = 4
         $0.layer.maskedCorners = [.layerMinXMaxYCorner]
         $0.isHidden = true
@@ -59,12 +59,13 @@ class NoteCell: UITableViewCell {
     private lazy var image = UIImageView().then {
         $0.layer.cornerRadius = 4
         $0.clipsToBounds = true
-        $0.contentMode = .scaleAspectFill
+        $0.contentMode = .scaleAspectFit
         $0.backgroundColor = .white
     }
     
     private lazy var title = UILabel().then {
         $0.font = UIFont.ptdMediumFont(ofSize: 16)
+        $0.numberOfLines = 2
         $0.textColor = .black
     }
     
@@ -77,7 +78,7 @@ class NoteCell: UITableViewCell {
         $0.axis = .vertical
         $0.distribution = .fill
         $0.alignment = .leading
-        $0.spacing = 8
+        $0.spacing = DynamicPadding.dynamicValue(8)
     }
     
     private lazy var drinkingDate = UILabel().then {
@@ -103,44 +104,41 @@ class NoteCell: UITableViewCell {
         
         contentView.layer.shadowColor = UIColor.black.cgColor
         contentView.layer.shadowOpacity = 0.08
-        contentView.layer.shadowOffset = CGSize(width: 0, height: 1)
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 2)
         contentView.layer.shadowRadius = 4
         contentView.layer.masksToBounds = false
         
         containerView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 8, right: 0))
+            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: DynamicPadding.dynamicValue(8), right: 0))
+            $0.height.equalTo(DynamicPadding.dynamicValue(80))
         }
         
         last.snp.makeConstraints {
             $0.top.trailing.equalToSuperview()
-            $0.width.equalTo(66)
-            $0.height.equalTo(18)
+            $0.width.equalTo(DynamicPadding.dynamicValuebyWidth(66))
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(18))
         }
         
         image.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(DynamicPadding.dynamicValue(16))
             $0.centerY.equalToSuperview()
-            $0.width.height.equalTo(52)
+            $0.width.equalTo(DynamicPadding.dynamicValuebyWidth(52))
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(53))
         }
         
         lastLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(10)
-            $0.centerY.equalToSuperview()
+            $0.centerX.centerY.equalToSuperview()
         }
         
         titleStackView.snp.makeConstraints {
             $0.centerY.equalTo(image.snp.centerY)
-            $0.leading.equalTo(image.snp.trailing).offset(18)
+            $0.leading.equalTo(image.snp.trailing).offset(DynamicPadding.dynamicValue(16))
+            $0.trailing.equalToSuperview().offset(DynamicPadding.dynamicValue(-16))
         }
         
         drinkingDate.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-12)
-            $0.bottom.equalToSuperview().offset(-8)
-        }
-        
-        image.snp.makeConstraints {
-            $0.width.equalTo(46)
-            $0.height.equalTo(50)
+            $0.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(12))
+            $0.bottom.equalToSuperview().inset(DynamicPadding.dynamicValue(8))
         }
     }
     

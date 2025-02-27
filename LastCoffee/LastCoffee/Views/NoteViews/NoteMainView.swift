@@ -35,6 +35,7 @@ class NoteMainView: UIView {
         $0.register(NoteCell.self, forCellReuseIdentifier: NoteCell.identifier)
         $0.separatorStyle = .none
         $0.backgroundColor = .clear
+        $0.showsVerticalScrollIndicator = false
     }
     
     private func setupView() {
@@ -47,21 +48,20 @@ class NoteMainView: UIView {
         }
         
         title.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).offset(30)
-            $0.leading.equalToSuperview().offset(20)
+            $0.top.equalTo(safeAreaLayoutGuide).offset(DynamicPadding.dynamicValue(30))
+            $0.leading.equalToSuperview().offset(DynamicPadding.dynamicValue(24))
         }
         
         addBtn.snp.makeConstraints {
             $0.centerY.equalTo(title.snp.centerY)
-            $0.trailing.equalToSuperview().offset(-20)
-            $0.width.height.equalTo(32)
+            $0.trailing.equalToSuperview().offset(DynamicPadding.dynamicValue(-24))
+            $0.width.height.equalTo(DynamicPadding.dynamicValuebyWidth(32))
         }
         
         noteTableView.snp.makeConstraints {
-            $0.top.equalTo(title.snp.bottom).offset(55)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview()
+            $0.top.equalTo(title.snp.bottom).offset(DynamicPadding.dynamicValue(48))
+            $0.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(16))
+            $0.bottom.equalTo(safeAreaLayoutGuide)
         }
     }
 
