@@ -12,12 +12,13 @@ class SearchDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBarController?.tabBar.isHidden = true
         self.view = detailView
         setNavigationBar()
         
         if let data = receivedData {
             detailView.coffeeName.text = "[\(data.brand)] \(data.name)"
-            detailView.imageView.sd_setImage(with: URL(string: data.coffeeImgUrl))
+            detailView.image.sd_setImage(with: URL(string: data.coffeeImgUrl))
             detailView.caffeineValue.text = data.caffeine.description
             detailView.sugarValue.text = data.sugar.description
             detailView.proteinValue.text = data.protein.description
@@ -27,6 +28,7 @@ class SearchDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
         self.view = detailView
         setNavigationBar()
         
@@ -41,7 +43,8 @@ class SearchDetailViewController: UIViewController {
     }
     
     private func setNavigationBar() {
-        let leftBarButton = UIBarButtonItem(image: .init(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popButton))
+        self.navigationController?.navigationBar.isHidden = false
+        let leftBarButton = UIBarButtonItem(image: .init(named: "Back"), style: .plain, target: self, action: #selector(popButton))
         leftBarButton.tintColor = .black
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
     }

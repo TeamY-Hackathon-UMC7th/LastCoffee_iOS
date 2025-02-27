@@ -18,28 +18,57 @@ class NoteDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // 뷰 업데이트 함수
+    func updateNoteDetail(with data: NoteModel) {
+        imageView.sd_setImage(with: URL(string: data.coffeeImgUrl))
+        coffeeName.text = "[\(data.brand)] \(data.coffeeName)"
+        drinking.text = "마신 일시  |  \(extractDateTime(from: data.drinkDate))"
+        sleeping.text = "취침 시간  |  \(extractDateTime(from: data.sleepDate))"
+        reviewContents.text = data.comment
+        createdAt.text = extractDateTime(from: data.createdAt)
+    }
+    
+    // 날짜 형식 변환 함수
+    func extractDateTime(from dateTimeString: String) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        
+        if let date = inputFormatter.date(from: dateTimeString) {
+            let outputFormatter = DateFormatter()
+            outputFormatter.locale = Locale(identifier: "ko_KR")
+            outputFormatter.dateFormat = "yyyy년 MM월 dd일 a h시"
+            return outputFormatter.string(from: date)
+        } else {
+            return "날짜 형식 없음"
+        }
+    }
+    
+    private lazy var shadowView = UIView().then {
+        $0.backgroundColor = .clear
+        $0.layer.shadowColor = UIColor.black.cgColor
+        $0.layer.shadowOpacity = 0.08
+        $0.layer.shadowOffset = CGSize(width: 0, height: 2)
+        $0.layer.shadowRadius = 6
+        $0.layer.masksToBounds = false
+    }
+    
     public lazy var imageView = UIImageView().then {
         $0.backgroundColor = .white
-        
-        $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
-        $0.layer.shadowColor = UIColor.black.cgColor
-        $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-        $0.layer.shadowRadius = 4
-        $0.layer.shadowOpacity = 0.08
+        $0.layer.cornerRadius = 6
         $0.contentMode = .scaleAspectFit
     }
     
     public lazy var coffeeName = UILabel().then {
         $0.font = UIFont.ptdMediumFont(ofSize: 16)
-        $0.textColor = .black
+        $0.textColor = .mainColor
         $0.textAlignment = .center
         $0.text = nil
     }
     
     public lazy var drinking = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor.neutral300
         $0.textAlignment = .left
         
         $0.text = "마신 일시 | 2024년 7월 8일 오후 5시"
@@ -47,7 +76,7 @@ class NoteDetailView: UIView {
     
     public lazy var sleeping = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor.neutral300
         $0.textAlignment = .left
         
         $0.text = "취침 시간 | 2024년 7월 9일 오전 2시"
@@ -55,7 +84,7 @@ class NoteDetailView: UIView {
     
     private lazy var review = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor(hex: "994E24")
         $0.textAlignment = .left
         
         $0.text = "후기"
@@ -63,54 +92,73 @@ class NoteDetailView: UIView {
     
     public lazy var reviewContents = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor.black
         $0.textAlignment = .left
         
-        $0.text = "2024년 7월 9일 오전 2시"
+        $0.text = "하루 두잔이나 마셨지만 이전보다 빨리 먹으니까 확실히 잠이 잘 오는 것 같다."
+    }
+    
+    public lazy var createdAt = UILabel().then {
+        $0.font = UIFont.ptdRegularFont(ofSize: 14)
+        $0.textColor = UIColor.neutral300
+        $0.textAlignment = .left
+        
+        $0.text = "2024년 7월 8일 오전 2시"
     }
     
     private func setupView() {
         [
-            imageView,
+            shadowView,
             coffeeName,
             drinking,
             sleeping,
             review,
-            reviewContents
+            reviewContents,
+            createdAt
         ].forEach {
             addSubview($0)
         }
         
-        imageView.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).offset(28)
+        shadowView.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide).offset(45)
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(278)
-            $0.height.equalTo(287)
+            $0.width.equalTo(262)
+            $0.height.equalTo(267)
+        }
+        
+        shadowView.addSubview(imageView)
+        imageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         coffeeName.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.bottom).offset(33)
+            $0.top.equalTo(imageView.snp.bottom).offset(35)
             $0.centerX.equalToSuperview()
         }
         
         drinking.snp.makeConstraints {
-            $0.top.equalTo(coffeeName.snp.bottom).offset(26)
+            $0.top.equalTo(coffeeName.snp.bottom).offset(30)
             $0.leading.equalToSuperview().offset(44)
         }
         
         sleeping.snp.makeConstraints {
-            $0.top.equalTo(drinking.snp.bottom).offset(6)
-            $0.leading.equalToSuperview().offset(44)
+            $0.top.equalTo(drinking.snp.bottom).offset(12)
+            $0.leading.equalTo(drinking.snp.leading)
         }
         
         review.snp.makeConstraints {
-            $0.top.equalTo(sleeping.snp.bottom).offset(18)
-            $0.leading.equalToSuperview().offset(44)
+            $0.top.equalTo(sleeping.snp.bottom).offset(20)
+            $0.leading.equalTo(drinking.snp.leading)
         }
         
         reviewContents.snp.makeConstraints {
-            $0.top.equalTo(review.snp.bottom).offset(3)
-            $0.leading.equalToSuperview().offset(44)
+            $0.top.equalTo(review.snp.bottom).offset(5)
+            $0.leading.equalTo(drinking.snp.leading)
+        }
+        
+        createdAt.snp.makeConstraints {
+            $0.top.equalTo(reviewContents.snp.bottom).offset(30)
+            $0.leading.equalTo(reviewContents.snp.leading)
         }
     }
 }

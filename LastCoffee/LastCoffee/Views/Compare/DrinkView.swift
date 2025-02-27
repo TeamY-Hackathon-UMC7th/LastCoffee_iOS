@@ -18,15 +18,17 @@ class DrinkView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public lazy var imageView = UIImageView().then {
-        $0.backgroundColor = .white
-        
-        $0.layer.cornerRadius = 10
-        $0.clipsToBounds = true
+    public lazy var shadowView = UIImageView().then {
         $0.layer.shadowColor = UIColor.black.cgColor
         $0.layer.shadowOffset = CGSize(width: 0, height: 2)
         $0.layer.shadowRadius = 4
         $0.layer.shadowOpacity = 0.08
+    }
+    
+    public lazy var imageView = UIImageView().then {
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 4
+        $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFit
     }
 
@@ -42,7 +44,7 @@ class DrinkView: UIView {
     }
     
     func setGoodCoffeeNameColor() {
-        coffeeName.textColor = UIColor.mainColor ?? .brown
+        coffeeName.textColor = UIColor(hex: "994E24")
     }
     
     func setDrinkInfo(image : String, brand: String, name : String) {
@@ -53,16 +55,21 @@ class DrinkView: UIView {
     
     private func setupView() {
         [
-            imageView,
+            shadowView,
             coffeeName,
         ].forEach {
             addSubview($0)
         }
+        shadowView.addSubview(imageView)
         
-        imageView.snp.makeConstraints {
+        shadowView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(imageView.snp.width)
+        }
+        
+        imageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         coffeeName.snp.makeConstraints {

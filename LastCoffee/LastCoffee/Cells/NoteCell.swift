@@ -43,7 +43,7 @@ class NoteCell: UITableViewCell {
     }
     
     let last = UIView().then {
-        $0.backgroundColor = UIColor(hex: "#EE633A")
+        $0.backgroundColor = UIColor.background
         $0.layer.cornerRadius = 4
         $0.layer.maskedCorners = [.layerMinXMaxYCorner]
         $0.isHidden = true
@@ -57,10 +57,9 @@ class NoteCell: UITableViewCell {
     }
     
     private lazy var image = UIImageView().then {
-        $0.image = UIImage()
-        $0.layer.cornerRadius = 3
+        $0.layer.cornerRadius = 4
         $0.clipsToBounds = true
-        $0.contentMode = .scaleAspectFit
+        $0.contentMode = .scaleAspectFill
         $0.backgroundColor = .white
     }
     
@@ -71,7 +70,7 @@ class NoteCell: UITableViewCell {
     
     private lazy var subTitle = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor.neutral300
     }
     
     private lazy var titleStackView = UIStackView().then {
@@ -83,7 +82,7 @@ class NoteCell: UITableViewCell {
     
     private lazy var drinkingDate = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 12)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor.neutral300
     }
     
     private func setupView() {
@@ -119,9 +118,9 @@ class NoteCell: UITableViewCell {
         }
         
         image.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(15)
             $0.leading.equalToSuperview().offset(20)
-            $0.bottom.equalToSuperview().offset(-15)
+            $0.centerY.equalToSuperview()
+            $0.width.height.equalTo(52)
         }
         
         lastLabel.snp.makeConstraints {
@@ -146,9 +145,9 @@ class NoteCell: UITableViewCell {
     }
     
     public func configure(model: NoteModel) {
-        let drinkDate = extractDate(from: model.drinkDate)
-        let drinkTime = extractTime(from: model.drinkDate)
-        let sleepTime = extractTime(from: model.sleepDate)
+        let drinkDate = extractData(from: model.drinkDate, extractDate: true)
+        let drinkTime = extractData(from: model.drinkDate, extractDate: false)
+        let sleepTime = extractData(from: model.sleepDate, extractDate: false)
         
         self.image.sd_setImage(with: URL(string: model.coffeeImgUrl))
         self.title.text = "[\(model.brand)] \(model.coffeeName)"
@@ -156,19 +155,17 @@ class NoteCell: UITableViewCell {
         self.drinkingDate.text = drinkDate
     }
     
-    func extractDate(from dateTimeString: String) -> String {
-        if let range = dateTimeString.range(of: "\\d{4}-\\d{2}-\\d{2}", options: .regularExpression) {
-            return String(dateTimeString[range])
+    // 날짜 형식 변환 함수
+    func extractData(from dateTimeString: String, extractDate: Bool) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+
+        if let date = inputFormatter.date(from: dateTimeString) {
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = extractDate ? "yyyy.MM.dd" : "HH시"
+            return outputFormatter.string(from: date)
         } else {
-            return "날짜 형식 없음"
-        }
-    }
-    
-    func extractTime(from dateTimeString: String) -> String {
-        if let range = dateTimeString.range(of: "\\d{2}:\\d{2}", options: .regularExpression) {
-            return String(dateTimeString[range])
-        } else {
-            return "시간 형식 없음"
+            return "추출할 데이터가 없습니다."
         }
     }
 }

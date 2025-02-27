@@ -21,7 +21,7 @@ class CompareDetailView: UIView {
     func createLabel(text: String, alignment: NSTextAlignment) -> UILabel {
         let label = UILabel().then {
             $0.font = UIFont.ptdRegularFont(ofSize: 14)
-            $0.textColor = UIColor(hex: "#8E8E8E")
+            $0.textColor = UIColor.neutral300
             $0.text = text
             $0.textAlignment = .left
         }
@@ -29,19 +29,19 @@ class CompareDetailView: UIView {
     }
     
     public lazy var imageView = UIImageView().then {
-        $0.backgroundColor = .white
-        
-        $0.layer.cornerRadius = 10
-        $0.clipsToBounds = true
         $0.layer.shadowColor = UIColor.black.cgColor
         $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-        $0.layer.shadowRadius = 4
+        $0.layer.shadowRadius = 6
         $0.layer.shadowOpacity = 0.08
+        $0.layer.masksToBounds = false
         $0.contentMode = .scaleAspectFit
     }
     
     public lazy var image = UIImageView().then {
+        $0.backgroundColor = .white
         $0.contentMode = .scaleAspectFit
+        $0.layer.cornerRadius = 6
+        $0.clipsToBounds = true
     }
     
     public lazy var coffeeName = UILabel().then {
@@ -103,18 +103,18 @@ class CompareDetailView: UIView {
         imageView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide).offset(28)
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(278)
-            $0.height.equalTo(287)
+            $0.width.equalTo(280)
+            $0.height.equalTo(285)
         }
         
         image.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
-            $0.width.equalTo(134)
-            $0.height.equalTo(161)
+            $0.width.equalTo(280)
+            $0.height.equalTo(285)
         }
         
         coffeeName.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.bottom).offset(22)
+            $0.top.equalTo(imageView.snp.bottom).offset(26)
             $0.centerX.equalToSuperview()
         }
         
@@ -126,8 +126,8 @@ class CompareDetailView: UIView {
         
         nextBtn.snp.makeConstraints { make in
             make.top.equalTo(mainStack.snp.bottom).offset(60)
-            make.leading.trailing.equalToSuperview().inset(50)
-            make.height.equalTo(60)
+            make.leading.trailing.equalToSuperview().inset(100)
+            make.height.equalTo(55)
         }
         
     }

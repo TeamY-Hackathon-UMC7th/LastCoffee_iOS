@@ -21,7 +21,7 @@ class CompareResultView: UIView {
     func createLabel(text: String, alignment: NSTextAlignment) -> UILabel {
         let label = UILabel().then {
             $0.font = UIFont.ptdRegularFont(ofSize: 14)
-            $0.textColor = UIColor(hex: "#8E8E8E")
+            $0.textColor = UIColor.neutral300
             $0.text = text
             $0.textAlignment = .left
         }
@@ -69,7 +69,7 @@ class CompareResultView: UIView {
         }
         
         firstDrink.snp.makeConstraints { make in
-            make.top.equalTo(titleLbl.snp.bottom).offset(20)
+            make.top.equalTo(titleLbl.snp.bottom).offset(37)
             make.leading.equalToSuperview().offset(37)
             make.width.equalTo(110)
             make.bottom.equalToSuperview()
@@ -77,7 +77,7 @@ class CompareResultView: UIView {
         
         resultImage.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(firstDrink.snp.top).offset(90)
+            make.bottom.equalTo(firstDrink.snp.centerY)
         }
         
         secondDrink.snp.makeConstraints { make in

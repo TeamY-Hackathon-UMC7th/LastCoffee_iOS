@@ -46,7 +46,7 @@ class ComponentView: UIView {
         
         let nameRange = (fullText as NSString).range(of: name)
         attributedString.addAttributes([
-            .foregroundColor: UIColor.mainColor ?? .brown,
+            .foregroundColor: UIColor.mainColor,
             .font: UIFont.ptdSemiBoldFont(ofSize: 14) // Bold 폰트
         ], range: nameRange)
         
@@ -63,7 +63,7 @@ class ComponentView: UIView {
     func createLabel(lines: Int = 1) -> UILabel {
         let label = UILabel().then {
             $0.font = UIFont.ptdRegularFont(ofSize: 14)
-            $0.textColor = UIColor(hex: "#8E8E8E")
+            $0.textColor = UIColor.neutral300
             $0.textAlignment = .left
             $0.numberOfLines = lines
         }
@@ -93,16 +93,16 @@ class ComponentView: UIView {
     
     func setHightlight(isSamewithCaffeine: Bool, isSame: Bool = false) {
         if isSamewithCaffeine { // 1번이 더 큰경우
-            firstCoffeeLbl.textColor = UIColor(hex: "373737")
+            firstCoffeeLbl.textColor = .mainColor
             firstCoffeeLbl.font = .ptdMediumFont(ofSize: 14)
         } else { // 2번이 더 큰경우
-            secCoffeeLbl.textColor = UIColor(hex: "373737")
+            secCoffeeLbl.textColor = .mainColor
             secCoffeeLbl.font = .ptdMediumFont(ofSize: 14)
         }
         if isSame { // 둘 값이 같으면 원상복귀
-            firstCoffeeLbl.textColor = UIColor(hex: "#8E8E8E")
+            firstCoffeeLbl.textColor = UIColor.neutral300
             firstCoffeeLbl.font = UIFont.ptdRegularFont(ofSize: 14)
-            secCoffeeLbl.textColor = UIColor(hex: "#8E8E8E")
+            secCoffeeLbl.textColor = UIColor.neutral300
             secCoffeeLbl.font = UIFont.ptdRegularFont(ofSize: 14)
         }
     }
@@ -136,7 +136,6 @@ class ComponentView: UIView {
             $0.top.equalTo(resultLabel.snp.bottom).offset(6)
             $0.leading.trailing.equalToSuperview()
         }
-        
     }
 }
 

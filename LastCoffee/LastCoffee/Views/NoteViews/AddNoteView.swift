@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddNoteView: UIView, UITextViewDelegate {
+class AddNoteView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.background
@@ -20,72 +20,52 @@ class AddNoteView: UIView, UITextViewDelegate {
     
     private lazy var selectedCoffeeIcon = UIImageView().then {
         $0.image = UIImage(named: "coffee-bean")
+        $0.tintColor = .subColor
     }
     
     public lazy var selectedCoffee = UILabel().then {
         $0.font = UIFont.ptdMediumFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#EE633A")
+        $0.textColor = UIColor.subColor
         $0.textAlignment = .left
+        
         $0.text = "[스타벅스] 아이스 아메리카노"
-    }
-    
-    private lazy var reviewTitle = UILabel().then {
-        $0.font = UIFont.ptdMediumFont(ofSize: 16)
-        $0.textColor = .mainColor
-        $0.text = "후기"
     }
     
     let textViewPlaceHolder = "음료의 후기를 남겨주세요! (200자 제한)"
     
+    func textViewAttributes(foregroundColor: UIColor) -> [NSAttributedString.Key: Any] {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 5  // 줄 간격 설정
+        
+        return [
+            .font: UIFont.ptdRegularFont(ofSize: 14),
+            .foregroundColor: foregroundColor,
+            .paragraphStyle: paragraphStyle
+        ]
+    }
+    
     public lazy var reviewTextView = UITextView().then {
-        $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = .mainColor
         $0.textAlignment = .left
-        $0.backgroundColor = UIColor(hex: "#FFFBF8")
+        $0.backgroundColor = UIColor.inputFieldBackground
         
         $0.isEditable = true
         $0.isScrollEnabled = true
-        $0.textContainerInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        $0.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         
         $0.layer.borderColor = UIColor.mainColor.cgColor
         $0.layer.borderWidth = 0.7
-        $0.layer.cornerRadius = 10
+        $0.layer.cornerRadius = 6
         
-        $0.text = textViewPlaceHolder
-        $0.textColor = .lightGray
+        let textAttributes = textViewAttributes(foregroundColor: UIColor.neutral300 ?? .gray)
+        $0.attributedText = NSAttributedString(string: textViewPlaceHolder, attributes: textAttributes)
+        
+        $0.returnKeyType = .done
         $0.delegate = self
     }
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == textViewPlaceHolder {
-            textView.text = nil
-            textView.textColor = .black
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            textView.text = textViewPlaceHolder
-            textView.textColor = UIColor(hex: "#8E8E8E")
-        }
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        let textCount = textView.text.count
-        if textCount > 200 {
-            warningLabel.isHidden = false
-            textView.layer.borderColor = UIColor(hex: "#FF2929")?.cgColor
-            self.saveBtn.setEnabled(false)
-        } else {
-            warningLabel.isHidden = true
-            textView.layer.borderColor = UIColor.mainColor.cgColor
-            self.saveBtn.setEnabled(true)
-        }
-    }
-    
     private let warningLabel = UILabel().then {
-        $0.text = "후기는 최대 200자까지 작성 가능합니다."
-        $0.textColor = UIColor(hex: "#FF2929")
+        $0.text = "최대 200자까지 작성 가능합니다."
+        $0.textColor = UIColor.errorRed
         $0.font = UIFont.ptdRegularFont(ofSize: 12)
         $0.isHidden = true
     }
@@ -100,6 +80,7 @@ class AddNoteView: UIView, UITextViewDelegate {
     )
 
     public lazy var drinkingStack = createCustomStack(iconName: "coffee_fill", titleText: "마신 일시")
+    
     public lazy var sleepingStack = createCustomStack(iconName: "moon", titleText: "취침 일시")
     
     public lazy var drinkingPicker = UIDatePicker().then {
@@ -124,7 +105,6 @@ class AddNoteView: UIView, UITextViewDelegate {
             sleepingStack,
             drinkingPicker,
             sleepingPicker,
-            reviewTitle,
             reviewTextView,
             warningLabel,
             saveBtn
@@ -133,8 +113,8 @@ class AddNoteView: UIView, UITextViewDelegate {
         }
         
         selectedCoffeeIcon.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).offset(17)
-            $0.leading.equalToSuperview().offset(34)
+            $0.top.equalTo(safeAreaLayoutGuide).offset(16)
+            $0.leading.equalToSuperview().offset(27)
             $0.width.height.equalTo(18)
         }
         
@@ -144,40 +124,35 @@ class AddNoteView: UIView, UITextViewDelegate {
         }
         
         drinkingStack.snp.makeConstraints {
-            $0.top.equalTo(selectedCoffee.snp.bottom).offset(28)
-            $0.leading.equalToSuperview().offset(32)
+            $0.top.equalTo(selectedCoffeeIcon.snp.bottom).offset(35)
+            $0.leading.equalToSuperview().offset(25)
         }
         
         sleepingStack.snp.makeConstraints {
-            $0.top.equalTo(drinkingStack.snp.bottom).offset(28)
-            $0.leading.equalToSuperview().offset(32)
+            $0.top.equalTo(drinkingStack.snp.bottom).offset(20)
+            $0.leading.equalToSuperview().offset(25)
         }
         
         drinkingPicker.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-33)
+            $0.trailing.equalToSuperview().offset(-23)
             $0.centerY.equalTo(drinkingStack)
         }
         
         sleepingPicker.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-33)
+            $0.trailing.equalToSuperview().offset(-23)
             $0.centerY.equalTo(sleepingStack)
         }
         
-        reviewTitle.snp.makeConstraints {
-            $0.top.equalTo(sleepingStack.snp.bottom).offset(35)
-            $0.leading.equalTo(sleepingStack.snp.leading)
-        }
-        
         reviewTextView.snp.makeConstraints {
-            $0.top.equalTo(reviewTitle.snp.bottom).offset(6)
-            $0.leading.equalToSuperview().offset(33)
-            $0.trailing.equalToSuperview().offset(-32)
-            $0.height.equalTo(200)
+            $0.top.equalTo(sleepingPicker.snp.bottom).offset(63)
+            $0.leading.equalToSuperview().offset(24)
+            $0.trailing.equalToSuperview().offset(-24)
+            $0.height.equalTo(240)
         }
         
         warningLabel.snp.makeConstraints {
             $0.top.equalTo(reviewTextView.snp.bottom).offset(5)
-            $0.leading.equalToSuperview().offset(37)
+            $0.leading.equalTo(reviewTextView.snp.leading).offset(5)
         }
         
         saveBtn.snp.makeConstraints {
@@ -190,7 +165,8 @@ class AddNoteView: UIView, UITextViewDelegate {
     
     func createCustomStack(iconName: String, titleText: String) -> UIStackView {
         let icon = UIImageView().then {
-            $0.image = UIImage(named: iconName)
+            $0.image = UIImage(named: iconName)?.withRenderingMode(.alwaysTemplate)
+            $0.tintColor = .mainColor
             $0.contentMode = .scaleAspectFit
         }
 
@@ -216,5 +192,40 @@ class AddNoteView: UIView, UITextViewDelegate {
         }
 
         return stack
+    }
+}
+
+extension AddNoteView: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == textViewPlaceHolder {
+            let textAttributes = textViewAttributes(foregroundColor: UIColor.black)
+            textView.attributedText = NSAttributedString(string: "", attributes: textAttributes)
+            textView.typingAttributes = textAttributes
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            let textAttributes = textViewAttributes(foregroundColor: UIColor.neutral300 ?? UIColor.gray)
+            textView.attributedText = NSAttributedString(string: textViewPlaceHolder, attributes: textAttributes)
+        }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let textCount = textView.text.count
+        if textCount > 200 {
+            warningLabel.isHidden = false
+            textView.layer.borderColor = UIColor.errorRed.cgColor
+            self.saveBtn.setEnabled(false)
+        } else {
+            warningLabel.isHidden = true
+            textView.layer.borderColor = UIColor.mainColor.cgColor
+            self.saveBtn.setEnabled(true)
+        }
+    }
+    
+    func textViewShouldReturn(_ textView: UITextView) -> Bool {
+        textView.resignFirstResponder() // "완료" 버튼 클릭 시 키보드 내리기
+        return true
     }
 }
