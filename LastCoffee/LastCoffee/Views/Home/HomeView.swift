@@ -43,6 +43,12 @@ class HomeView: UIView {
         lbl.isHidden = true
    }
     
+    // 얼럿 생성 시 백그라운드
+    public let backgroundView = UIView().then { view in
+        view.backgroundColor = .black.withAlphaComponent(0.5)
+        view.isHidden = true
+    }
+    
     init(nickname: String) {
         self.nickname = nickname
         super.init(frame: .zero)
@@ -63,7 +69,8 @@ class HomeView: UIView {
             lblNickname,
             collectionView,
             btnRecommendDrink,
-            lblEmptyMenu
+            lblEmptyMenu,
+            backgroundView
         ].forEach{self.addSubview($0)}
     }
     
@@ -92,6 +99,10 @@ class HomeView: UIView {
             make.width.equalTo(DynamicPadding.dynamicValuebyWidth(174))
             make.height.equalTo(DynamicPadding.dynamicValue(54))
             make.centerX.equalToSuperview()
+        }
+        
+        backgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     
@@ -152,6 +163,11 @@ class HomeView: UIView {
         section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 16, bottom: 0, trailing: 16)
         
         return section
+    }
+    
+    
+    public func setNickname(nickname: String){
+        lblNickname.text = "\(nickname)님, 행복 가득한 하루 되세요 : )"
     }
 }
 

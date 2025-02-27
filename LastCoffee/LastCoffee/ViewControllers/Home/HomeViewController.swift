@@ -12,6 +12,7 @@ class HomeViewController: UIViewController {
     private let dummy = CoffeeDetailResponse.dummy()
     private let homeView : HomeView
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
+    private var nickname: String
     private var popularData = [CoffeeDetailResponse]()
     private var recommendData = [CoffeeData]()
     
@@ -19,13 +20,11 @@ class HomeViewController: UIViewController {
     let coffeeManager = CoffeeManager()
     
     init() {
-        let nickname = LoginViewController.keychain.get("userNickname")
-        homeView = HomeView(nickname: nickname ?? "default")
+        let nickname = LoginViewController.keychain.get("userNickname") ?? "default"
+        self.nickname = nickname
+        homeView = HomeView(nickname: nickname)
         
         super.init(nibName: nil, bundle: nil)
-        self.view = homeView
-        self.addAction()
-        self.setNavigation()
         self.getPopular()
         
         self.homeView.collectionView.delegate = self
@@ -38,11 +37,20 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view = homeView
+        self.addAction()
+        self.setNavigation()
+        
+        // 첫 로그인 시에만 호출되도록 변경 필요함
+        presentAlertView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.isTabBarHidden = false
+        let nickname = LoginViewController.keychain.get("userNickname") ?? "default"
+        homeView.setNickname(nickname: nickname)
+        
         // API 연결 후 스냅샷 생성 추가 예정
         Task {
             guard let datas = await getLastRecommand() else {return}
@@ -127,6 +135,20 @@ class HomeViewController: UIViewController {
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     
+    // 첫 로그인 시 얼럿 띄우기
+    private func presentAlertView() {
+        setBackgroundView(isHidden: false)
+        let alertVC = HomeAlertViewController(nickname: nickname)
+        alertVC.modalPresentationStyle = .overFullScreen
+        alertVC.delegate = self  // Delegate 설정
+        self.present(alertVC, animated: true)
+    }
+    
+    // 얼럿 띄웠을 떄 백그라운드 투명도 처리
+    public func setBackgroundView(isHidden: Bool) {
+        homeView.backgroundView.isHidden = isHidden
+    }
+    
     private func getPopular(){
         networkService.getPopularCoffee { [weak self] result in
             guard let self = self else { return }
@@ -173,5 +195,12 @@ extension HomeViewController: UICollectionViewDelegate {
             return
         }
         
+    }
+}
+
+// HomeAlertViewControllerDelegate 구현
+extension HomeViewController: AlertViewControllerDelegate {
+    func didDismissLogoutAlert() {
+        setBackgroundView(isHidden: true)
     }
 }
