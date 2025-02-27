@@ -39,7 +39,8 @@ class NoteSearchView: UIView {
         backgroundColor: UIColor.mainColor,
         title: "다음",
         titleColor: .white,
-        radius: 10,
+        font: .ptdSemiBoldFont(ofSize: 16),
+        radius: 6,
         isEnabled: false
     )
     

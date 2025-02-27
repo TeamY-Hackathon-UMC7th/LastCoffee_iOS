@@ -45,6 +45,7 @@ class NoteSearchCell: UITableViewCell {
         $0.attributedText = NSAttributedString(string: "", attributes: [.font: UIFont.ptdMediumFont(ofSize: 14)])
         $0.textColor = .black
         $0.numberOfLines = 2
+        $0.lineBreakMode = .byTruncatingTail
     }
     
     private func setupView() {
