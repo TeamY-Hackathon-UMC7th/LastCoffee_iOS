@@ -59,29 +59,27 @@ class SearchView: UIView {
         }
         
         searchBar.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).offset(35)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.height.equalTo(48)
+            $0.top.equalTo(safeAreaLayoutGuide).offset(DynamicPadding.dynamicValue(40))
+            $0.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(16))
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(48))
         }
         
         brandCollectionView.snp.makeConstraints {
-            $0.top.equalTo(searchBar.snp.bottom).offset(12)
-            $0.leading.equalToSuperview().offset(16)
+            $0.top.equalTo(searchBar.snp.bottom).offset(DynamicPadding.dynamicValue(10))
+            $0.leading.equalToSuperview().offset(DynamicPadding.dynamicValue(16))
             $0.trailing.equalToSuperview()
-            $0.height.equalTo(30)
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(32))
         }
         
         noteSearchTableView.snp.makeConstraints {
-            $0.top.equalTo(brandCollectionView.snp.bottom).offset(12)
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview()
+            $0.top.equalTo(brandCollectionView.snp.bottom).offset(DynamicPadding.dynamicValue(16))
+            $0.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(16))
+            $0.bottom.equalTo(safeAreaLayoutGuide)
         }
         
         emptyLabel.snp.makeConstraints {
-            $0.top.equalTo(searchBar.snp.bottom).offset(184)
-            $0.leading.equalToSuperview().offset(112)
-            $0.trailing.equalToSuperview().offset(-122)
+            $0.top.equalTo(searchBar.snp.bottom).offset(DynamicPadding.dynamicValue(188))
+            $0.centerX.equalToSuperview()
         }
     }
 }

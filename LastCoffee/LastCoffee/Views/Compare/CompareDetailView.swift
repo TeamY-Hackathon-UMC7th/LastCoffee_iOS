@@ -48,6 +48,8 @@ class CompareDetailView: UIView {
         $0.font = UIFont.ptdMediumFont(ofSize: 16)
         $0.textColor = .black
         $0.textAlignment = .center
+        $0.numberOfLines = 2
+        $0.lineBreakMode = .byTruncatingTail
         $0.text = nil
     }
     
@@ -55,7 +57,8 @@ class CompareDetailView: UIView {
         backgroundColor: UIColor.mainColor,
         title: "다른 메뉴와 비교하기",
         titleColor: .white,
-        radius: 10,
+        font: .ptdSemiBoldFont(ofSize: 14),
+        radius: 6,
         isEnabled: true
     )
     
@@ -101,33 +104,34 @@ class CompareDetailView: UIView {
         imageView.addSubview(image)
         
         imageView.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).offset(28)
+            $0.top.equalTo(safeAreaLayoutGuide).offset(DynamicPadding.dynamicValue(40))
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(280)
-            $0.height.equalTo(285)
+            $0.width.equalTo(DynamicPadding.dynamicValuebyWidth(280))
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(285))
         }
         
         image.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
-            $0.width.equalTo(280)
-            $0.height.equalTo(285)
+            $0.width.equalTo(DynamicPadding.dynamicValuebyWidth(280))
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(285))
         }
         
         coffeeName.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.bottom).offset(26)
+            $0.top.equalTo(imageView.snp.bottom).offset(DynamicPadding.dynamicValue(24))
+            $0.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(41))
             $0.centerX.equalToSuperview()
         }
         
         mainStack.snp.makeConstraints {
-            $0.top.equalTo(coffeeName.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().offset(41)
-            $0.trailing.equalToSuperview().offset(-41)
+            $0.top.equalTo(coffeeName.snp.bottom).offset(DynamicPadding.dynamicValue(32))
+            $0.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(41))
         }
         
         nextBtn.snp.makeConstraints { make in
-            make.top.equalTo(mainStack.snp.bottom).offset(60)
-            make.leading.trailing.equalToSuperview().inset(100)
-            make.height.equalTo(55)
+            make.top.equalTo(mainStack.snp.bottom).offset(DynamicPadding.dynamicValue(56))
+            make.centerX.equalToSuperview()
+            make.width.equalTo(DynamicPadding.dynamicValuebyWidth(176))
+            make.height.equalTo(DynamicPadding.dynamicValuebyWidth(56))
         }
         
     }

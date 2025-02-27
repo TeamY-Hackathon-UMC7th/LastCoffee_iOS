@@ -54,7 +54,8 @@ class CompareResultView: UIView {
     }
     
     private func setupView() {
-        [titleLbl,
+        [
+            titleLbl,
             resultImage,
             firstDrink,
             secondDrink
@@ -63,15 +64,14 @@ class CompareResultView: UIView {
         }
         
         titleLbl.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview().offset(17)
-            make.trailing.equalToSuperview().offset(-17)
+            make.top.equalToSuperview().offset(DynamicPadding.dynamicValue(8))
+            make.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(16))
         }
         
         firstDrink.snp.makeConstraints { make in
-            make.top.equalTo(titleLbl.snp.bottom).offset(37)
-            make.leading.equalToSuperview().offset(37)
-            make.width.equalTo(110)
+            make.top.equalTo(titleLbl.snp.bottom).offset(DynamicPadding.dynamicValue(24))
+            make.leading.equalToSuperview().offset(DynamicPadding.dynamicValue(40))
+            make.width.equalTo(DynamicPadding.dynamicValuebyWidth(110))
             make.bottom.equalToSuperview()
         }
         
@@ -82,8 +82,8 @@ class CompareResultView: UIView {
         
         secondDrink.snp.makeConstraints { make in
             make.top.equalTo(firstDrink.snp.top)
-            make.trailing.equalToSuperview().offset(-37)
-            make.width.equalTo(110)
+            make.trailing.equalToSuperview().offset(DynamicPadding.dynamicValue(-40))
+            make.width.equalTo(DynamicPadding.dynamicValuebyWidth(110))
             make.bottom.equalToSuperview()
         }
         

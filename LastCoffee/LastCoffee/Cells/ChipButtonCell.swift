@@ -28,14 +28,14 @@ class ChipButtonCell: UICollectionViewCell {
     }
     
     lazy var chipButton = UIButton().then {
-        $0.layer.cornerRadius = 15
+        $0.layer.cornerRadius = 13
         $0.layer.borderWidth = 0.7
         $0.layer.borderColor = UIColor.subColor.cgColor
         $0.titleLabel?.font = UIFont.ptdRegularFont(ofSize: 12)
         $0.setTitleColor(.subColor, for: .normal)
         $0.setTitleColor(.white, for: .selected)
         $0.isUserInteractionEnabled = false
-        $0.contentEdgeInsets = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
+        $0.contentEdgeInsets = UIEdgeInsets(top: DynamicPadding.dynamicValue(8), left: DynamicPadding.dynamicValue(10), bottom: DynamicPadding.dynamicValue(8), right: DynamicPadding.dynamicValue(10))
     }
     
     private func setupView() {

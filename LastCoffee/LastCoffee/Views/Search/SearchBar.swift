@@ -39,7 +39,7 @@ public class SearchBar: UITextField {
         self.tintColor = .mainColor
         self.font = UIFont.ptdRegularFont(ofSize: 14)
         
-        self.layer.cornerRadius = 10
+        self.layer.cornerRadius = 6
         self.layer.masksToBounds = true
         self.layer.borderWidth = 0.7
         self.layer.borderColor = UIColor.neutral300?.cgColor

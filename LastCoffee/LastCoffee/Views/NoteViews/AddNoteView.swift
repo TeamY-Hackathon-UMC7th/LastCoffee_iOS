@@ -74,8 +74,8 @@ class AddNoteView: UIView {
         backgroundColor: .mainColor,
         title: "저장하기",
         titleColor: .white,
-        font: UIFont.ptdSemiBoldFont(ofSize: 18),
-        radius: 10,
+        font: .ptdSemiBoldFont(ofSize: 16),
+        radius: 6,
         isEnabled: false
     )
 
@@ -124,25 +124,23 @@ class AddNoteView: UIView {
         }
         
         drinkingStack.snp.makeConstraints {
-            $0.top.equalTo(selectedCoffeeIcon.snp.bottom).offset(DynamicPadding.dynamicValue(24))
+            $0.top.equalTo(selectedCoffeeIcon.snp.bottom).offset(DynamicPadding.dynamicValue(32))
             $0.leading.equalToSuperview().offset(DynamicPadding.dynamicValue(24))
         }
         
         sleepingStack.snp.makeConstraints {
-            $0.top.equalTo(drinkingStack.snp.bottom).offset(DynamicPadding.dynamicValue(24))
+            $0.top.equalTo(drinkingStack.snp.bottom).offset(DynamicPadding.dynamicValue(32))
             $0.leading.equalTo(drinkingStack.snp.leading)
         }
         
         drinkingPicker.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(DynamicPadding.dynamicValue(-24))
             $0.centerY.equalTo(drinkingStack)
-            $0.width.equalTo(DynamicPadding.dynamicValuebyWidth(216))
         }
         
         sleepingPicker.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(DynamicPadding.dynamicValue(-24))
             $0.centerY.equalTo(sleepingStack)
-            $0.width.equalTo(DynamicPadding.dynamicValuebyWidth(216))
         }
         
         reviewTextView.snp.makeConstraints {

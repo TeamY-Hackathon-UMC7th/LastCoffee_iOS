@@ -133,7 +133,7 @@ class ComponentView: UIView {
         }
         
         mainStack.snp.makeConstraints {
-            $0.top.equalTo(resultLabel.snp.bottom).offset(6)
+            $0.top.equalTo(resultLabel.snp.bottom).offset(DynamicPadding.dynamicValue(8))
             $0.leading.trailing.equalToSuperview()
         }
     }

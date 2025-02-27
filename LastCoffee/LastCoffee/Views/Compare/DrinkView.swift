@@ -33,7 +33,7 @@ class DrinkView: UIView {
     }
 
     public lazy var coffeeName = UILabel().then {
-        $0.font = UIFont.ptdMediumFont(ofSize: 12)
+        $0.font = UIFont.ptdSemiBoldFont(ofSize: 14)
         $0.textColor = UIColor(hex: "5D5D5D")
         $0.textAlignment = .center
         $0.numberOfLines = 3
@@ -73,7 +73,7 @@ class DrinkView: UIView {
         }
         
         coffeeName.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.bottom).offset(16)
+            $0.top.equalTo(imageView.snp.bottom).offset(DynamicPadding.dynamicValue(8))
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
