@@ -9,36 +9,41 @@ import Foundation
 import Moya
 
 public final class AuthService : NetworkManager {
-    typealias Endpoint = AllEndpoint
+    typealias Endpoint = AuthEndpoint
     
     // MARK: - Provider 설정
-    let provider: MoyaProvider<AllEndpoint>
+    let provider: MoyaProvider<AuthEndpoint>
     
-    public init(provider: MoyaProvider<AllEndpoint>? = nil) {
+    public init(provider: MoyaProvider<AuthEndpoint>? = nil) {
         // 플러그인 추가
         let plugins: [PluginType] = [
             NetworkLoggerPlugin(configuration: .init(logOptions: .verbose)) // 로그 플러그인
         ]
         
         // provider 초기화
-        self.provider = provider ?? MoyaProvider<AllEndpoint>(plugins: plugins)
+        self.provider = provider ?? MoyaProvider<AuthEndpoint>(plugins: plugins)
     }
     
     //MARK: - API funcs
-    /// 자체 로그인 API
-    public func login(nickname: String, completion: @escaping (Result<LoginResponseDto, NetworkError>) -> Void) {
-        request(target: .postLogin(nickname: nickname), decodingType: LoginResponseDto.self, completion: completion)
+    /// 로그인 DTO 생성 함수
+    public func makeLoginDTO(email: String, password: String) -> LoginRequestDTO {
+        return LoginRequestDTO(email: email, password: password)
     }
     
-
-    public func join(nickname: String, completion: @escaping (Result<JoinResponseDto?, NetworkError>) -> Void) {
-        requestOptional(target: .postSignup(nickname: nickname), decodingType: JoinResponseDto.self, completion: completion)
-//        request(target: .postSignup(nickname: nickname), decodingType: JoinResponseDto.self, completion: completion)
+    /// 회원가입 DTO 생성 함수
+    public func makeJoinDTO(email: String, password: String) -> JoinRequestDTO {
+        return JoinRequestDTO(email: email, password: password)
     }
-
     
-    /// 닉네임 중복 체크 API
-    public func checkEmail(nickname: String, completion: @escaping (Result<JoinResponseDto, NetworkError>) -> Void) {
-        request(target: .checkNickname(nickname: nickname), decodingType: JoinResponseDto.self, completion: completion)
+    /// 비밀번호 변경 DTO 생성 함수
+    public func updatePasswordDTO(curPassword: String, newPassword: String) -> ChangePasswordRequestDTO {
+        return ChangePasswordRequestDTO(currentPassword: curPassword, updatePassword: newPassword)
     }
+    
+    /// 로그인 API
+    public func postLoginAPI(data: LoginRequestDTO) async throws -> LoginResponseDTO {
+        return try await requestAsync(target: .postLogin(data: data), decodingType: LoginResponseDTO.self)
+    }
+    
+    
 }

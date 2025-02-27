@@ -79,30 +79,28 @@ extension NetworkManager {
         let errorResponse = try JSONDecoder().decode(ErrorResponse.self, from: response.data)
         
         let devMessage = errorResponse.message
-        let serverErrorCode = ServerErrorCode(rawValue: errorResponse.code) ?? .unknown
-        let userMessage = serverErrorCode.errorMessage
         
-        if serverErrorCode == .refreshTokenExpired {
-            throw NetworkError.refreshTokenExpiredError(statusCode: response.statusCode, devMessage: devMessage, userMessage: userMessage)
-        }
+//        if serverErrorCode == .refreshTokenExpired {
+//            throw NetworkError.refreshTokenExpiredError(statusCode: response.statusCode, devMessage: devMessage, userMessage: devMessage)
+//        }
         
         // 🔄 [토큰 만료] ACCESS_TOKEN4001 또는 ACCESS_TOKEN4002 → 토큰 재발급 후 API 재시도
-        if serverErrorCode == .accessTokenExpired || serverErrorCode == .accessTokenInvalid {
-            guard retryCount > 0 else {
-                let addDevMessage = "[자동 인증 재시도 한도 초과] " + devMessage
-                throw NetworkError.tokenExpiredError(statusCode: response.statusCode, devMessage: addDevMessage, userMessage: userMessage)
-            }
-            
-            do {
-                try await AuthService().reissueTokenAsync()
-                return try await requestAsync(target: target, decodingType: decodingType)
-            } catch {
-                let addDevMessage = "[자동 인증 시도 실패]" + devMessage
-                throw NetworkError.tokenExpiredError(statusCode: response.statusCode, devMessage: addDevMessage, userMessage: userMessage)
-            }
-        }
+//        if serverErrorCode == .accessTokenExpired || serverErrorCode == .accessTokenInvalid {
+//            guard retryCount > 0 else {
+//                let addDevMessage = "[자동 인증 재시도 한도 초과] " + devMessage
+//                throw NetworkError.tokenExpiredError(statusCode: response.statusCode, devMessage: addDevMessage, userMessage: userMessage)
+//            }
+//            
+//            do {
+//                try await AuthService().reissueTokenAsync()
+//                return try await requestAsync(target: target, decodingType: decodingType)
+//            } catch {
+//                let addDevMessage = "[자동 인증 시도 실패]" + devMessage
+//                throw NetworkError.tokenExpiredError(statusCode: response.statusCode, devMessage: addDevMessage, userMessage: userMessage)
+//            }
+//        }
         
-        throw NetworkError.serverError(statusCode: response.statusCode, devMessage: devMessage, userMessage: userMessage)
+        throw NetworkError.serverError(statusCode: response.statusCode, devMessage: devMessage, userMessage: devMessage)
     }
     
     func handleErrorResponseOptional<T: Decodable>(
@@ -114,29 +112,29 @@ extension NetworkManager {
         let errorResponse = try JSONDecoder().decode(ErrorResponse.self, from: response.data)
         
         let devMessage = errorResponse.message
-        let serverErrorCode = ServerErrorCode(rawValue: errorResponse.code) ?? .unknown
-        let userMessage = serverErrorCode.errorMessage
+//        let serverErrorCode = ServerErrorCode(rawValue: errorResponse.code) ?? .unknown
+//        let userMessage = serverErrorCode.errorMessage
+//        
+//        if serverErrorCode == .refreshTokenExpired {
+//            throw NetworkError.refreshTokenExpiredError(statusCode: response.statusCode, devMessage: devMessage, userMessage: userMessage)
+//        }
+//
+//        if serverErrorCode == .accessTokenExpired || serverErrorCode == .accessTokenInvalid {
+//            guard retryCount > 0 else {
+//                let addDevMessage = "[자동 인증 재시도 한도 초과] " + devMessage
+//                throw NetworkError.tokenExpiredError(statusCode: response.statusCode, devMessage: addDevMessage, userMessage: userMessage)
+//            }
+//            
+//            do {
+//                try await AuthService().reissueTokenAsync() // 토큰 재발급 성공하면,
+//                return try await requestOptionalAsync(target: target, decodingType: decodingType) // 기존 요청 재시도
+//            } catch {
+//                let addDevMessage = "[자동 인증 시도 실패]" + devMessage
+//                throw NetworkError.tokenExpiredError(statusCode: response.statusCode, devMessage: addDevMessage, userMessage: userMessage)
+//            }
+//        }
         
-        if serverErrorCode == .refreshTokenExpired {
-            throw NetworkError.refreshTokenExpiredError(statusCode: response.statusCode, devMessage: devMessage, userMessage: userMessage)
-        }
-
-        if serverErrorCode == .accessTokenExpired || serverErrorCode == .accessTokenInvalid {
-            guard retryCount > 0 else {
-                let addDevMessage = "[자동 인증 재시도 한도 초과] " + devMessage
-                throw NetworkError.tokenExpiredError(statusCode: response.statusCode, devMessage: addDevMessage, userMessage: userMessage)
-            }
-            
-            do {
-                try await AuthService().reissueTokenAsync() // 토큰 재발급 성공하면,
-                return try await requestOptionalAsync(target: target, decodingType: decodingType) // 기존 요청 재시도
-            } catch {
-                let addDevMessage = "[자동 인증 시도 실패]" + devMessage
-                throw NetworkError.tokenExpiredError(statusCode: response.statusCode, devMessage: addDevMessage, userMessage: userMessage)
-            }
-        }
-        
-        throw NetworkError.serverError(statusCode: response.statusCode, devMessage: devMessage, userMessage: userMessage)
+        throw NetworkError.serverError(statusCode: response.statusCode, devMessage: devMessage, userMessage: devMessage)
     }
     
 }

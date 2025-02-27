@@ -8,13 +8,13 @@
 import Foundation
 import Moya
 
-public final class ReviewService : NetworkManager {
-    typealias Endpoint = AllEndpoint
+public final class NoteService : NetworkManager {
+    typealias Endpoint = NoteEndpoint
     
     // MARK: - Provider 설정
-    let provider: MoyaProvider<AllEndpoint>
+    let provider: MoyaProvider<NoteEndpoint>
     
-    public init(provider: MoyaProvider<AllEndpoint>? = nil) {
+    public init(provider: MoyaProvider<NoteEndpoint>? = nil) {
         // 플러그인 추가
         let plugins: [PluginType] = [
             BearerTokenPlugin(),
@@ -22,26 +22,13 @@ public final class ReviewService : NetworkManager {
         ]
         
         // provider 초기화
-        self.provider = provider ?? MoyaProvider<AllEndpoint>(plugins: plugins)
+        self.provider = provider ?? MoyaProvider<NoteEndpoint>(plugins: plugins)
     }
     
     //MARK: - API funcs
-    public func makeReviewDto(coffeeKey: Int, comment: String, drinkTime: Date, sleepTime: Date) -> ReviewDto {
-        return ReviewDto(coffeeKey: coffeeKey, comment: comment,
-                         drinkTime: convertDateToISO8601(drinkTime), sleepTime: convertDateToISO8601(sleepTime))
-    }
-    
-    public func postReview(reviewDto: ReviewDto, completion: @escaping (Result<String, NetworkError>) -> Void) {
-        request(target: .postReview(data: reviewDto), decodingType: String.self, completion: completion)
-    }
 
-    /// 인기 커피 불러오기
-    public func getReviews(completion: @escaping (Result<[Review]?, NetworkError>) -> Void) {
-        requestOptional(target: .getAllReviews, decodingType: [Review].self, completion: completion)
-    }
-    
-    public func deleteReview(reviewId: Int, completion: @escaping (Result<String, NetworkError>) -> Void) {
-        request(target: .deleteReview(reviewId: reviewId), decodingType: String.self, completion: completion)
-    }
+//    public func makeNewNoteDTO(writeDate: String, drinkDate: String, sleepDate: String, review: String, coffeeId: Int) -> NewNoteDTO {
+//        return NewNoteDTO(writeDate: writeDate, drinkDate: drinkDate, drinkHour: <#T##String#>, drinkMinute: <#T##String#>, sleepDate: <#T##String#>, sleepHour: <#T##String#>, sleepMinute: <#T##String#>, review: <#T##String#>, coffeeId: <#T##Int#>)
+//    }
 
 }

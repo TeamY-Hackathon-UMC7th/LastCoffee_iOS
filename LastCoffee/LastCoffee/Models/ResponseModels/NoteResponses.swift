@@ -7,18 +7,6 @@
 
 import Foundation
 
-public struct CoffeePreviewDTO : Codable {
-    public let brand : String
-    public let coffeeName : String
-    public let coffeeImgUrl : String
-    
-    public init(brand: String, coffeeName: String, coffeeImgUrl: String) {
-        self.brand = brand
-        self.coffeeName = coffeeName
-        self.coffeeImgUrl = coffeeImgUrl
-    }
-}
-
 public struct NotePreviewDTO : Codable {
     public let noteId : Int
     public let coffee : CoffeePreviewDTO

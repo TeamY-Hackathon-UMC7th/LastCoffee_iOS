@@ -9,12 +9,12 @@ import Foundation
 import Moya
 
 public final class CoffeeService : NetworkManager {
-    typealias Endpoint = AllEndpoint
+    typealias Endpoint = CoffeeEndpoint
     
     // MARK: - Provider 설정
-    let provider: MoyaProvider<AllEndpoint>
+    let provider: MoyaProvider<CoffeeEndpoint>
     
-    public init(provider: MoyaProvider<AllEndpoint>? = nil) {
+    public init(provider: MoyaProvider<CoffeeEndpoint>? = nil) {
         // 플러그인 추가
         let plugins: [PluginType] = [
             BearerTokenPlugin(),
@@ -22,24 +22,28 @@ public final class CoffeeService : NetworkManager {
         ]
         
         // provider 초기화
-        self.provider = provider ?? MoyaProvider<AllEndpoint>(plugins: plugins)
+        self.provider = provider ?? MoyaProvider<CoffeeEndpoint>(plugins: plugins)
     }
     
     //MARK: - API funcs
-    /// 인기 커피 불러오기
-    public func getPopularCoffee(completion: @escaping (Result<CoffeeFirstDTO, NetworkError>) -> Void) {
-        request(target: .getPopularCoffees, decodingType: CoffeeFirstDTO.self, completion: completion)
+    /// 커피 검색 API
+//    public func getSearchCoffee(keyword: String, page: Int) async throws {
+//
+//    }
+    
+    /// 시간대별 추천 커피 API
+    public func getRecommendCoffees(time: Int) async throws -> [CoffeePreviewDTO] {
+        return try await requestAsync(target: .getRecommendCoffee(time: time), decodingType: [CoffeePreviewDTO].self)
     }
     
-    public func getRecommandCoffee(time: String, completion: @escaping (Result<CoffeeFirstDTO, NetworkError>) -> Void) {
-        request(target: .getRecommandCoffees(time: time), decodingType: CoffeeFirstDTO.self, completion: completion)
+    /// 최근에 추천받은 커피 API
+    public func getRecentCoffees() async throws -> [CoffeePreviewDTO]? {
+        return try await requestOptionalAsync(target: .getRecentCoffee, decodingType: [CoffeePreviewDTO].self)
     }
     
-    public func getSearchCoffee(keyword: String, completion: @escaping (Result<CoffeeFirstDTO, NetworkError>) -> Void) {
-        request(target: .getSearchCoffee(keyword: keyword), decodingType: CoffeeFirstDTO.self, completion: completion)
+    /// 인기 커피 API
+    public func getPopularCoffees() async throws -> [CoffeeDetailPreviewDTO] {
+        return try await requestAsync(target: .getPopularCoffee, decodingType: [CoffeeDetailPreviewDTO].self)
     }
     
-    
-    
-
 }
