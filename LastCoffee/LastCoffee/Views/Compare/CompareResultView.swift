@@ -21,7 +21,7 @@ class CompareResultView: UIView {
     func createLabel(text: String, alignment: NSTextAlignment) -> UILabel {
         let label = UILabel().then {
             $0.font = UIFont.ptdRegularFont(ofSize: 14)
-            $0.textColor = UIColor(hex: "#8E8E8E")
+            $0.textColor = UIColor.neutral300
             $0.text = text
             $0.textAlignment = .left
         }
@@ -54,7 +54,8 @@ class CompareResultView: UIView {
     }
     
     private func setupView() {
-        [titleLbl,
+        [
+            titleLbl,
             resultImage,
             firstDrink,
             secondDrink
@@ -63,27 +64,26 @@ class CompareResultView: UIView {
         }
         
         titleLbl.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview().offset(17)
-            make.trailing.equalToSuperview().offset(-17)
+            make.top.equalToSuperview().offset(DynamicPadding.dynamicValue(8))
+            make.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(16))
         }
         
         firstDrink.snp.makeConstraints { make in
-            make.top.equalTo(titleLbl.snp.bottom).offset(20)
-            make.leading.equalToSuperview().offset(37)
-            make.width.equalTo(110)
+            make.top.equalTo(titleLbl.snp.bottom).offset(DynamicPadding.dynamicValue(24))
+            make.leading.equalToSuperview().offset(DynamicPadding.dynamicValue(40))
+            make.width.equalTo(DynamicPadding.dynamicValuebyWidth(110))
             make.bottom.equalToSuperview()
         }
         
         resultImage.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(firstDrink.snp.top).offset(90)
+            make.bottom.equalTo(firstDrink.snp.centerY)
         }
         
         secondDrink.snp.makeConstraints { make in
             make.top.equalTo(firstDrink.snp.top)
-            make.trailing.equalToSuperview().offset(-37)
-            make.width.equalTo(110)
+            make.trailing.equalToSuperview().offset(DynamicPadding.dynamicValue(-40))
+            make.width.equalTo(DynamicPadding.dynamicValuebyWidth(110))
             make.bottom.equalToSuperview()
         }
         

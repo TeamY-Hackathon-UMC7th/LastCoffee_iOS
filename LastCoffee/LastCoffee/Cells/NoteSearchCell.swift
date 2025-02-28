@@ -45,6 +45,7 @@ class NoteSearchCell: UITableViewCell {
         $0.attributedText = NSAttributedString(string: "", attributes: [.font: UIFont.ptdMediumFont(ofSize: 14)])
         $0.textColor = .black
         $0.numberOfLines = 2
+        $0.lineBreakMode = .byTruncatingTail
     }
     
     private func setupView() {
@@ -56,16 +57,15 @@ class NoteSearchCell: UITableViewCell {
         }
         
         image.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(12)
-            $0.leading.equalToSuperview().offset(8)
-            $0.bottom.equalToSuperview().offset(-12)
-            $0.width.height.equalTo(64)
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().offset(DynamicPadding.dynamicValue(8))
+            $0.width.height.equalTo(DynamicPadding.dynamicValuebyWidth(64))
         }
         
         title.snp.makeConstraints {
             $0.centerY.equalTo(image.snp.centerY)
-            $0.leading.equalTo(image.snp.trailing).offset(12)
-            $0.trailing.equalToSuperview().offset(-12)
+            $0.leading.equalTo(image.snp.trailing).offset(DynamicPadding.dynamicValue(16))
+            $0.trailing.equalToSuperview().offset(DynamicPadding.dynamicValue(-16))
         }
     }
     
