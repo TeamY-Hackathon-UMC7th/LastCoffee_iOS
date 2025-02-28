@@ -35,15 +35,24 @@ public final class AuthService : NetworkManager {
         return JoinRequestDTO(email: email, password: password)
     }
     
-    /// 비밀번호 변경 DTO 생성 함수
-    public func updatePasswordDTO(curPassword: String, newPassword: String) -> ChangePasswordRequestDTO {
-        return ChangePasswordRequestDTO(currentPassword: curPassword, updatePassword: newPassword)
-    }
-    
     /// 로그인 API
     public func postLoginAPI(data: LoginRequestDTO) async throws -> LoginResponseDTO {
         return try await requestAsync(target: .postLogin(data: data), decodingType: LoginResponseDTO.self)
     }
     
+    /// 회원가입 API
+    public func postJoinAPI(data: JoinRequestDTO) async throws -> String {
+        return try await requestAsync(target: .postJoin(data: data))
+    }
+    
+    /// 로그아웃
+    public func postLogoutAPI() async throws -> String {
+        return try await requestAsync(target: .postLogout)
+    }
+    
+    /// 탈퇴
+    public func deleteUserAPI() async throws -> String {
+        return try await requestAsync(target: .deleteMember)
+    }
     
 }

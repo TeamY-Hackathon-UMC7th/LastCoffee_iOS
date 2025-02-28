@@ -26,9 +26,21 @@ public final class NoteService : NetworkManager {
     }
     
     //MARK: - API funcs
-
-//    public func makeNewNoteDTO(writeDate: String, drinkDate: String, sleepDate: String, review: String, coffeeId: Int) -> NewNoteDTO {
-//        return NewNoteDTO(writeDate: writeDate, drinkDate: drinkDate, drinkHour: <#T##String#>, drinkMinute: <#T##String#>, sleepDate: <#T##String#>, sleepHour: <#T##String#>, sleepMinute: <#T##String#>, review: <#T##String#>, coffeeId: <#T##Int#>)
-//    }
-
+    /// 노트 리스트 받아오기 페이지네이션 API
+    public func getAllNoteList(page: Int, size: Int = 10) async throws -> GetAllNotesDTO {
+        return try await requestAsync(target: .getAllNotes(page: page, size: size), decodingType: GetAllNotesDTO.self)
+    }
+    
+    /// 개별 노트 정보 받아오기 API
+    public func getNote(noteId: Int) async throws -> NoteDTO {
+        return try await requestAsync(target: .getNoteDetail(noteId: noteId), decodingType: NoteDTO.self)
+    }
+    
+    /// 노트 삭제 API
+    public func deleteNote(noteId: Int) async throws -> String {
+        return try await requestAsync(target: .deleteNote(noteId: noteId))
+    }
+    
+    // 노트 생성 API
+    
 }

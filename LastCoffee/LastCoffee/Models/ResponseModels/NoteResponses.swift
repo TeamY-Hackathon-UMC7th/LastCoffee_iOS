@@ -23,7 +23,7 @@ public struct NotePreviewDTO : Codable {
     }
 }
 
-public struct GettAppNotesDTO : Codable {
+public struct GetAllNotesDTO : Codable {
     public let currentPage : Int
     public let totalPage : Int
     public let content : [NotePreviewDTO]?
@@ -32,5 +32,21 @@ public struct GettAppNotesDTO : Codable {
         self.currentPage = currentPage
         self.totalPage = totalPage
         self.content = content
+    }
+}
+
+public struct NoteDTO : Codable {
+    public let coffee : CoffeePreviewDTO
+    public let wirteDate : String
+    public let drinkDate : String
+    public let sleepDate : String
+    public let review : String
+    
+    public init(coffee: CoffeePreviewDTO, wirteDate: String, drinkDate: String, sleepDate: String, review: String) {
+        self.coffee = coffee
+        self.wirteDate = wirteDate
+        self.drinkDate = drinkDate
+        self.sleepDate = sleepDate
+        self.review = review
     }
 }
