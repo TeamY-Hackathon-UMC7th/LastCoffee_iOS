@@ -47,10 +47,10 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.isTabBarHidden = false
         let nickname = LoginViewController.keychain.get("userNickname") ?? "default"
         homeView.setNickname(nickname: nickname)
-        
+     
+        self.tabBarController?.tabBar.isHidden = false
         // API 연결 후 스냅샷 생성 추가 예정
         Task {
             guard let datas = await getLastRecommand() else {return}
@@ -60,8 +60,6 @@ class HomeViewController: UIViewController {
             self.setSnapShot()
             homeView.lblEmptyMenu.isHidden = !recommendData.isEmpty
         }
-        
-        
     }
     
     private func setDataSource() {
@@ -131,7 +129,7 @@ class HomeViewController: UIViewController {
     // '오늘의 취침 시간' 버튼 선택
     @objc private func touchUpInsideBtnRecommendDrink() {
         let nextVC = SelectTimeViewController()
-        self.tabBarController?.isTabBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
     

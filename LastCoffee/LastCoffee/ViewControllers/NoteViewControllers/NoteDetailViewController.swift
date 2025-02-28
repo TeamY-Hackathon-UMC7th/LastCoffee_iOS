@@ -14,13 +14,10 @@ class NoteDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = noteDetailView
+        self.tabBarController?.tabBar.isHidden = true
         
         if let data = receivedData {
-            noteDetailView.imageView.sd_setImage(with: URL(string: data.coffeeImgUrl))
-            noteDetailView.coffeeName.text = "[\(data.brand)] \(data.coffeeName)"
-            noteDetailView.drinking.text = "마신 일시 | \(data.drinkDate)"
-            noteDetailView.sleeping.text = "취침 시간 | \(data.sleepDate)"
-            noteDetailView.reviewContents.text = data.comment
+            noteDetailView.updateNoteDetail(with: data)
         }
         
         setNavigationBar()
@@ -30,13 +27,10 @@ class NoteDetailViewController: UIViewController {
         super.viewWillAppear(false)
         self.view = noteDetailView
         self.navigationController?.isNavigationBarHidden = false
+        self.tabBarController?.tabBar.isHidden = true
         
         if let data = receivedData {
-            noteDetailView.imageView.sd_setImage(with: URL(string: data.coffeeImgUrl))
-            noteDetailView.coffeeName.text = "[\(data.brand)] \(data.coffeeName)"
-            noteDetailView.drinking.text = "마신 일시 | \(data.drinkDate)"
-            noteDetailView.sleeping.text = "취침 시간 | \(data.sleepDate)"
-            noteDetailView.reviewContents.text = data.comment
+            noteDetailView.updateNoteDetail(with: data)
         }
         
         setNavigationBar()
@@ -49,7 +43,7 @@ class NoteDetailViewController: UIViewController {
     }()
     
     private func setNavigationBar() {
-        let leftBarButton = UIBarButtonItem(image: .init(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popButton))
+        let leftBarButton = UIBarButtonItem(image: .init(named: "Back"), style: .plain, target: self, action: #selector(popButton))
         leftBarButton.tintColor = .black
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
     }

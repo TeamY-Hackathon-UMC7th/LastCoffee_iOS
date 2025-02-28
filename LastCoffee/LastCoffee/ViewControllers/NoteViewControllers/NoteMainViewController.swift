@@ -11,25 +11,27 @@ import SwiftyToaster
 class NoteMainViewController: UIViewController {
     let networkService = ReviewService()
     private var data: [NoteModel] = [
-//        NoteModel(id: 13,coffeeName: "콜드 브루", brand: "스타벅스", drinkDate: "2024-11-12 16:34", sleepDate: "2024-11-12 23:25", comment: "콜드브루도 잠이 안온다...", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000000038]_20210430113202458.jpg"),
-//        NoteModel(id: 59,coffeeName: "블루베리라떼", brand: "컴포즈", drinkDate: "2025-01-09 19:34", sleepDate: "2025-01-09 22:06", comment: "블루베리라떼 맛있음", coffeeImgUrl: "https://composecoffee.com/files/thumbnails/891/064/1515x2083.crop.jpg?t=1733793666"),
-//        NoteModel(id: 85,coffeeName: "유자티", brand: "컴포즈", drinkDate: "2025-01-09 20:34", sleepDate: "2025-01-09 23:56", comment: "유자티는 따뜻하다..", coffeeImgUrl: "https://composecoffee.com/files/thumbnails/682/038/1515x2083.crop.jpg?t=1733794981")
+        NoteModel(id: 13,coffeeName: "아메리카노", brand: "스타벅스", drinkDate: "2024-11-12 16:34", sleepDate: "2024-11-12 23:25", comment: "아메리카노도 잠이 안온다...", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/%5B110563%5D_20210426095937947.jpg", createdAt: "2024-11-13 00:30"),
+        NoteModel(id: 59,coffeeName: "블루베리라떼", brand: "컴포즈", drinkDate: "2025-01-09 19:34", sleepDate: "2025-01-09 22:06", comment: "블루베리라떼 맛있음", coffeeImgUrl: "https://composecoffee.com/files/thumbnails/891/064/1515x2083.crop.jpg?t=1733793666", createdAt: "2025-01-09 23:00"),
+        NoteModel(id: 85,coffeeName: "유자티", brand: "컴포즈", drinkDate: "2025-01-09 20:34", sleepDate: "2025-01-09 23:56", comment: "유자티는 따뜻하다..", coffeeImgUrl: "https://composecoffee.com/files/thumbnails/682/038/1515x2083.crop.jpg?t=1733794981", createdAt: "2025-02-13 00:20")
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
-        self.tabBarController?.isTabBarHidden = false
+        self.tabBarController?.tabBar.isHidden = false
         self.view = noteView
         callGetAPI()
+        setupDelegate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         self.navigationController?.isNavigationBarHidden = true
-        self.tabBarController?.isTabBarHidden = false
+        self.tabBarController?.tabBar.isHidden = false
         self.view = noteView
         callGetAPI()
+        setupDelegate()
         Task {
             self.noteView.noteTableView.reloadData()
         }
@@ -37,12 +39,14 @@ class NoteMainViewController: UIViewController {
     
     private lazy var noteView: NoteMainView = {
         let view = NoteMainView()
-        view.noteTableView.delegate = self
-        view.noteTableView.dataSource = self
-        
         view.addBtn.addTarget(self, action: #selector(goSearchView), for: .touchUpInside)
         return view
     }()
+    
+    private func setupDelegate() {
+        noteView.noteTableView.delegate = self
+        noteView.noteTableView.dataSource = self
+    }
     
     @objc private func goSearchView() {
         let noteSearchVC = NoteSearchViewController()
@@ -53,6 +57,7 @@ class NoteMainViewController: UIViewController {
     private func handleCellTap(_ item: NoteModel) {
         let noteDetailVC = NoteDetailViewController()
         noteDetailVC.receivedData = item
+        noteDetailVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(noteDetailVC, animated: true)
     }
     
@@ -80,7 +85,8 @@ class NoteMainViewController: UIViewController {
                         drinkDate: "\(drinkStrings[0]) \(drinkStrings[1])",
                         sleepDate: "\(sleepStrings[0]) \(sleepStrings[1])",
                         comment: data.comment,
-                        coffeeImgUrl: data.coffee.coffeeImgUrl
+                        coffeeImgUrl: data.coffee.coffeeImgUrl,
+                        createdAt: data.createdAt
                     )
                     
                     self.data.append(i)
@@ -91,7 +97,7 @@ class NoteMainViewController: UIViewController {
                 }
                 
             case .failure(let error):
-                print(error)
+                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
             }
         }
     }
@@ -135,7 +141,7 @@ extension NoteMainViewController: UITableViewDataSource, UITableViewDelegate {
                     switch result {
                     case .success:
                         self.callGetAPI()
-                        
+                        Toaster.shared.makeToast("기록이 삭제되었습니다.", .short)
                     case .failure(let error):
                         Toaster.shared.makeToast("\(error.errorDescription!)", .short)
                         Task {
@@ -147,8 +153,10 @@ extension NoteMainViewController: UITableViewDataSource, UITableViewDelegate {
             }
         }
         
-        action.backgroundColor = .red
-        action.image = UIImage(systemName: "trash")
+        action.backgroundColor = .subColor
+        if let trash = UIImage(named: "trash") {
+            action.image = trash.withTintColor(.white, renderingMode: .alwaysOriginal)
+        }
         
         let configuration = UISwipeActionsConfiguration(actions: [action])
         configuration.performsFirstActionWithFullSwipe = false

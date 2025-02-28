@@ -46,9 +46,10 @@ class ComponentCell: UITableViewCell {
         contentView.addSubview(componentView)
         
         componentView.snp.makeConstraints { make in
-            make.height.greaterThanOrEqualTo(70)
-            make.top.bottom.equalToSuperview().inset(20)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.greaterThanOrEqualTo(DynamicPadding.dynamicValuebyWidth(70))
+            make.top.equalToSuperview().inset(DynamicPadding.dynamicValue(24))
+            make.bottom.equalToSuperview().inset(DynamicPadding.dynamicValue(20))
+            make.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(16))
         }
     }
 

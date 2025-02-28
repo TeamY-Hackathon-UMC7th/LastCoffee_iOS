@@ -31,44 +31,37 @@ class NoteMainView: UIView {
         $0.tintColor = .mainColor
     }
     
-    private lazy var topStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.distribution = .fill
-        $0.alignment = .center
-        $0.spacing = 264
-    }
-    
     public lazy var noteTableView = UITableView().then {
         $0.register(NoteCell.self, forCellReuseIdentifier: NoteCell.identifier)
         $0.separatorStyle = .none
         $0.backgroundColor = .clear
+        $0.showsVerticalScrollIndicator = false
     }
     
     private func setupView() {
-        topStackView.addArrangedSubview(title)
-        topStackView.addArrangedSubview(addBtn)
-        
         [
-            topStackView,
+            title,
+            addBtn,
             noteTableView
         ].forEach {
             addSubview($0)
         }
         
-        addBtn.snp.makeConstraints {
-            $0.width.height.equalTo(28)
+        title.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide).offset(DynamicPadding.dynamicValue(30))
+            $0.leading.equalToSuperview().offset(DynamicPadding.dynamicValue(24))
         }
         
-        topStackView.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).offset(29)
-            $0.centerX.equalToSuperview()
+        addBtn.snp.makeConstraints {
+            $0.centerY.equalTo(title.snp.centerY)
+            $0.trailing.equalToSuperview().offset(DynamicPadding.dynamicValue(-24))
+            $0.width.height.equalTo(DynamicPadding.dynamicValuebyWidth(32))
         }
         
         noteTableView.snp.makeConstraints {
-            $0.top.equalTo(topStackView.snp.bottom).offset(52)
-            $0.leading.equalToSuperview().offset(16)
-            $0.trailing.equalToSuperview().offset(-16)
-            $0.bottom.equalToSuperview()
+            $0.top.equalTo(title.snp.bottom).offset(DynamicPadding.dynamicValue(48))
+            $0.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(16))
+            $0.bottom.equalTo(safeAreaLayoutGuide)
         }
     }
 

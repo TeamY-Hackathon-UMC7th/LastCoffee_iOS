@@ -14,9 +14,8 @@ class CompareResultViewController: UIViewController, UITableViewDataSource, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = false
-        self.navigationItem.title = "비교 결과"
-        self.tabBarController?.isTabBarHidden = false
+        self.tabBarController?.tabBar.isHidden = true
+        
         viewSetting()
         setNavigationBar()
         setDrinkStack()
@@ -55,6 +54,7 @@ class CompareResultViewController: UIViewController, UITableViewDataSource, UITa
         $0.bounces = false
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
+        $0.backgroundColor = UIColor.background
     }
     
     func setDrinkStack() {
@@ -70,7 +70,12 @@ class CompareResultViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     private func setNavigationBar() {
-        let leftBarButton = UIBarButtonItem(image: .init(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popButton))
+        self.navigationController?.isNavigationBarHidden = false
+        
+        self.navigationItem.title = "비교 결과"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.ptdMediumFont(ofSize: 18)]
+        
+        let leftBarButton = UIBarButtonItem(image: .init(named: "Back"), style: .plain, target: self, action: #selector(popButton))
         leftBarButton.tintColor = .black
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
     }
@@ -86,21 +91,21 @@ class CompareResultViewController: UIViewController, UITableViewDataSource, UITa
         view.addSubview(middleLine)
         
         coffeeResultView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview()
-            make.height.greaterThanOrEqualTo(200)
+            make.height.greaterThanOrEqualTo(DynamicPadding.dynamicValuebyWidth(200))
         }
         
         middleLine.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(1)
-            make.top.equalTo(coffeeResultView.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(16))
+            make.height.equalTo(DynamicPadding.dynamicValuebyWidth(1))
+            make.top.equalTo(coffeeResultView.snp.bottom).offset(DynamicPadding.dynamicValue(40))
         }
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(middleLine.snp.bottom)
             make.leading.equalToSuperview()
-            make.trailing.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(16))
             make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
