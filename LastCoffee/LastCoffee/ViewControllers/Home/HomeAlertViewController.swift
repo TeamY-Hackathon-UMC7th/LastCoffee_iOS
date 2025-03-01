@@ -14,7 +14,7 @@ class HomeAlertViewController: UIViewController {
     private let nickname: String
     private lazy var alertView = HomeAlertView(nickname: nickname)
     
-    init( nickname: String) {
+    init(nickname: String) {
         self.nickname = nickname
         super.init(nibName: nil, bundle: nil)
     }
@@ -54,6 +54,10 @@ class HomeAlertViewController: UIViewController {
     
     // 네 버튼 액션
     @objc private func touchUpInsideYseButton() {
+        // 키체인에 얼럿 시간, 유무 설정
+        LoginViewController.keychain.set("16", forKey: KeychainKey.alertTime.rawValue)
+        LoginViewController.keychain.set(true, forKey: KeychainKey.isOnAlert.rawValue)
+        
         // 얼럿 설정
         delegate?.didDismissLogoutAlert()
         
@@ -61,7 +65,7 @@ class HomeAlertViewController: UIViewController {
         LocalNotificationHelper.shared.removeAllNotification()
         
         // 매일 16시마다 알림 설정
-        LocalNotificationHelper.shared.pushScheduledNotification(title: PushAlert.contentTitle, body: PushAlert.contentBody, hour: 20, identifier: PushAlert.alertId)
+        LocalNotificationHelper.shared.pushScheduledNotification(title: PushAlert.contentTitle, body: PushAlert.contentBody, hour: 16, identifier: PushAlert.alertId)
         Toaster.shared.makeToast("오후 4시, 푸시 알림이 설정되었습니다!", .short)
         self.dismiss(animated: true)
     }
@@ -88,9 +92,9 @@ class HomeAlertViewController: UIViewController {
                     let alertSettingVC = AlertSettingViewController()
                     myPageNav.pushViewController(alertSettingVC, animated: false)
 
-                    // 4. SelectTimeVC 푸시
-                    let selectTimeVC = SelectTimeViewController()
-                    myPageNav.pushViewController(selectTimeVC, animated: true)
+                    // 4. AlertSelectTimeVC 푸시
+                    let alertSelectTimeVC = AlertSelectTimeViewController()
+                    myPageNav.pushViewController(alertSelectTimeVC, animated: true)
                 }
             }
         }
