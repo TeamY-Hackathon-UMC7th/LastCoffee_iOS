@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 
 class HomeAlertViewController: UIViewController {
@@ -44,12 +45,25 @@ class HomeAlertViewController: UIViewController {
     // 아니오 버튼 액션
     @objc private func touchUpInsideNoButton() {
         delegate?.didDismissLogoutAlert()
+        // 모든 알림 삭제
+        LocalNotificationHelper.shared.removeAllNotification()
+        
+        Toaster.shared.makeToast("푸시 알림 설정이 거부되었습니다.", .short)
         self.dismiss(animated: true)
     }
     
     // 네 버튼 액션
     @objc private func touchUpInsideYseButton() {
         // 얼럿 설정
+        delegate?.didDismissLogoutAlert()
+        
+        // 모든 알림 삭제
+        LocalNotificationHelper.shared.removeAllNotification()
+        
+        // 매일 16시마다 알림 설정
+        LocalNotificationHelper.shared.pushScheduledNotification(title: PushAlert.contentTitle, body: PushAlert.contentBody, hour: 8, identifier: PushAlert.alertId)
+        Toaster.shared.makeToast("오후 4시, 푸시 알림이 설정되었습니다!", .short)
+        self.dismiss(animated: true)
     }
     
     // 시간 변경 버튼 액션

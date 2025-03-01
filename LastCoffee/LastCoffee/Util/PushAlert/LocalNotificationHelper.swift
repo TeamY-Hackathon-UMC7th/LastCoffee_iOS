@@ -118,4 +118,10 @@ class LocalNotificationHelper {
             .current()
             .removeDeliveredNotifications(withIdentifiers: identifiers)
     }
+    
+    // 모든 알림 삭제
+    func removeAllNotification(){
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+    }
 }

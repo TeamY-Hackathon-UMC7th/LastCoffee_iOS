@@ -43,8 +43,6 @@ class HomeViewController: UIViewController {
 
         // 알림 권한 설정
         LocalNotificationHelper.shared.setAuthorization()
-//        LocalNotificationHelper.shared.pushScheduledNotification(title: "테스트", body: "테스트입니다", hour: 8, identifier: "test")
-        
         LocalNotificationHelper.shared.printPendingNotification()
         
         // 첫 로그인 시에만 호출되도록 변경 필요함
