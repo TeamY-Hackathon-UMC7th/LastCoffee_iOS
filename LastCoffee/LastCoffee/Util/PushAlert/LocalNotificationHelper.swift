@@ -100,8 +100,9 @@ class LocalNotificationHelper {
                 print("Title: \(request.content.title)")
                 print("Body: \(request.content.body)")
                 print("Trigger: \(String(describing: request.trigger))")
-                print("---")
             }
+            
+            print("---")
         }
     }
     

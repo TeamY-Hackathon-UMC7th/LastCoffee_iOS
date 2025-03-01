@@ -61,7 +61,7 @@ class HomeAlertViewController: UIViewController {
         LocalNotificationHelper.shared.removeAllNotification()
         
         // 매일 16시마다 알림 설정
-        LocalNotificationHelper.shared.pushScheduledNotification(title: PushAlert.contentTitle, body: PushAlert.contentBody, hour: 8, identifier: PushAlert.alertId)
+        LocalNotificationHelper.shared.pushScheduledNotification(title: PushAlert.contentTitle, body: PushAlert.contentBody, hour: 20, identifier: PushAlert.alertId)
         Toaster.shared.makeToast("오후 4시, 푸시 알림이 설정되었습니다!", .short)
         self.dismiss(animated: true)
     }

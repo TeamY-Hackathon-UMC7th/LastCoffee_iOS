@@ -1,5 +1,5 @@
 //
-//  PushAlert+Constant.swift
+//  PushAlert+Constants.swift
 //  LastCoffee
 //
 //  Created by 이수현 on 3/1/25.
