@@ -61,6 +61,11 @@ class AlertSelectTimeViewController: UIViewController {
     @objc private func touchUpInsideBtnNext() {
         // 알림 및 시간 저장
         LoginViewController.keychain.set(selectedHour, forKey: KeychainKey.alertTime.rawValue)
+        
+        // 로컬 알림 설정
+        LocalNotificationHelper.shared.removeAllNotification()
+        LocalNotificationHelper.shared.pushScheduledNotification(title: PushAlert.contentTitle, body: PushAlert.contentBody, hour: Int(selectedHour) ?? 16, identifier: PushAlert.alertId)
+        
         self.navigationController?.popViewController(animated: true)
     }
 }
