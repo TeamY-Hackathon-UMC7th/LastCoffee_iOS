@@ -39,10 +39,10 @@ class WithdrawAlertView: UIView {
     }
     
     // 취소 버튼
-    public let cancelButton = AccountInfoAlertButton(type: .cancel)
+    public let cancelButton = AlertButton(type: .cancel)
     
     // 탈퇴 버튼
-    public let withdrawButton = AccountInfoAlertButton(type: .withdraw)
+    public let withdrawButton = AlertButton(type: .withdraw)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

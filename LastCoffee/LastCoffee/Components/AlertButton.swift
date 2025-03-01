@@ -1,5 +1,5 @@
 //
-//  AccountInfoAlertButton.swift
+//  AlertButtonType.swift
 //  LastCoffee
 //
 //  Created by 이수현 on 2/25/25.
@@ -7,16 +7,18 @@
 
 import UIKit
 
-enum AccountInfoAlertButtonType: String {
+enum AlertButtonType: String {
     case cancel = "취소"
     case confirm = "확인"
     case withdraw = "탈퇴"
+    case no = "아니요"
+    case yes = "네"
 }
 
-class AccountInfoAlertButton: UIButton {
-    private let type: AccountInfoAlertButtonType
+class AlertButton: UIButton {
+    private let type: AlertButtonType
     
-    init(type: AccountInfoAlertButtonType) {
+    init(type: AlertButtonType) {
         self.type = type
         super.init(frame: .zero)
         
@@ -30,15 +32,13 @@ class AccountInfoAlertButton: UIButton {
     private func setUI() {
         self.setTitleColor(.white, for: .normal)
         self.layer.cornerRadius = 6
+        self.setTitle(type.rawValue, for: .normal)
         switch type {
-        case .cancel:
-            self.setTitle(type.rawValue, for: .normal)
+        case .cancel, .no: // 취소, 아니요
             self.backgroundColor = UIColor(hex: "D4D4D4")
-        case .confirm:
-            self.setTitle(type.rawValue, for: .normal)
+        case .confirm, .yes: // 확인, 네
             self.backgroundColor = UIColor(hex: "592401")
         case .withdraw:
-            self.setTitle(type.rawValue, for: .normal)
             self.backgroundColor = UIColor(hex: "FF2929")
         }
     }

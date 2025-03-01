@@ -30,10 +30,10 @@ class LogoutAlertView: UIView {
     }
     
     // 취소 버튼
-    public let cancelButton = AccountInfoAlertButton(type: .cancel)
+    public let cancelButton = AlertButton(type: .cancel)
     
     // 확인 버튼
-    public let confirmButton = AccountInfoAlertButton(type: .confirm)
+    public let confirmButton = AlertButton(type: .confirm)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
