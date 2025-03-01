@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 class AddNoteViewController: UIViewController {
     let networkService = ReviewService()
@@ -18,11 +19,13 @@ class AddNoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = addNoteView
+        
         self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.title = "새 기록"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.ptdMediumFont(ofSize: 18)]
         
         if let data = receivedData {
-            addNoteView.selectedCoffee.text = data.name
+            addNoteView.selectedCoffee.text = "[\(data.brand)] \(data.name)"
             self.view.layoutIfNeeded()
         }
         setNavigationBar()
@@ -51,7 +54,7 @@ class AddNoteViewController: UIViewController {
     }
     
     private func setNavigationBar() {
-        let leftBarButton = UIBarButtonItem(image: .init(systemName: "chevron.left"), style: .plain, target: self, action: #selector(popButton))
+        let leftBarButton = UIBarButtonItem(image: .init(named: "Back"), style: .plain, target: self, action: #selector(popButton))
         leftBarButton.tintColor = .black
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
     }
@@ -67,7 +70,8 @@ class AddNoteViewController: UIViewController {
             guard let self = self else { return }
             
             switch result {
-            case .success(let success):
+            case .success(_):
+                Toaster.shared.makeToast("기록이 삭제되었습니다.", .short)
                 Task {
                     self.navigationController?.popViewController(animated: true)
                     guard let navigationController = self.navigationController else { return }
@@ -77,7 +81,7 @@ class AddNoteViewController: UIViewController {
                      }
                 }
             case .failure(let error):
-                print(error)
+                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
             }
         })
     }

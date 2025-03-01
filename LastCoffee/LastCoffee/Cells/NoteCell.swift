@@ -38,12 +38,12 @@ class NoteCell: UITableViewCell {
     
     private let containerView = UIView().then {
         $0.backgroundColor = .white
-        $0.layer.cornerRadius = 12
+        $0.layer.cornerRadius = 6
         $0.layer.masksToBounds = true
     }
     
     let last = UIView().then {
-        $0.backgroundColor = UIColor(hex: "#EE633A")
+        $0.backgroundColor = .subColor
         $0.layer.cornerRadius = 4
         $0.layer.maskedCorners = [.layerMinXMaxYCorner]
         $0.isHidden = true
@@ -57,8 +57,7 @@ class NoteCell: UITableViewCell {
     }
     
     private lazy var image = UIImageView().then {
-        $0.image = UIImage()
-        $0.layer.cornerRadius = 3
+        $0.layer.cornerRadius = 4
         $0.clipsToBounds = true
         $0.contentMode = .scaleAspectFit
         $0.backgroundColor = .white
@@ -66,24 +65,25 @@ class NoteCell: UITableViewCell {
     
     private lazy var title = UILabel().then {
         $0.font = UIFont.ptdMediumFont(ofSize: 16)
+        $0.numberOfLines = 2
         $0.textColor = .black
     }
     
     private lazy var subTitle = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor.neutral300
     }
     
     private lazy var titleStackView = UIStackView().then {
         $0.axis = .vertical
         $0.distribution = .fill
         $0.alignment = .leading
-        $0.spacing = 8
+        $0.spacing = DynamicPadding.dynamicValue(8)
     }
     
     private lazy var drinkingDate = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 12)
-        $0.textColor = UIColor(hex: "#8E8E8E")
+        $0.textColor = UIColor.neutral300
     }
     
     private func setupView() {
@@ -104,51 +104,48 @@ class NoteCell: UITableViewCell {
         
         contentView.layer.shadowColor = UIColor.black.cgColor
         contentView.layer.shadowOpacity = 0.08
-        contentView.layer.shadowOffset = CGSize(width: 0, height: 1)
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 2)
         contentView.layer.shadowRadius = 4
         contentView.layer.masksToBounds = false
         
         containerView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 8, right: 0))
+            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: DynamicPadding.dynamicValue(8), right: 0))
+            $0.height.equalTo(DynamicPadding.dynamicValue(80))
         }
         
         last.snp.makeConstraints {
             $0.top.trailing.equalToSuperview()
-            $0.width.equalTo(66)
-            $0.height.equalTo(18)
+            $0.width.equalTo(DynamicPadding.dynamicValuebyWidth(66))
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(18))
         }
         
         image.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(15)
-            $0.leading.equalToSuperview().offset(20)
-            $0.bottom.equalToSuperview().offset(-15)
+            $0.leading.equalToSuperview().offset(DynamicPadding.dynamicValue(16))
+            $0.centerY.equalToSuperview()
+            $0.width.equalTo(DynamicPadding.dynamicValuebyWidth(52))
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(53))
         }
         
         lastLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(10)
-            $0.centerY.equalToSuperview()
+            $0.centerX.centerY.equalToSuperview()
         }
         
         titleStackView.snp.makeConstraints {
             $0.centerY.equalTo(image.snp.centerY)
-            $0.leading.equalTo(image.snp.trailing).offset(18)
+            $0.leading.equalTo(image.snp.trailing).offset(DynamicPadding.dynamicValue(16))
+            $0.trailing.equalToSuperview().offset(DynamicPadding.dynamicValue(-16))
         }
         
         drinkingDate.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-12)
-            $0.bottom.equalToSuperview().offset(-8)
-        }
-        
-        image.snp.makeConstraints {
-            $0.width.equalTo(46)
-            $0.height.equalTo(50)
+            $0.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(12))
+            $0.bottom.equalToSuperview().inset(DynamicPadding.dynamicValue(8))
         }
     }
     
     public func configure(model: NoteModel) {
-        let drinkDate = extractDate(from: model.drinkDate)
-        let drinkTime = extractTime(from: model.drinkDate)
-        let sleepTime = extractTime(from: model.sleepDate)
+        let drinkDate = extractData(from: model.drinkDate, extractDate: true)
+        let drinkTime = extractData(from: model.drinkDate, extractDate: false)
+        let sleepTime = extractData(from: model.sleepDate, extractDate: false)
         
         self.image.sd_setImage(with: URL(string: model.coffeeImgUrl))
         self.title.text = "[\(model.brand)] \(model.coffeeName)"
@@ -156,19 +153,17 @@ class NoteCell: UITableViewCell {
         self.drinkingDate.text = drinkDate
     }
     
-    func extractDate(from dateTimeString: String) -> String {
-        if let range = dateTimeString.range(of: "\\d{4}-\\d{2}-\\d{2}", options: .regularExpression) {
-            return String(dateTimeString[range])
+    // 날짜 형식 변환 함수
+    func extractData(from dateTimeString: String, extractDate: Bool) -> String {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+
+        if let date = inputFormatter.date(from: dateTimeString) {
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = extractDate ? "yyyy.MM.dd" : "HH시"
+            return outputFormatter.string(from: date)
         } else {
-            return "날짜 형식 없음"
-        }
-    }
-    
-    func extractTime(from dateTimeString: String) -> String {
-        if let range = dateTimeString.range(of: "\\d{2}:\\d{2}", options: .regularExpression) {
-            return String(dateTimeString[range])
-        } else {
-            return "시간 형식 없음"
+            return "추출할 데이터가 없습니다."
         }
     }
 }

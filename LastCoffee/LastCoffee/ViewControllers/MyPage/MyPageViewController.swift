@@ -48,6 +48,12 @@ class MyPageViewController: UIViewController {
         
         // 닉네임 변경 버튼 액션
         myPageView.changeNicknameView.button.addTarget(self, action: #selector(touchUpInsideChangeNicknameButton), for: .touchUpInside)
+        
+        // 서비스 이용역관 버튼 액션
+        myPageView.serviceInfoView.button.addTarget(self, action: #selector(touchUpInsideServiceInfoButton), for: .touchUpInside)
+        
+        // 개인정보처리방침 버튼 액션
+        myPageView.personalInfoView.button.addTarget(self, action: #selector(touchUpInsidePersonalInfoButton), for: .touchUpInside)
     }
     
     // 커피 기록 탭 제스처
@@ -76,6 +82,18 @@ class MyPageViewController: UIViewController {
     // 닉네임 변경 버튼 액션
     @objc private func touchUpInsideChangeNicknameButton(){
         let nextVC = ChangeNicknameViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    // 서비스 이용역관 버튼 액션
+    @objc private func touchUpInsideServiceInfoButton(){
+        let nextVC = HelpViewController(type: .termsOfUse)
+        self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    // 개인정보처리방침 버튼 액션
+    @objc private func touchUpInsidePersonalInfoButton(){
+        let nextVC = HelpViewController(type: .personalInfomantionProcessingPolicy)
         self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }

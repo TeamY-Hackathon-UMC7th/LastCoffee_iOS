@@ -12,15 +12,17 @@ class HomeViewController: UIViewController {
     private let dummy = CoffeeDetailResponse.dummy()
     private let homeView : HomeView
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
+    private var nickname: String
     private var popularData = [CoffeeDetailResponse]()
     private var recommendData = [CoffeeData]()
-    
     private let networkService = CoffeeService()
+    
     let coffeeManager = CoffeeManager()
     
     init() {
-        let nickname = LoginViewController.keychain.get("userNickname")
-        homeView = HomeView(nickname: nickname ?? "default")
+        let nickname = LoginViewController.keychain.get("userNickname") ?? "default"
+        self.nickname = nickname
+        homeView = HomeView(nickname: nickname)
         
         super.init(nibName: nil, bundle: nil)
         self.addAction()
@@ -38,18 +40,24 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = homeView
-        
+
         // 알림 권한 설정
         LocalNotificationHelper.shared.setAuthorization()
-        
 //        LocalNotificationHelper.shared.pushScheduledNotification(title: "테스트", body: "테스트입니다", hour: 8, identifier: "test")
         
         LocalNotificationHelper.shared.printPendingNotification()
+        
+        // 첫 로그인 시에만 호출되도록 변경 필요함
+        presentAlertView()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.isTabBarHidden = false
+        let nickname = LoginViewController.keychain.get("userNickname") ?? "default"
+        homeView.setNickname(nickname: nickname)
+     
+        self.tabBarController?.tabBar.isHidden = false
         // API 연결 후 스냅샷 생성 추가 예정
         Task {
             guard let datas = await getLastRecommand() else {return}
@@ -59,8 +67,6 @@ class HomeViewController: UIViewController {
             self.setSnapShot()
             homeView.lblEmptyMenu.isHidden = !recommendData.isEmpty
         }
-        
-        
     }
     
     private func setDataSource() {
@@ -130,8 +136,22 @@ class HomeViewController: UIViewController {
     // '오늘의 취침 시간' 버튼 선택
     @objc private func touchUpInsideBtnRecommendDrink() {
         let nextVC = SelectTimeViewController()
-        self.tabBarController?.isTabBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    // 첫 로그인 시 얼럿 띄우기
+    private func presentAlertView() {
+        setBackgroundView(isHidden: false)
+        let alertVC = HomeAlertViewController(nickname: nickname)
+        alertVC.modalPresentationStyle = .overFullScreen
+        alertVC.delegate = self  // Delegate 설정
+        self.present(alertVC, animated: true)
+    }
+    
+    // 얼럿 띄웠을 떄 백그라운드 투명도 처리
+    public func setBackgroundView(isHidden: Bool) {
+        homeView.backgroundView.isHidden = isHidden
     }
     
     private func getPopular(){
@@ -180,5 +200,12 @@ extension HomeViewController: UICollectionViewDelegate {
             return
         }
         
+    }
+}
+
+// HomeAlertViewControllerDelegate 구현
+extension HomeViewController: AlertViewControllerDelegate {
+    func didDismissLogoutAlert() {
+        setBackgroundView(isHidden: true)
     }
 }

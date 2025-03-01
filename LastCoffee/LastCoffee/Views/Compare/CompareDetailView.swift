@@ -21,7 +21,7 @@ class CompareDetailView: UIView {
     func createLabel(text: String, alignment: NSTextAlignment) -> UILabel {
         let label = UILabel().then {
             $0.font = UIFont.ptdRegularFont(ofSize: 14)
-            $0.textColor = UIColor(hex: "#8E8E8E")
+            $0.textColor = UIColor.neutral300
             $0.text = text
             $0.textAlignment = .left
         }
@@ -29,25 +29,27 @@ class CompareDetailView: UIView {
     }
     
     public lazy var imageView = UIImageView().then {
-        $0.backgroundColor = .white
-        
-        $0.layer.cornerRadius = 10
-        $0.clipsToBounds = true
         $0.layer.shadowColor = UIColor.black.cgColor
         $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-        $0.layer.shadowRadius = 4
+        $0.layer.shadowRadius = 6
         $0.layer.shadowOpacity = 0.08
+        $0.layer.masksToBounds = false
         $0.contentMode = .scaleAspectFit
     }
     
     public lazy var image = UIImageView().then {
+        $0.backgroundColor = .white
         $0.contentMode = .scaleAspectFit
+        $0.layer.cornerRadius = 6
+        $0.clipsToBounds = true
     }
     
     public lazy var coffeeName = UILabel().then {
         $0.font = UIFont.ptdMediumFont(ofSize: 16)
         $0.textColor = .black
         $0.textAlignment = .center
+        $0.numberOfLines = 2
+        $0.lineBreakMode = .byTruncatingTail
         $0.text = nil
     }
     
@@ -55,7 +57,8 @@ class CompareDetailView: UIView {
         backgroundColor: UIColor.mainColor,
         title: "다른 메뉴와 비교하기",
         titleColor: .white,
-        radius: 10,
+        font: .ptdSemiBoldFont(ofSize: 14),
+        radius: 6,
         isEnabled: true
     )
     
@@ -101,33 +104,34 @@ class CompareDetailView: UIView {
         imageView.addSubview(image)
         
         imageView.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide).offset(28)
+            $0.top.equalTo(safeAreaLayoutGuide).offset(DynamicPadding.dynamicValue(40))
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(278)
-            $0.height.equalTo(287)
+            $0.width.equalTo(DynamicPadding.dynamicValuebyWidth(280))
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(285))
         }
         
         image.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
-            $0.width.equalTo(134)
-            $0.height.equalTo(161)
+            $0.width.equalTo(DynamicPadding.dynamicValuebyWidth(280))
+            $0.height.equalTo(DynamicPadding.dynamicValuebyWidth(285))
         }
         
         coffeeName.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.bottom).offset(22)
+            $0.top.equalTo(imageView.snp.bottom).offset(DynamicPadding.dynamicValue(24))
+            $0.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(41))
             $0.centerX.equalToSuperview()
         }
         
         mainStack.snp.makeConstraints {
-            $0.top.equalTo(coffeeName.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().offset(41)
-            $0.trailing.equalToSuperview().offset(-41)
+            $0.top.equalTo(coffeeName.snp.bottom).offset(DynamicPadding.dynamicValue(32))
+            $0.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(41))
         }
         
         nextBtn.snp.makeConstraints { make in
-            make.top.equalTo(mainStack.snp.bottom).offset(60)
-            make.leading.trailing.equalToSuperview().inset(50)
-            make.height.equalTo(60)
+            make.top.equalTo(mainStack.snp.bottom).offset(DynamicPadding.dynamicValue(56))
+            make.centerX.equalToSuperview()
+            make.width.equalTo(DynamicPadding.dynamicValuebyWidth(176))
+            make.height.equalTo(DynamicPadding.dynamicValuebyWidth(56))
         }
         
     }
