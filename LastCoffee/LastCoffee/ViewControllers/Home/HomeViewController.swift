@@ -23,7 +23,6 @@ class HomeViewController: UIViewController {
         homeView = HomeView(nickname: nickname ?? "default")
         
         super.init(nibName: nil, bundle: nil)
-        self.view = homeView
         self.addAction()
         self.setNavigation()
         self.getPopular()
@@ -38,6 +37,14 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view = homeView
+        
+        // 알림 권한 설정
+        LocalNotificationHelper.shared.setAuthorization()
+        
+//        LocalNotificationHelper.shared.pushScheduledNotification(title: "테스트", body: "테스트입니다", hour: 8, identifier: "test")
+        
+        LocalNotificationHelper.shared.printPendingNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
