@@ -44,7 +44,15 @@ class WithdrawAlertViewController: UIViewController {
             do {
                 let result = try await authService.deleteUserAPI()
                 Toaster.shared.makeToast(result)
-                navigationController?.popToRootViewController(animated: true)
+                
+                LoginViewController.keychain.delete("accessToken")
+                LoginViewController.keychain.delete("refreshToken")
+                LoginViewController.keychain.delete("serverAccessToken")
+                LoginViewController.keychain.delete(KeychainKey.alertTime.rawValue)
+                LoginViewController.keychain.delete(KeychainKey.isOnAlert.rawValue)
+                LocalNotificationHelper.shared.removeAllNotification() // 모든 알림 삭제
+                
+                navigationController?.popToRootViewController(animated: true) // 로그인 뷰로 이동
             }
             catch {
                 print(error.localizedDescription)
