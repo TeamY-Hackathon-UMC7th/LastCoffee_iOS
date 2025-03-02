@@ -9,11 +9,10 @@ import UIKit
 import Then
 
 class HomeView: UIView {
-    private let nickname: String
     
     // 닉네임 라벨
     private lazy var lblNickname = UILabel().then { lbl in
-        lbl.text = "\(nickname)님, 행복 가득한 하루 되세요 : )"
+        lbl.text = "default님, 행복 가득한 하루 되세요 : )"
         lbl.font = .ptdSemiBoldFont(ofSize: 18)
         lbl.textAlignment = .left
     }
@@ -49,8 +48,8 @@ class HomeView: UIView {
         view.isHidden = true
     }
     
-    init(nickname: String) {
-        self.nickname = nickname
+    init() {
+        
         super.init(frame: .zero)
         
         self.backgroundColor = .background
