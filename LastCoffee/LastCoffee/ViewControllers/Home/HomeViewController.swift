@@ -47,7 +47,6 @@ class HomeViewController: UIViewController {
         
         // 첫 로그인 시에만 호출되도록 변경 필요함
         presentAlertView()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {

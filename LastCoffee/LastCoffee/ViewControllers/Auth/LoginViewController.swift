@@ -12,7 +12,7 @@ import SwiftyToaster
 class LoginViewController: UIViewController {
     private let loginView = LoginView()
     public static let keychain = KeychainSwift()
-    let networkServcie = AuthService()
+    let networkService = AuthService()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +63,8 @@ class LoginViewController: UIViewController {
     // push
     @objc private func loginButtonTapped() {
         guard let nickname = loginView.nickNameField.textField.text else { return }
-        callLoginAPI(nickname: nickname)
+        // 이렇게 불러주면 됨
+        callLoginAPI(email: nickname, password: nickname)
 //        self.goToNextView()
     }
     
@@ -83,21 +84,45 @@ class LoginViewController: UIViewController {
         return true
     }
     
-    func callLoginAPI(nickname: String) {
-        networkServcie.login(nickname: nickname) { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let response):
-                Task{
-                    LoginViewController.keychain.set(response.token, forKey: "serverAccessToken")
-                    LoginViewController.keychain.set(response.nickname, forKey: "userNickname")
-                    self.goToNextView()
-                }
-            case .failure(let error):
-                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
+    func callLoginAPI(email: String, password: String) {
+        // 비동기 작업 처리를 위한 Task Block
+        Task {
+            do { // 에러 핸들링을 위한 do-catch block
+                // let 변수명 = try await 네트워크서비스에서 사용할 API -> DTO가 있으면 DTO 함수를 호출하여 넣어줌
+                let data = try await networkService.postLoginAPI(data: networkService.makeLoginDTO(email: email, password: password))
+                // 받아온 데이터로 이후 작업
+                LoginViewController.keychain.set(data.accessToken, forKey: "accessToken")
+                LoginViewController.keychain.set(data.refreshToken, forKey: "refreshToken")
+                
+                // UI 변경이 있다면, 이런식으로 작업 -> 여러가지라면 함수로 빼서 넣기
+//                DispatchQueue.main.async {
+//                     UI 업데이트
+//                     UI 업데이트 함수 호출
+//                }
+            }
+            catch {
+                // 에러 핸들링 여기에(추후 작업)
+                print(error)
             }
         }
     }
+    
+    // 기존 코드
+//    func callLoginAPI(nickname: String) {
+//        networkServcie.login(nickname: nickname) { [weak self] result in
+//            guard let self = self else { return }
+//            
+//            switch result {
+//            case .success(let response):
+//                Task{
+//                    LoginViewController.keychain.set(response.token, forKey: "serverAccessToken")
+//                    LoginViewController.keychain.set(response.nickname, forKey: "userNickname")
+//                    self.goToNextView()
+//                }
+//            case .failure(let error):
+//                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
+//            }
+//        }
+//    }
     
 }

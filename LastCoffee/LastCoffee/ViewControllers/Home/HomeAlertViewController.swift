@@ -9,12 +9,14 @@ import UIKit
 import SwiftyToaster
 
 
+
 class HomeAlertViewController: UIViewController {
     weak var delegate: AlertViewControllerDelegate?
     private let nickname: String
     private lazy var alertView = HomeAlertView(nickname: nickname)
     
-    init(nickname: String) {
+
+    init( nickname: String) {
         self.nickname = nickname
         super.init(nibName: nil, bundle: nil)
     }
@@ -54,6 +56,7 @@ class HomeAlertViewController: UIViewController {
     
     // 네 버튼 액션
     @objc private func touchUpInsideYseButton() {
+
         // 키체인에 얼럿 시간, 유무 설정
         LoginViewController.keychain.set("16", forKey: KeychainKey.alertTime.rawValue)
         LoginViewController.keychain.set(true, forKey: KeychainKey.isOnAlert.rawValue)
@@ -68,6 +71,7 @@ class HomeAlertViewController: UIViewController {
         LocalNotificationHelper.shared.pushScheduledNotification(title: PushAlert.contentTitle, body: PushAlert.contentBody, hour: 16, identifier: PushAlert.alertId)
         Toaster.shared.makeToast("오후 4시, 푸시 알림이 설정되었습니다!", .short)
         self.dismiss(animated: true)
+
     }
     
     // 시간 변경 버튼 액션
@@ -95,6 +99,7 @@ class HomeAlertViewController: UIViewController {
                     // 4. AlertSelectTimeVC 푸시
                     let alertSelectTimeVC = AlertSelectTimeViewController()
                     myPageNav.pushViewController(alertSelectTimeVC, animated: true)
+
                 }
             }
         }
