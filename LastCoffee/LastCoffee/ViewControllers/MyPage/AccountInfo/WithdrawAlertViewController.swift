@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 class WithdrawAlertViewController: UIViewController {
     weak var delegate: AlertViewControllerDelegate?
     private let withdrawAlertView = WithdrawAlertView()
+    private let authService = AuthService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +35,22 @@ class WithdrawAlertViewController: UIViewController {
     
     // 탈퇴 버튼 액션
     @objc private func touchUpInsideWithdrawButton() {
-        
+        withdrawUser()
+    }
+    
+    // 회원 탈퇴 API
+    private func withdrawUser(){
+        Task {
+            do {
+                let result = try await authService.deleteUserAPI()
+                Toaster.shared.makeToast(result)
+                navigationController?.popToRootViewController(animated: true)
+            }
+            catch {
+                print(error.localizedDescription)
+                Toaster.shared.makeToast("회원탈퇴에 실패했습니다.")
+            }
+        }
     }
 }
 
