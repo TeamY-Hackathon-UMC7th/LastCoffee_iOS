@@ -152,18 +152,18 @@ class HomeViewController: UIViewController {
     }
     
     private func getPopular(){
-        networkService.getPopularCoffee { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let response):
-                self.popularData = response.coffees
-                self.setDataSource()
-                self.setSnapShot()
-            case .failure(let error):
-                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
-            }
-        }
+//        networkService.getPopularCoffee { [weak self] result in
+//            guard let self = self else { return }
+//            
+//            switch result {
+//            case .success(let response):
+//                self.popularData = response.coffees
+//                self.setDataSource()
+//                self.setSnapShot()
+//            case .failure(let error):
+//                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
+//            }
+//        }
     }
     
     func getLastRecommand() async -> [CoffeeData]? {
