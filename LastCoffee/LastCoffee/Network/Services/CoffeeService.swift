@@ -46,4 +46,8 @@ public final class CoffeeService : NetworkManager {
         return try await requestAsync(target: .getPopularCoffee, decodingType: [CoffeeDetailPreviewDTO].self)
     }
     
+    /// 추천 음료 전부
+    public func getAllRecommendCoffee(page: Int = 0, size: Int = 10) async throws -> [CoffeePreviewDTO] {
+        return try await requestAsync(target: .getAllRecommendCoffee(page: page, size: size), decodingType: [CoffeePreviewDTO].self)
+    }
 }
