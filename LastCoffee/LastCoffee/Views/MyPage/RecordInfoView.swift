@@ -90,4 +90,10 @@ class RecordInfoView: UIView {
             make.width.height.equalTo(24)
         }
     }
+    
+    public func config(count: Int) {
+        if type == .coffeeRecord {
+            infoLabel.text = "\(count)건"
+        }
+    }
 }
