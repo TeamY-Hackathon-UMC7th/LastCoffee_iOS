@@ -98,4 +98,9 @@ class AlertSettingView: UIView {
             make.width.height.equalTo(16)
         }
     }
+    
+    public func config(alertTime: String, isOn: Bool) {
+        titleLabel.text = "\(alertTime.toKoreanTimeString) 알림"
+        alertSwitch.isOn = isOn
+    }
 }

@@ -20,7 +20,6 @@ class AlertSelectTimeViewController: UIViewController {
         super.viewDidLoad()
         self.selectTimeView.timePickerView.delegate = self
         self.selectTimeView.timePickerView.dataSource = self
-        self.selectTimeView.timePickerView.selectRow(16, inComponent: 0, animated: true)
         
         view = selectTimeView
         
@@ -32,6 +31,10 @@ class AlertSelectTimeViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.tabBarController?.tabBar.isHidden = true
+        
+        // 선택되어 있는 시간 설정
+        let selectedHour = Int(LoginViewController.keychain.get(KeychainKey.alertTime.rawValue) ?? "16") ?? 16
+        self.selectTimeView.timePickerView.selectRow(selectedHour, inComponent: 0, animated: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -57,7 +60,12 @@ class AlertSelectTimeViewController: UIViewController {
     // 확인 버튼 액션
     @objc private func touchUpInsideBtnNext() {
         // 알림 및 시간 저장
-         
+        LoginViewController.keychain.set(selectedHour, forKey: KeychainKey.alertTime.rawValue)
+        
+        // 로컬 알림 설정
+        LocalNotificationHelper.shared.removeAllNotification()
+        LocalNotificationHelper.shared.pushScheduledNotification(title: PushAlert.contentTitle, body: PushAlert.contentBody, hour: Int(selectedHour) ?? 16, identifier: PushAlert.alertId)
+        
         self.navigationController?.popViewController(animated: true)
     }
 }

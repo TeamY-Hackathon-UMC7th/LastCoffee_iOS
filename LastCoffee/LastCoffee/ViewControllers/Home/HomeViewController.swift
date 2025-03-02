@@ -15,8 +15,8 @@ class HomeViewController: UIViewController {
     private var nickname: String
     private var popularData = [CoffeeDetailResponse]()
     private var recommendData = [CoffeeData]()
-    
     private let networkService = CoffeeService()
+    
     let coffeeManager = CoffeeManager()
     
     init() {
@@ -25,6 +25,8 @@ class HomeViewController: UIViewController {
         homeView = HomeView(nickname: nickname)
         
         super.init(nibName: nil, bundle: nil)
+        self.addAction()
+        self.setNavigation()
         self.getPopular()
         
         self.homeView.collectionView.delegate = self
@@ -38,8 +40,10 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = homeView
-        self.addAction()
-        self.setNavigation()
+
+        // 알림 권한 설정
+        LocalNotificationHelper.shared.setAuthorization()
+        LocalNotificationHelper.shared.printPendingNotification()
         
         // 첫 로그인 시에만 호출되도록 변경 필요함
         presentAlertView()
