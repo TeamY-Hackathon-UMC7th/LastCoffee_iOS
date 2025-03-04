@@ -89,11 +89,11 @@ extension AuthEndpoint: TargetType {
         
         switch self {
         case .patchPassword, .deleteMember, .postLogout:
-            if let accessToken = LoginViewController.keychain.get("accessToken") {
+            if let accessToken = SplashViewController.keychain.get("accessToken") {
                 headers["Authorization"] = "Bearer \(accessToken)"
             }
         case .reissueToken:
-            if let accessToken = LoginViewController.keychain.get("refreshToken") {
+            if let accessToken = SplashViewController.keychain.get("refreshToken") {
                 headers["Authorization"] = "Bearer \(accessToken)"
             }
         default:

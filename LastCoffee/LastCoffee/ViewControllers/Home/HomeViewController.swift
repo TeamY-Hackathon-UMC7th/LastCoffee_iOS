@@ -20,7 +20,7 @@ class HomeViewController: UIViewController {
     let coffeeManager = CoffeeManager()
     
     init() {
-        let nickname = LoginViewController.keychain.get("userNickname") ?? "default"
+        let nickname = SplashViewController.keychain.get("userNickname") ?? "default"
         self.nickname = nickname
         homeView = HomeView(nickname: nickname)
         
@@ -51,7 +51,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let nickname = LoginViewController.keychain.get("userNickname") ?? "default"
+        let nickname = SplashViewController.keychain.get("userNickname") ?? "default"
         homeView.setNickname(nickname: nickname)
      
         self.tabBarController?.tabBar.isHidden = false
@@ -152,18 +152,18 @@ class HomeViewController: UIViewController {
     }
     
     private func getPopular(){
-        networkService.getPopularCoffee { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let response):
-                self.popularData = response.coffees
-                self.setDataSource()
-                self.setSnapShot()
-            case .failure(let error):
-                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
-            }
-        }
+//        networkService.getPopularCoffee { [weak self] result in
+//            guard let self = self else { return }
+//            
+//            switch result {
+//            case .success(let response):
+//                self.popularData = response.coffees
+//                self.setDataSource()
+//                self.setSnapShot()
+//            case .failure(let error):
+//                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
+//            }
+//        }
     }
     
     func getLastRecommand() async -> [CoffeeData]? {

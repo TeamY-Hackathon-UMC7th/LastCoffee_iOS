@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import KeychainSwift
+import SwiftyToaster
 
 class OnboardingViewController: UIViewController {
-    private let onboardingView = OnboardingView()
+    private let onboardingView = KakaoLoginView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,17 +23,18 @@ class OnboardingViewController: UIViewController {
     func viewSetting() {
         view.addSubview(onboardingView)
         onboardingView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalToSuperview()
         }
     }
     
     private func setupActions() {
-        onboardingView.checkButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+        onboardingView.kakaoBtn.addTarget(self, action: #selector(kakaoLoginButtonTapped), for: .touchUpInside)
     }
     
-    @objc private func nextButtonTapped() {
-        let loginVC = LoginViewController()
-        self.navigationController?.pushViewController(loginVC, animated: true)
+    @objc private func kakaoLoginButtonTapped() {
+        // 로그인 처리
+        print("카카오 로그인하자!")
     }
 
 }

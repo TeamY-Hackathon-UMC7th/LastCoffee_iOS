@@ -9,7 +9,7 @@ import UIKit
 import SwiftyToaster
 
 class NoteMainViewController: UIViewController {
-    let networkService = ReviewService()
+    let networkService = NoteService()
     private var data: [NoteModel] = [
         NoteModel(id: 13,coffeeName: "아메리카노", brand: "스타벅스", drinkDate: "2024-11-12 16:34", sleepDate: "2024-11-12 23:25", comment: "아메리카노도 잠이 안온다...", coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/%5B110563%5D_20210426095937947.jpg", createdAt: "2024-11-13 00:30"),
         NoteModel(id: 59,coffeeName: "블루베리라떼", brand: "컴포즈", drinkDate: "2025-01-09 19:34", sleepDate: "2025-01-09 22:06", comment: "블루베리라떼 맛있음", coffeeImgUrl: "https://composecoffee.com/files/thumbnails/891/064/1515x2083.crop.jpg?t=1733793666", createdAt: "2025-01-09 23:00"),
@@ -62,44 +62,44 @@ class NoteMainViewController: UIViewController {
     }
     
     func callGetAPI() {
-        networkService.getReviews { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let reviews):
-                self.data.removeAll()
-                guard let review = reviews else { return }
-                for data in review {
-//                    guard let drinkTimeString = convertISO8601ToCustomFormat(data.drinkTime) else {
-//                        return
-//                    }
-                    let drinkStrings = data.drinkTime.split(separator: "T").map{String($0)}
-//                    let drinkStrings = drinkTimeString.split(separator: " ").map{String($0)}
-//                    guard let sleepTimeString = convertISO8601ToCustomFormat(data.sleepTime) else {return}
-
-                    let sleepStrings = data.sleepTime.split(separator: "T").map{String($0)}
-                    let i = NoteModel(
-                        id: data.id,
-                        coffeeName: data.coffee.name,
-                        brand: data.coffee.brand,
-                        drinkDate: "\(drinkStrings[0]) \(drinkStrings[1])",
-                        sleepDate: "\(sleepStrings[0]) \(sleepStrings[1])",
-                        comment: data.comment,
-                        coffeeImgUrl: data.coffee.coffeeImgUrl,
-                        createdAt: data.createdAt
-                    )
-                    
-                    self.data.append(i)
-                    
-                }
-                Task {
-                    self.noteView.noteTableView.reloadData()
-                }
-                
-            case .failure(let error):
-                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
-            }
-        }
+//        networkService.getReviews { [weak self] result in
+//            guard let self = self else { return }
+//            
+//            switch result {
+//            case .success(let reviews):
+//                self.data.removeAll()
+//                guard let review = reviews else { return }
+//                for data in review {
+////                    guard let drinkTimeString = convertISO8601ToCustomFormat(data.drinkTime) else {
+////                        return
+////                    }
+//                    let drinkStrings = data.drinkTime.split(separator: "T").map{String($0)}
+////                    let drinkStrings = drinkTimeString.split(separator: " ").map{String($0)}
+////                    guard let sleepTimeString = convertISO8601ToCustomFormat(data.sleepTime) else {return}
+//
+//                    let sleepStrings = data.sleepTime.split(separator: "T").map{String($0)}
+//                    let i = NoteModel(
+//                        id: data.id,
+//                        coffeeName: data.coffee.name,
+//                        brand: data.coffee.brand,
+//                        drinkDate: "\(drinkStrings[0]) \(drinkStrings[1])",
+//                        sleepDate: "\(sleepStrings[0]) \(sleepStrings[1])",
+//                        comment: data.comment,
+//                        coffeeImgUrl: data.coffee.coffeeImgUrl,
+//                        createdAt: data.createdAt
+//                    )
+//                    
+//                    self.data.append(i)
+//                    
+//                }
+//                Task {
+//                    self.noteView.noteTableView.reloadData()
+//                }
+//                
+//            case .failure(let error):
+//                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
+//            }
+//        }
     }
 }
 
@@ -134,23 +134,23 @@ extension NoteMainViewController: UITableViewDataSource, UITableViewDelegate {
             let deleteId = self.data[indexPath.row].id
             
             // 네트워크 요청
-            self.networkService.deleteReview(reviewId: deleteId) { [weak self] result in
-                guard let self = self else { return }
-                
-                DispatchQueue.main.async {
-                    switch result {
-                    case .success:
-                        self.callGetAPI()
-                        Toaster.shared.makeToast("기록이 삭제되었습니다.", .short)
-                    case .failure(let error):
-                        Toaster.shared.makeToast("\(error.errorDescription!)", .short)
-                        Task {
-                            self.noteView.noteTableView.reloadData()
-                        }
-                    }
-                    completion(true) // 작업 완료
-                }
-            }
+//            self.networkService.deleteReview(reviewId: deleteId) { [weak self] result in
+//                guard let self = self else { return }
+//                
+//                DispatchQueue.main.async {
+//                    switch result {
+//                    case .success:
+//                        self.callGetAPI()
+//                        Toaster.shared.makeToast("기록이 삭제되었습니다.", .short)
+//                    case .failure(let error):
+//                        Toaster.shared.makeToast("\(error.errorDescription!)", .short)
+//                        Task {
+//                            self.noteView.noteTableView.reloadData()
+//                        }
+//                    }
+//                    completion(true) // 작업 완료
+//                }
+//            }
         }
         
         action.backgroundColor = .subColor

@@ -67,25 +67,25 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func callPostAPI(_ keyword: String) {
-        networkService.getSearchCoffee(keyword: keyword, completion: { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let response):
-                data = response.coffees
-                
-                searchView.noteSearchTableView.isHidden = false
-                searchView.emptyLabel.isHidden = true
-                
-                searchView.noteSearchTableView.reloadData()
-            case .failure(let error):
-                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
-                
-                searchView.noteSearchTableView.isHidden = true
-                searchView.emptyLabel.isHidden = false
-            }
-        }
-        )
+//        networkService.getSearchCoffee(keyword: keyword, completion: { [weak self] result in
+//            guard let self = self else { return }
+//            
+//            switch result {
+//            case .success(let response):
+//                data = response.coffees
+//                
+//                searchView.noteSearchTableView.isHidden = false
+//                searchView.emptyLabel.isHidden = true
+//                
+//                searchView.noteSearchTableView.reloadData()
+//            case .failure(let error):
+//                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
+//                
+//                searchView.noteSearchTableView.isHidden = true
+//                searchView.emptyLabel.isHidden = false
+//            }
+//        }
+//        )
     }
     
     // 셀 클릭 시 실행할 함수

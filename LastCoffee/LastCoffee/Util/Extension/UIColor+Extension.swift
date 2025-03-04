@@ -40,5 +40,8 @@ extension UIColor {
     static let coffeeGray = UIColor(hex: "D4D4D4") // 피그마에 컬러칩 업데이트가 안됨
     
     static let neutral300 = UIColor(hex: "#8E8E8E")
+    static let neutral900 = UIColor(hex: "#000000")
     static let inputFieldBackground = UIColor(hex: "#FFFBF8") // 서치바와 리뷰 텍스트 배경색에 사용
+    static let fontGray = UIColor(hex: "666666")
+    static let kakaoYellow = UIColor(hex: "#FFCC00")
 }

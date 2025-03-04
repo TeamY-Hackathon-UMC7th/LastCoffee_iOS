@@ -58,8 +58,8 @@ class HomeAlertViewController: UIViewController {
     @objc private func touchUpInsideYseButton() {
 
         // 키체인에 얼럿 시간, 유무 설정
-        LoginViewController.keychain.set("16", forKey: KeychainKey.alertTime.rawValue)
-        LoginViewController.keychain.set(true, forKey: KeychainKey.isOnAlert.rawValue)
+        SplashViewController.keychain.set("16", forKey: KeychainKey.alertTime.rawValue)
+        SplashViewController.keychain.set(true, forKey: KeychainKey.isOnAlert.rawValue)
         
         // 얼럿 설정
         delegate?.didDismissLogoutAlert()
