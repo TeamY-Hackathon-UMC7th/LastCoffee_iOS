@@ -6,11 +6,17 @@
 //
 
 import UIKit
+import KakaoSDKUser
 import KeychainSwift
 import SwiftyToaster
 
 class OnboardingViewController: UIViewController {
+    //MARK: - View
     private let onboardingView = KakaoLoginView()
+    
+    //MARK: - DI
+    private lazy var kakaoAuthVM = KakaoViewModel()
+    private let networkService = AuthService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +39,54 @@ class OnboardingViewController: UIViewController {
     }
     
     @objc private func kakaoLoginButtonTapped() {
-        // 로그인 처리
-        print("카카오 로그인하자!")
+        Task {
+            await startKakaoLogin()
+        }
+    }
+    
+    private func startKakaoLogin() async {
+        let success = await kakaoAuthVM.kakaoLogin()
+        guard success else { return }
+
+        do {
+            let (userNickname, userEmail) = try await fetchKakaoUserInfo()
+            await kakaoLoginProceed(userNickname, userEmail: userEmail)
+        } catch {
+            print("카카오 사용자 정보 가져오기 실패: \(error.localizedDescription)")
+        }
+    }
+    
+    private func fetchKakaoUserInfo() async throws -> (String, String) {
+        return try await withCheckedThrowingContinuation { continuation in
+            UserApi.shared.me { user, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                    return
+                }
+                guard let userId = user?.id else {
+                    continuation.resume(throwing: NSError(domain: "UserInfoError", code: -1, userInfo: nil))
+                    return
+                }
+                guard let userEmail = user?.kakaoAccount?.email else {
+                    continuation.resume(throwing: NSError(domain: "UserInfoError", code: -2, userInfo: nil))
+                    return
+                }
+                continuation.resume(returning: (String(userId), userEmail))
+            }
+        }
+    }
+    
+    private func kakaoLoginProceed(_ userIDString: String, userEmail: String) async {
+//        do {
+//            let kakaoDTO = networkService.makeKakaoDTO(username: userIDString, email: userEmail)
+//            let response = try await networkService.kakaoLogin(data: kakaoDTO)
+//            
+//            DispatchQueue.main.async {
+//                self.goToNextView(response.isFirst)
+//            }
+//        } catch {
+//            print("카카오 로그인 처리 중 오류 발생: \(error.localizedDescription)")
+//        }
     }
 
 }
