@@ -77,16 +77,32 @@ class OnboardingViewController: UIViewController {
     }
     
     private func kakaoLoginProceed(_ userIDString: String, userEmail: String) async {
-//        do {
-//            let kakaoDTO = networkService.makeKakaoDTO(username: userIDString, email: userEmail)
-//            let response = try await networkService.kakaoLogin(data: kakaoDTO)
-//            
-//            DispatchQueue.main.async {
-//                self.goToNextView(response.isFirst)
-//            }
-//        } catch {
-//            print("카카오 로그인 처리 중 오류 발생: \(error.localizedDescription)")
-//        }
+        do {
+            let kakaoDTO = networkService.makeLoginDTO(name: userIDString, email: userEmail)
+            let response = try await networkService.postLoginAPI(data: kakaoDTO)
+            
+            // 토큰 저장
+            SplashViewController.keychain.set(response.accessToken, forKey: "accessToken")
+            SplashViewController.keychain.set(response.refreshToken, forKey: "refreshToken")
+            
+            DispatchQueue.main.async {
+                self.goToNextView()
+            }
+        } catch {
+            print("카카오 로그인 처리 중 오류 발생: \(error.localizedDescription)")
+        }
+    }
+    
+    private func goToNextView() {
+        let tabVC = MainTabBarController()
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            let rootVC = UINavigationController(rootViewController: tabVC)
+            
+            window.rootViewController = rootVC
+            UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
+        }
     }
 
 }
