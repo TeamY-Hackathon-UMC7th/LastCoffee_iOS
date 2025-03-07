@@ -6,10 +6,11 @@
 //
 
 import UIKit
-
+import SwiftyToaster
 
 class MyPageViewController: UIViewController {
     private let myPageView = MyPageView()
+    private let myPageService = MyPageService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,9 @@ class MyPageViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.navigationController?.navigationBar.isHidden = true
+        
+        getNickname() // 닉네임 반환 API 호출
+        getCoffeeRecordCount() // 커피 기록 개수 API 호출
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -95,5 +99,33 @@ class MyPageViewController: UIViewController {
     @objc private func touchUpInsidePersonalInfoButton(){
         let nextVC = HelpViewController(type: .personalInfomantionProcessingPolicy)
         self.navigationController?.pushViewController(nextVC, animated: true)
+    }
+    
+    // 닉네임 반환 API
+    private func getNickname(){
+        Task {
+            do {
+                let nickname = try await myPageService.getNickname()
+                myPageView.config(nickname: nickname)
+            }
+            catch {
+                print(error.localizedDescription)
+                Toaster.shared.makeToast("닉네임을 가져오는데 실패했습니다.")
+            }
+        }
+    }
+    
+    // 커피 기록 개수 API
+    private func getCoffeeRecordCount() {
+        Task {
+            do {
+                let count = try await myPageService.getCoffeeRecordCount()
+                myPageView.coffeRecordView.config(count: count)
+            }
+            catch {
+                print(error.localizedDescription)
+                Toaster.shared.makeToast("커피 기록 개수를 가져오는데 실패했습니다.")
+            }
+        }
     }
 }

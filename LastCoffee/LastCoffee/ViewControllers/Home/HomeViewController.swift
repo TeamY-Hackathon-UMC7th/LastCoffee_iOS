@@ -9,37 +9,26 @@ import UIKit
 import SwiftyToaster
 
 class HomeViewController: UIViewController {
+    private let myPageService = MyPageService()
     private let dummy = CoffeeDetailResponse.dummy()
-    private let homeView : HomeView
+    private let homeView = HomeView()
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
-    private var nickname: String
     private var popularData = [CoffeeDetailResponse]()
     private var recommendData = [CoffeeData]()
     private let networkService = CoffeeService()
     
     let coffeeManager = CoffeeManager()
+
     
-    init() {
-        let nickname = LoginViewController.keychain.get("userNickname") ?? "default"
-        self.nickname = nickname
-        homeView = HomeView(nickname: nickname)
-        
-        super.init(nibName: nil, bundle: nil)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view = homeView
+
         self.addAction()
         self.setNavigation()
         self.getPopular()
         
         self.homeView.collectionView.delegate = self
-
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view = homeView
 
         // 알림 권한 설정
         LocalNotificationHelper.shared.setAuthorization()
@@ -51,8 +40,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let nickname = LoginViewController.keychain.get("userNickname") ?? "default"
-        homeView.setNickname(nickname: nickname)
+        getNickname() // 닉네임 API 호출
      
         self.tabBarController?.tabBar.isHidden = false
         // API 연결 후 스냅샷 생성 추가 예정
@@ -140,7 +128,7 @@ class HomeViewController: UIViewController {
     // 첫 로그인 시 얼럿 띄우기
     private func presentAlertView() {
         setBackgroundView(isHidden: false)
-        let alertVC = HomeAlertViewController(nickname: nickname)
+        let alertVC = HomeAlertViewController()
         alertVC.modalPresentationStyle = .overFullScreen
         alertVC.delegate = self  // Delegate 설정
         self.present(alertVC, animated: true)
@@ -152,18 +140,18 @@ class HomeViewController: UIViewController {
     }
     
     private func getPopular(){
-        networkService.getPopularCoffee { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let response):
-                self.popularData = response.coffees
-                self.setDataSource()
-                self.setSnapShot()
-            case .failure(let error):
-                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
-            }
-        }
+//        networkService.getPopularCoffee { [weak self] result in
+//            guard let self = self else { return }
+//            
+//            switch result {
+//            case .success(let response):
+//                self.popularData = response.coffees
+//                self.setDataSource()
+//                self.setSnapShot()
+//            case .failure(let error):
+//                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
+//            }
+//        }
     }
     
     func getLastRecommand() async -> [CoffeeData]? {
@@ -172,6 +160,20 @@ class HomeViewController: UIViewController {
         } catch {
             Toaster.shared.makeToast("\(error)", .short)
             return nil
+        }
+    }
+    
+    // 닉네임 반환 API
+    private func getNickname(){
+        Task {
+            do {
+                let nickname = try await myPageService.getNickname()
+                homeView.setNickname(nickname: nickname)
+            }
+            catch {
+                print(error.localizedDescription)
+                Toaster.shared.makeToast("닉네임을 가져오는데 실패했습니다.")
+            }
         }
     }
 }

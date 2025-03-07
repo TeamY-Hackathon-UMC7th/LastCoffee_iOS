@@ -62,24 +62,24 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func callPostAPI(_ keyword: String) {
-        networkService.getSearchCoffee(keyword: keyword, completion: { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let response):
-                data = response.coffees
-                
-                noteSearchView.noteSearchTableView.isHidden = false
-                noteSearchView.emptyLabel.isHidden = true
-                
-                noteSearchView.noteSearchTableView.reloadData()
-            case .failure(let error):
-                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
-                noteSearchView.noteSearchTableView.isHidden = true
-                noteSearchView.emptyLabel.isHidden = false
-            }
-        }
-        )
+//        networkService.getSearchCoffee(keyword: keyword, completion: { [weak self] result in
+//            guard let self = self else { return }
+//            
+//            switch result {
+//            case .success(let response):
+//                data = response.coffees
+//                
+//                noteSearchView.noteSearchTableView.isHidden = false
+//                noteSearchView.emptyLabel.isHidden = true
+//                
+//                noteSearchView.noteSearchTableView.reloadData()
+//            case .failure(let error):
+//                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
+//                noteSearchView.noteSearchTableView.isHidden = true
+//                noteSearchView.emptyLabel.isHidden = false
+//            }
+//        }
+//        )
     }
 }
 

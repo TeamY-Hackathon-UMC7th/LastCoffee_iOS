@@ -74,24 +74,24 @@ class CoffeeCompareSearchViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func callPostAPI(_ keyword: String) {
-        networkService.getSearchCoffee(keyword: keyword, completion: { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let response):
-                data = response.coffees
-                
-                coffeeSearchView.searchTableView.isHidden = false
-                coffeeSearchView.emptyLabel.isHidden = true
-                
-                coffeeSearchView.searchTableView.reloadData()
-            case .failure(let error):
-                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
-                coffeeSearchView.searchTableView.isHidden = true
-                coffeeSearchView.emptyLabel.isHidden = false
-            }
-        }
-        )
+//        networkService.getSearchCoffee(keyword: keyword, completion: { [weak self] result in
+//            guard let self = self else { return }
+//            
+//            switch result {
+//            case .success(let response):
+//                data = response.coffees
+//                
+//                coffeeSearchView.searchTableView.isHidden = false
+//                coffeeSearchView.emptyLabel.isHidden = true
+//                
+//                coffeeSearchView.searchTableView.reloadData()
+//            case .failure(let error):
+//                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
+//                coffeeSearchView.searchTableView.isHidden = true
+//                coffeeSearchView.emptyLabel.isHidden = false
+//            }
+//        }
+//        )
     }
 }
 

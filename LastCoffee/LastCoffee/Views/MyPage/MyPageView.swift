@@ -271,6 +271,10 @@ class MyPageView: UIView {
             make.horizontalEdges.equalToSuperview()
         }
     }
+    
+    public func config(nickname: String) {
+        nicknameLabel.text = nickname
+    }
 }
 
 
