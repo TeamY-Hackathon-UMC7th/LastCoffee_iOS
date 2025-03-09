@@ -27,14 +27,6 @@ class AccountInfoView: UIView {
         view.backgroundColor = UIColor(hex: "D9D9D9")
     }
     
-    // 비밀번호 변경
-    public let changePasswordButton = UIButton().then { btn in
-        btn.setTitle("비밀번호 변경", for: .normal)
-        btn.titleLabel?.textAlignment = .left
-        btn.titleLabel?.font = .ptdRegularFont(ofSize: 14)
-        btn.setTitleColor(UIColor(hex: "8E8E8E"), for: .normal)
-    }
-    
     // 로그아웃
     public let logoutButton = UIButton().then { btn in
         btn.setTitle("로그아웃", for: .normal)
@@ -75,7 +67,6 @@ class AccountInfoView: UIView {
             imageView,
             emailLabel,
             seperatorLine,
-            changePasswordButton,
             logoutButton,
             withdrawButton,
             backgroundView
@@ -101,14 +92,8 @@ class AccountInfoView: UIView {
             make.height.equalTo(0.7)
         }
         
-        changePasswordButton.snp.makeConstraints { make in
-            make.top.equalTo(seperatorLine.snp.bottom).offset(24)
-            make.leading.equalToSuperview().inset(16)
-            make.height.equalTo(25)
-        }
-        
         logoutButton.snp.makeConstraints { make in
-            make.top.equalTo(changePasswordButton.snp.bottom).offset(24)
+            make.top.equalTo(seperatorLine.snp.bottom).offset(24)
             make.leading.equalToSuperview().inset(16)
             make.height.equalTo(25)
         }

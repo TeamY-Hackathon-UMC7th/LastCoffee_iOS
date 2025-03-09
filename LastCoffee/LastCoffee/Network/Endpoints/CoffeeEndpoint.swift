@@ -9,10 +9,11 @@ import UIKit
 import Moya
 
 public enum CoffeeEndpoint {
-    case getSearchCoffee(keyword: String, page: Int)
-    case getRecommendCoffee(time: Int)
-    case getRecentCoffee
-    case getPopularCoffee
+    case getSearchCoffee(keyword: String, page: Int) // 음료 검색
+    case getRecommendCoffee(time: Int) // 카페인 농도에 따른 음료 추천 (시간 대 추천)
+    case getRecentCoffee // 최근 추천 받은 음료 5개?
+    case getPopularCoffee // 인기 음료
+    case getAllRecommendCoffee(page: Int, size: Int) // 추천 음료 전부
 }
 
 extension CoffeeEndpoint: TargetType {
@@ -30,9 +31,11 @@ extension CoffeeEndpoint: TargetType {
         case .getRecommendCoffee:
             return "/recommend"
         case .getRecentCoffee:
-            return "/recent"
+            return "/recommended/recent5"
         case .getPopularCoffee:
             return "/popular"
+        case .getAllRecommendCoffee:
+            return "/recommended/all"
         }
     }
     
@@ -49,13 +52,15 @@ extension CoffeeEndpoint: TargetType {
             return .requestParameters(parameters: ["keyword" : keyword, "page" : page], encoding: URLEncoding.queryString)
         case .getRecommendCoffee(let time):
             return .requestParameters(parameters: ["time" : time], encoding: URLEncoding.queryString)
+        case .getAllRecommendCoffee(let page, let size):
+            return .requestParameters(parameters: ["page" : page, "size" : size], encoding: URLEncoding.queryString)
         default :
             return .requestPlain
         }
     }
     
     public var headers: [String : String]? {
-        var headers: [String: String] = [
+        let headers: [String: String] = [
             "Content-type": "application/json"
         ]
         return headers

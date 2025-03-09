@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class RecommendRecordCell: UITableViewCell {
     static let id = "RecommendRecordCell"
@@ -87,5 +88,11 @@ class RecommendRecordCell: UITableViewCell {
             make.horizontalEdges.bottom.equalToSuperview()
             make.height.equalTo(0.7)
         }
+    }
+    
+    public func config(coffeeData: CoffeePreviewDTO){
+        drinkImageView.sd_setImage(with: URL(string: coffeeData.coffeeImgUrl))
+        titleLabel.text = "[\(coffeeData.brand)] \(coffeeData.coffeeName)"
+        // date 필요함
     }
 }

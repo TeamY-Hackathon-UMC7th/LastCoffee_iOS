@@ -9,7 +9,7 @@ import UIKit
 import SwiftyToaster
 
 class AddNoteViewController: UIViewController {
-    let networkService = NoteService()
+//    let networkService = ReviewService()
     
     public var receivedData: CoffeeDetailResponse!
     

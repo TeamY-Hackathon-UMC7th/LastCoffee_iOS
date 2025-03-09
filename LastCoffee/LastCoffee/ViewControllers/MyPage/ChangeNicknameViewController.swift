@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 class ChangeNicknameViewController: UIViewController {
     private let changeNicknameView = ChangeNicknameView()
+    private let authService = AuthService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,7 +45,11 @@ class ChangeNicknameViewController: UIViewController {
     // 확인 버튼 액션
     @objc private func touchUpInsideConfirmButton() {
         // 닉네임 변경 API 처리
-        self.navigationController?.popViewController(animated: true)
+        guard let nickname = changeNicknameView.textField.text else {
+            Toaster.shared.makeToast("변경할 닉네임을 입력해주세요.")
+            return
+        }
+        patchNickname(nickname: nickname)
     }
     
     private func setNavigationBar() {
@@ -59,6 +66,21 @@ class ChangeNicknameViewController: UIViewController {
     @objc private func confirmTextField() {
         let text = changeNicknameView.textField.text
         changeNicknameView.setTextFieldFillAction(isFill: text != "")
+    }
+    
+    // 닉네임 변경 API
+    private func patchNickname(nickname: String){
+        Task {
+            do {
+                let _ = try await authService.patchNickname(nickname: nickname)
+                Toaster.shared.makeToast("닉네임이 변경되었습니다.")
+                self.navigationController?.popViewController(animated: true)
+            }
+            catch {
+                print(error.localizedDescription)
+                Toaster.shared.makeToast("닉네임이 변경에 실패했습니다.")
+            }
+        }
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 class WithdrawAlertViewController: UIViewController {
     weak var delegate: AlertViewControllerDelegate?
@@ -55,7 +56,7 @@ class WithdrawAlertViewController: UIViewController {
         let tabVC = OnboardingViewController()
         
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = windowScene.windows.first {
+            let window = windowScene.windows.first {
             let rootVC = UINavigationController(rootViewController: tabVC)
             
             window.rootViewController = rootVC

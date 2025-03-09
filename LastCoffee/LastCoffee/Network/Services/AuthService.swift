@@ -45,9 +45,8 @@ public final class AuthService : NetworkManager {
         return try await requestAsync(target: .deleteMember)
     }
     
-    /// 닉네임 patch API
-    public func patchUserName(nickname: String) async throws -> String {
+    /// 닉네임 변경 (result 값이 확인 되지 않아서 수정 필요함!)
+    public func patchNickname(nickname: String) async throws -> String {
         return try await requestAsync(target: .patchNickname(nickname: nickname))
     }
-    
 }

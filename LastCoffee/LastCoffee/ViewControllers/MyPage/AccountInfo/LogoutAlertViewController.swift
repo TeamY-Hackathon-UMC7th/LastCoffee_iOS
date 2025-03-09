@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftyToaster
 
 protocol AlertViewControllerDelegate: AnyObject {
     func didDismissLogoutAlert()
@@ -58,7 +59,7 @@ class LogoutAlertViewController: UIViewController {
         let tabVC = OnboardingViewController()
         
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = windowScene.windows.first {
+            let window = windowScene.windows.first {
             let rootVC = UINavigationController(rootViewController: tabVC)
             
             window.rootViewController = rootVC

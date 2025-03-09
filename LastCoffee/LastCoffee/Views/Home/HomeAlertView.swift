@@ -8,8 +8,6 @@
 import UIKit
 
 class HomeAlertView: UIView {
-    private let nickname: String
-    
     // 가운데 얼럿 뷰
     private let groupView = UIView().then { view in
         view.backgroundColor = UIColor(hex: "FFFEFB")
@@ -18,7 +16,7 @@ class HomeAlertView: UIView {
     
     // 닉네임 라벨
     private lazy var nicknameLabel = UILabel().then { lbl in
-        lbl.text = "\(nickname)님"
+        lbl.text = "default님"
         lbl.font = .ptdMediumFont(ofSize: 18)
         lbl.textColor = UIColor(hex: "2C2C2C")
     }
@@ -68,9 +66,9 @@ class HomeAlertView: UIView {
     // 네 버튼
     public let yesButton = AlertButton(type: .yes)
     
-    init(nickname: String) {
-        self.nickname = nickname
-        super.init(frame: .zero)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         setSubView()
         setUI()
@@ -147,5 +145,9 @@ class HomeAlertView: UIView {
             make.horizontalEdges.equalToSuperview().inset(19)
             make.height.equalTo(DynamicPadding.dynamicValue(46))
         }
+    }
+    
+    public func setNickname(nickname: String) {
+        nicknameLabel.text = "\(nickname)님"
     }
 }
