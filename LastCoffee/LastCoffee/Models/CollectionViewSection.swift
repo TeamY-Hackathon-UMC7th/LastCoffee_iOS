@@ -17,5 +17,5 @@ enum Section: Hashable {
 enum Item: Hashable {
     case popularMenu(CoffeeDetailResponse)  // 아이템 모델 추가해야 함
     case recommendMenu(CoffeeDetailResponse)
-    case flowMenu(CoffeeData)
+    case flowMenu(CoffeePreviewDTO)
 }

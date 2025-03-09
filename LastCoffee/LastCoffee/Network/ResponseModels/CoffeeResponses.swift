@@ -7,12 +7,14 @@
 
 import UIKit
 
-public struct CoffeePreviewDTO : Codable {
+public struct CoffeePreviewDTO : Codable, Hashable {
+    public let id : Int
     public let brand : String
     public let coffeeName : String
     public let coffeeImgUrl : String
     
-    public init(brand: String, coffeeName: String, coffeeImgUrl: String) {
+    public init(id: Int, brand: String, coffeeName: String, coffeeImgUrl: String) {
+        self.id = id
         self.brand = brand
         self.coffeeName = coffeeName
         self.coffeeImgUrl = coffeeImgUrl
