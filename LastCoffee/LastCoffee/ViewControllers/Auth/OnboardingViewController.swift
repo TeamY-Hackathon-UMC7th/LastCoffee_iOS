@@ -44,13 +44,16 @@ class OnboardingViewController: UIViewController {
     }
     
     private func startKakaoLogin() async {
+        startLoading()
         let success = await kakaoAuthVM.kakaoLogin()
         guard success else { return }
 
         do {
             let (userNickname, userEmail) = try await fetchKakaoUserInfo()
+            stopLoading()
             await kakaoLoginProceed(userNickname, userEmail: userEmail)
         } catch {
+            stopLoading()
             print("카카오 사용자 정보 가져오기 실패: \(error.localizedDescription)")
         }
     }
@@ -79,15 +82,17 @@ class OnboardingViewController: UIViewController {
     private func kakaoLoginProceed(_ userIDString: String, userEmail: String) async {
         do {
             let kakaoDTO = networkService.makeLoginDTO(name: userIDString, email: userEmail)
+            startLoading()
             let response = try await networkService.postLoginAPI(data: kakaoDTO)
             
             TokenManager.shared.saveAccessToken(response.accessToken, expiresIn: response.accessTokenExpiresIn)
             TokenManager.shared.saveRefreshToken(response.refreshToken, expiresIn: response.refreshTokenExpiresIn)
-            
+            stopLoading()
             DispatchQueue.main.async {
                 self.goToNextView()
             }
         } catch {
+            stopLoading()
             print("카카오 로그인 처리 중 오류 발생: \(error.localizedDescription)")
         }
     }

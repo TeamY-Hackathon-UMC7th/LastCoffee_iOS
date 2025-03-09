@@ -20,8 +20,8 @@ extension UIViewController {
         
         let indicator = NVActivityIndicatorView(
             frame: .zero,
-            type: .orbit,
-            color: .systemGray,
+            type: .circleStrokeSpin,
+            color: .black,
             padding: 50
         )
         
