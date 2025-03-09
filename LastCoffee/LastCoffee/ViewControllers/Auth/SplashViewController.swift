@@ -7,8 +7,11 @@
 
 import UIKit
 import SnapKit
+import KeychainSwift
 
 public class SplashViewController : UIViewController {
+    public static let keychain = KeychainSwift()
+    
     private lazy var logoImage: UIImageView = {
         let logoImage = UIImageView()
         logoImage.image = UIImage(named: "SplashLogo")
@@ -48,6 +51,7 @@ public class SplashViewController : UIViewController {
         logoImage.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.top.equalTo(DynamicPadding.superViewHeight * 0.4)
+            make.width.equalTo(DynamicPadding.dynamicValuebyWidth(96.0))
         }
     }
     

@@ -26,13 +26,8 @@ public final class AuthService : NetworkManager {
     
     //MARK: - API funcs
     /// 로그인 DTO 생성 함수
-    public func makeLoginDTO(email: String, password: String) -> LoginRequestDTO {
-        return LoginRequestDTO(email: email, password: password)
-    }
-    
-    /// 회원가입 DTO 생성 함수
-    public func makeJoinDTO(email: String, password: String) -> JoinRequestDTO {
-        return JoinRequestDTO(email: email, password: password)
+    public func makeLoginDTO(name: String, email: String) -> LoginRequestDTO {
+        return LoginRequestDTO(kakaoName: name, kakaoEmail: email)
     }
     
     /// 로그인 API
@@ -40,17 +35,12 @@ public final class AuthService : NetworkManager {
         return try await requestAsync(target: .postLogin(data: data), decodingType: LoginResponseDTO.self)
     }
     
-    /// 회원가입 API
-    public func postJoinAPI(data: JoinRequestDTO) async throws -> String {
-        return try await requestAsync(target: .postJoin(data: data))
-    }
-    
-    /// 로그아웃
+    /// 로그아웃 API
     public func postLogoutAPI() async throws -> String {
         return try await requestAsync(target: .postLogout)
     }
     
-    /// 탈퇴
+    /// 탈퇴 API
     public func deleteUserAPI() async throws -> String {
         return try await requestAsync(target: .deleteMember)
     }

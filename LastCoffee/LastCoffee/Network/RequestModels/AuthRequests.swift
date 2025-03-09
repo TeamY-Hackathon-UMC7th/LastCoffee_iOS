@@ -20,12 +20,12 @@ public struct ChangePasswordRequestDTO : Codable {
 }
 
 public struct LoginRequestDTO : Codable {
-    public var email : String
-    public var password : String
+    public var kakaoName : String
+    public var kakaoEmail : String
     
-    public init(email: String, password: String) {
-        self.email = email
-        self.password = password
+    public init(kakaoName: String, kakaoEmail: String) {
+        self.kakaoName = kakaoName
+        self.kakaoEmail = kakaoEmail
     }
 }
 

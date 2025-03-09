@@ -81,12 +81,12 @@ class CustomButton: UIButton {
         self.layer.cornerRadius = radius
         self.originalBackgroundColor = backgroundColor
         self.isEnabled = isEnabled
-        updateBackgroundColor()
+        updateBackgroundColor(backgroundColor)
     }
     
-    private func updateBackgroundColor() {
+    private func updateBackgroundColor(_ color : UIColor = UIColor(hex: "592401")!) {
 //        self.backgroundColor = self.isEnabled ? .brown : .gray
-        self.backgroundColor = self.isEnabled ? UIColor(hex: "592401") : UIColor(hex: "D4D4D4")
+        self.backgroundColor = self.isEnabled ? color : UIColor(hex: "D4D4D4")
     }
     
     private func setDefaultHeight(_ height: CGFloat) {

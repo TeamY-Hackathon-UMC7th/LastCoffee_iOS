@@ -11,7 +11,8 @@ import SwiftyToaster
 class WithdrawAlertViewController: UIViewController {
     weak var delegate: AlertViewControllerDelegate?
     private let withdrawAlertView = WithdrawAlertView()
-    private let authService = AuthService()
+    private lazy var kakaoAuthVM = KakaoViewModel()
+    private let networkService = AuthService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,29 +36,31 @@ class WithdrawAlertViewController: UIViewController {
     
     // 탈퇴 버튼 액션
     @objc private func touchUpInsideWithdrawButton() {
-        withdrawUser()
-    }
-    
-    // 회원 탈퇴 API
-    private func withdrawUser(){
         Task {
             do {
-                let result = try await authService.deleteUserAPI()
-                Toaster.shared.makeToast(result)
-                
-                LoginViewController.keychain.delete("accessToken")
-                LoginViewController.keychain.delete("refreshToken")
-                LoginViewController.keychain.delete("serverAccessToken")
-                LoginViewController.keychain.delete(KeychainKey.alertTime.rawValue)
-                LoginViewController.keychain.delete(KeychainKey.isOnAlert.rawValue)
-                LocalNotificationHelper.shared.removeAllNotification() // 모든 알림 삭제
-                
-                navigationController?.popToRootViewController(animated: true) // 로그인 뷰로 이동
+                let isUnlink = await kakaoAuthVM.unlinkKakaoAccount()
+                if isUnlink {
+                    let _ = try await networkService.deleteUserAPI()
+                    kakaoAuthVM.deleteAllTokens()
+                    goToNextView()
+                } else {
+                    throw NSError(domain: "KakaoInnerError", code: -1, userInfo: nil)
+                }
+            } catch {
+                print("탈퇴 실패 : \(error.localizedDescription)")
             }
-            catch {
-                print(error.localizedDescription)
-                Toaster.shared.makeToast("회원탈퇴에 실패했습니다.")
-            }
+        }
+    }
+    
+    private func goToNextView() {
+        let tabVC = OnboardingViewController()
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let window = windowScene.windows.first {
+            let rootVC = UINavigationController(rootViewController: tabVC)
+            
+            window.rootViewController = rootVC
+            UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
         }
     }
 }

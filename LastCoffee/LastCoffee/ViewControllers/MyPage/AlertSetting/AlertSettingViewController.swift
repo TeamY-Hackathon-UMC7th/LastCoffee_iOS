@@ -25,8 +25,8 @@ class AlertSettingViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
         
         // 알림 시간, 알람 설정
-        let time = LoginViewController.keychain.get(KeychainKey.alertTime.rawValue) ?? "16"
-        let isAlertOn = LoginViewController.keychain.getBool(KeychainKey.isOnAlert.rawValue) ?? false
+        let time = SplashViewController.keychain.get(KeychainKey.alertTime.rawValue) ?? "16"
+        let isAlertOn = SplashViewController.keychain.getBool(KeychainKey.isOnAlert.rawValue) ?? false
         alertSettingView.config(alertTime: time, isOn: isAlertOn)
     }
     
@@ -64,7 +64,7 @@ class AlertSettingViewController: UIViewController {
     
     // 알림 스위치 액션
     @objc private func valueChangeAlertSwitch(_ switchView: UISwitch){
-        LoginViewController.keychain.set(switchView.isOn, forKey: KeychainKey.isOnAlert.rawValue)
+        SplashViewController.keychain.set(switchView.isOn, forKey: KeychainKey.isOnAlert.rawValue)
         
         
         // 스위치 on이면 알림 설정
