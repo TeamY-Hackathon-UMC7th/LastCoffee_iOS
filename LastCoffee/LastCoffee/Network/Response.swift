@@ -7,16 +7,6 @@
 
 import Foundation
 
-public struct LoginResponseDto : Decodable {
-    public let nickname: String
-    public let token: String
-}
-
-
-public struct JoinResponseDto: Decodable {
-    public let status: Bool?
-}
-
 public struct CoffeeFirstDTO: Decodable {
     public let coffees: [CoffeeDetailResponse]
 }

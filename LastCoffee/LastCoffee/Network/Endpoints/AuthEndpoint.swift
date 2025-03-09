@@ -54,10 +54,10 @@ extension AuthEndpoint: TargetType {
     
     public var task: Moya.Task {
         switch self {
-        case .postLogout :
-            return .requestPlain
         case .postLogin(let data) :
             return .requestJSONEncodable(data)
+        case .postLogout :
+            return .requestPlain
         case .patchNickname(let nickname) :
             return .requestParameters(parameters: ["nickname" : nickname], encoding: URLEncoding.queryString)
         case .reissueToken :
@@ -74,13 +74,12 @@ extension AuthEndpoint: TargetType {
         
         switch self {
         case .deleteMember, .postLogout, .patchNickname:
-            print("📌 [헤더 추가] 요청 타입: \(self)")
-            if let accessToken = SplashViewController.keychain.get("accessToken") {
+            if let accessToken = TokenManager.shared.getAccessToken() {
                 headers["Authorization"] = "Bearer \(accessToken)"
             }
         case .reissueToken:
-            if let accessToken = SplashViewController.keychain.get("refreshToken") {
-                headers["Authorization"] = "Bearer \(accessToken)"
+            if let refreshToken = TokenManager.shared.getRefreshToken() {
+                headers["Authorization"] = "Bearer \(refreshToken)"
             }
         default:
             break

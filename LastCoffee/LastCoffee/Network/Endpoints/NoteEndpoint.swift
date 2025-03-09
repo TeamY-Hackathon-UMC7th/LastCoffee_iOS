@@ -55,7 +55,7 @@ extension NoteEndpoint: TargetType {
     }
     
     public var headers: [String : String]? {
-        var headers: [String: String] = [
+        let headers: [String: String] = [
             "Content-type": "application/json"
         ]
         return headers

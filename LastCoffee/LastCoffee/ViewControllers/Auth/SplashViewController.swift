@@ -7,10 +7,8 @@
 
 import UIKit
 import SnapKit
-import KeychainSwift
 
 public class SplashViewController : UIViewController {
-    public static let keychain = KeychainSwift()
     
     private lazy var logoImage: UIImageView = {
         let logoImage = UIImageView()
@@ -30,10 +28,11 @@ public class SplashViewController : UIViewController {
         super.viewDidLoad()
         setupViews()
         setConstraints()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
-            self?.navigateToOnBoaringScreen()
-        }
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        checkToken()
     }
     
     func setupViews() {
@@ -55,8 +54,33 @@ public class SplashViewController : UIViewController {
         }
     }
     
-    func navigateToOnBoaringScreen() {
+    // 토큰 검사
+    func checkToken() {
+        if TokenManager.shared.isRefreshTokenValid() {
+            DispatchQueue.main.async {
+                self.navigateToMainScreen()
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.navigateToOnBoaringScreen()
+            }
+        }
+    }
+    
+    private func navigateToOnBoaringScreen() {
         let onboardingVC = OnboardingViewController()
         self.navigationController?.pushViewController(onboardingVC, animated: true)
+    }
+    
+    private func navigateToMainScreen() {
+        let tabVC = MainTabBarController()
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            let rootVC = UINavigationController(rootViewController: tabVC)
+            
+            window.rootViewController = rootVC
+            UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
+        }
     }
 }

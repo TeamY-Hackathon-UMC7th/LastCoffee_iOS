@@ -8,8 +8,6 @@
 import UIKit
 import SwiftyToaster
 
-
-
 class HomeAlertViewController: UIViewController {
     weak var delegate: AlertViewControllerDelegate?
     private let myPageService = MyPageService()
@@ -47,8 +45,8 @@ class HomeAlertViewController: UIViewController {
     @objc private func touchUpInsideYseButton() {
 
         // 키체인에 얼럿 시간, 유무 설정
-        SplashViewController.keychain.set("16", forKey: KeychainKey.alertTime.rawValue)
-        SplashViewController.keychain.set(true, forKey: KeychainKey.isOnAlert.rawValue)
+        TokenManager.shared.saveValue(key: KeychainKey.alertTime.rawValue, value: "16")
+        TokenManager.shared.saveValue(key: KeychainKey.isOnAlert.rawValue, value: true)
         
         // 얼럿 설정
         delegate?.didDismissLogoutAlert()

@@ -32,26 +32,22 @@ extension MyPageEndpoint: TargetType {
     
     public var method: Moya.Method {
         switch self {
-        case .getNickname, .getCoffeeRecordCount:
-                .get
+        default :
+            return .get
         }
     }
     
     public var task: Moya.Task {
-        .requestPlain
+        switch self {
+        default :
+            return .requestPlain
+        }
     }
     
     public var headers: [String : String]? {
-        var headers: [String: String] = [
+        let headers: [String: String] = [
             "Content-type": "application/json"
         ]
-        
-        switch self {
-        case .getNickname, .getCoffeeRecordCount:
-            if let accessToken = LoginViewController.keychain.get("accessToken") {
-                headers["Authorization"] = "Bearer \(accessToken)"
-            }
-        }
         return headers
     }
 }
