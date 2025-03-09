@@ -15,6 +15,8 @@
 		16F67CDB2D77D53200C2163F /* KakaoSDKShare in Frameworks */ = {isa = PBXBuildFile; productRef = 16F67CDA2D77D53200C2163F /* KakaoSDKShare */; };
 		16F67CDD2D77D53200C2163F /* KakaoSDKTalk in Frameworks */ = {isa = PBXBuildFile; productRef = 16F67CDC2D77D53200C2163F /* KakaoSDKTalk */; };
 		16F67CDF2D77D53200C2163F /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 16F67CDE2D77D53200C2163F /* KakaoSDKUser */; };
+		16F682282D7D867800C2163F /* NVActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 16F682272D7D867800C2163F /* NVActivityIndicatorView */; };
+		16F6822A2D7D867800C2163F /* NVActivityIndicatorViewExtended in Frameworks */ = {isa = PBXBuildFile; productRef = 16F682292D7D867800C2163F /* NVActivityIndicatorViewExtended */; };
 		CB34884D2D32ABAC007865A4 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = CB34884C2D32ABAC007865A4 /* Then */; };
 		CB3488502D32ABB8007865A4 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CB34884F2D32ABB8007865A4 /* SnapKit */; };
 		CB3488532D32ABE0007865A4 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = CB3488522D32ABE0007865A4 /* Moya */; };
@@ -62,8 +64,10 @@
 				CB3488562D32AC0B007865A4 /* SwiftyToaster in Frameworks */,
 				16F67CDD2D77D53200C2163F /* KakaoSDKTalk in Frameworks */,
 				CB3488502D32ABB8007865A4 /* SnapKit in Frameworks */,
+				16F6822A2D7D867800C2163F /* NVActivityIndicatorViewExtended in Frameworks */,
 				CB3488532D32ABE0007865A4 /* Moya in Frameworks */,
 				16F67CDF2D77D53200C2163F /* KakaoSDKUser in Frameworks */,
+				16F682282D7D867800C2163F /* NVActivityIndicatorView in Frameworks */,
 				CB3488592D32AC43007865A4 /* SDWebImage in Frameworks */,
 				16F67CD12D77D53200C2163F /* KakaoSDK in Frameworks */,
 				16F67CD32D77D53200C2163F /* KakaoSDKAuth in Frameworks */,
@@ -123,6 +127,8 @@
 				16F67CDA2D77D53200C2163F /* KakaoSDKShare */,
 				16F67CDC2D77D53200C2163F /* KakaoSDKTalk */,
 				16F67CDE2D77D53200C2163F /* KakaoSDKUser */,
+				16F682272D7D867800C2163F /* NVActivityIndicatorView */,
+				16F682292D7D867800C2163F /* NVActivityIndicatorViewExtended */,
 			);
 			productName = LastCoffee;
 			productReference = CB34881B2D32A8A6007865A4 /* LastCoffee.app */;
@@ -160,6 +166,7 @@
 				CB3488572D32AC43007865A4 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				CB34885A2D32AC77007865A4 /* XCRemoteSwiftPackageReference "keychain-swift" */,
 				16F67CCF2D77D53200C2163F /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				16F682262D7D867800C2163F /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CB34881C2D32A8A6007865A4 /* Products */;
@@ -399,6 +406,14 @@
 				minimumVersion = 2.23.0;
 			};
 		};
+		16F682262D7D867800C2163F /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ninjaprox/NVActivityIndicatorView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.2.0;
+			};
+		};
 		CB34884B2D32ABAC007865A4 /* XCRemoteSwiftPackageReference "Then" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/devxoul/Then.git";
@@ -489,6 +504,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 16F67CCF2D77D53200C2163F /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
+		};
+		16F682272D7D867800C2163F /* NVActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 16F682262D7D867800C2163F /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */;
+			productName = NVActivityIndicatorView;
+		};
+		16F682292D7D867800C2163F /* NVActivityIndicatorViewExtended */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 16F682262D7D867800C2163F /* XCRemoteSwiftPackageReference "NVActivityIndicatorView" */;
+			productName = NVActivityIndicatorViewExtended;
 		};
 		CB34884C2D32ABAC007865A4 /* Then */ = {
 			isa = XCSwiftPackageProductDependency;
