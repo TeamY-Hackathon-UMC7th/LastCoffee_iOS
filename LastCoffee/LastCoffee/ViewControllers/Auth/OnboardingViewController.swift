@@ -7,7 +7,6 @@
 
 import UIKit
 import KakaoSDKUser
-import KeychainSwift
 import SwiftyToaster
 
 class OnboardingViewController: UIViewController {
@@ -82,9 +81,8 @@ class OnboardingViewController: UIViewController {
             let kakaoDTO = networkService.makeLoginDTO(name: userIDString, email: userEmail)
             let response = try await networkService.postLoginAPI(data: kakaoDTO)
             
-            // 토큰 저장 -> 따로 만들어야할 듯
-            SplashViewController.keychain.set(response.accessToken, forKey: "accessToken")
-            SplashViewController.keychain.set(response.refreshToken, forKey: "refreshToken")
+            TokenManager.shared.saveAccessToken(response.accessToken, expiresIn: response.accessTokenExpiresIn)
+            TokenManager.shared.saveRefreshToken(response.refreshToken, expiresIn: response.refreshTokenExpiresIn)
             
             DispatchQueue.main.async {
                 self.goToNextView()

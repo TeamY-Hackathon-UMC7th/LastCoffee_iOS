@@ -33,7 +33,7 @@ class AlertSelectTimeViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = true
         
         // 선택되어 있는 시간 설정
-        let selectedHour = Int(SplashViewController.keychain.get(KeychainKey.alertTime.rawValue) ?? "16") ?? 16
+        let selectedHour = Int(TokenManager.shared.getValue(key: KeychainKey.alertTime.rawValue) ?? "16") ?? 16
         self.selectTimeView.timePickerView.selectRow(selectedHour, inComponent: 0, animated: true)
     }
     
@@ -60,7 +60,7 @@ class AlertSelectTimeViewController: UIViewController {
     // 확인 버튼 액션
     @objc private func touchUpInsideBtnNext() {
         // 알림 및 시간 저장
-        SplashViewController.keychain.set(selectedHour, forKey: KeychainKey.alertTime.rawValue)
+        TokenManager.shared.saveValue(key: KeychainKey.alertTime.rawValue, value: selectedHour)
         
         // 로컬 알림 설정
         LocalNotificationHelper.shared.removeAllNotification()

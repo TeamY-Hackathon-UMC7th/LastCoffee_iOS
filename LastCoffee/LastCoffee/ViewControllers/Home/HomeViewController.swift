@@ -14,12 +14,9 @@ class HomeViewController: UIViewController {
     private let homeView = HomeView()
     private var dataSource: UICollectionViewDiffableDataSource<Section, Item>?
     private var popularData = [CoffeeDetailResponse]()
-    private var recommendData = [CoffeeData]()
+    private var recommendData = [CoffeePreviewDTO]()
     private let networkService = CoffeeService()
-    
-    let coffeeManager = CoffeeManager()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = homeView
@@ -43,15 +40,7 @@ class HomeViewController: UIViewController {
         getNickname() // 닉네임 API 호출
      
         self.tabBarController?.tabBar.isHidden = false
-        // API 연결 후 스냅샷 생성 추가 예정
-        Task {
-            guard let datas = await getLastRecommand() else {return}
-            self.recommendData = datas
-            print(datas)
-            self.setDataSource()
-            self.setSnapShot()
-            homeView.lblEmptyMenu.isHidden = !recommendData.isEmpty
-        }
+        self.getLastRecommand()
     }
     
     private func setDataSource() {
@@ -66,7 +55,7 @@ class HomeViewController: UIViewController {
                 
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FlowSectionCell.id, for: indexPath)
                 let data = self.recommendData[indexPath.row]
-                (cell as? FlowSectionCell)?.config(title: data.name, brand: data.brand, imageURL: data.coffeeImgUrl)
+                (cell as? FlowSectionCell)?.config(title: data.coffeeName, brand: data.brand, imageURL: data.coffeeImgUrl)
                 return cell
             case .recommendMenu(_):
                 return UICollectionViewCell()
@@ -154,12 +143,20 @@ class HomeViewController: UIViewController {
 //        }
     }
     
-    func getLastRecommand() async -> [CoffeeData]? {
-        do {
-            return try await self.coffeeManager.fetchCoffeeData()
-        } catch {
-            Toaster.shared.makeToast("\(error)", .short)
-            return nil
+    func getLastRecommand(){
+        Task {
+            do {
+                // 최근 추천받은 메뉴 불러오기
+                let data = try await self.networkService.getRecentCoffees()
+                if let coffeeData = data {
+                    self.recommendData = coffeeData
+                    self.setDataSource()
+                    self.setSnapShot()
+                    homeView.lblEmptyMenu.isHidden = !recommendData.isEmpty
+                }
+            } catch {
+                Toaster.shared.makeToast("\(error)", .short)
+            }
         }
     }
     
@@ -192,7 +189,8 @@ extension HomeViewController: UICollectionViewDelegate {
         case .flow:
             let nextVC = DetailViewController()
             let item = recommendData[indexPath.row]
-            let receivedData = CoffeeDetailResponse(id: item.id, name: item.name, brand: item.brand, sugar: item.sugar, caffeine: item.caffeine, calories: item.calories, protein: item.protein, coffeeImgUrl: item.coffeeImgUrl)
+            // 임시 처리
+            let receivedData = CoffeeDetailResponse(id: item.id, name: item.coffeeName, brand: item.brand, sugar: 0, caffeine: 0, calories: 0, protein: 0, coffeeImgUrl: item.coffeeImgUrl)
             nextVC.receivedData = receivedData
             self.navigationController?.pushViewController(nextVC, animated: true)
         default:

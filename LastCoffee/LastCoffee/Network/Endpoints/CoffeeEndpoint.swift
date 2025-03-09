@@ -11,9 +11,9 @@ import Moya
 public enum CoffeeEndpoint {
     case getSearchCoffee(keyword: String, page: Int) // 음료 검색
     case getRecommendCoffee(time: Int) // 카페인 농도에 따른 음료 추천 (시간 대 추천)
-    case getRecentCoffee // 최근 추천 받은 음료 5개?
+    case getRecentCoffee // 최근 추천 받은 음료 5개
     case getPopularCoffee // 인기 음료
-    case getAllRecommendCoffee(page: Int, size: Int) // 추천 음료 전부
+    case getAllRecommendCoffee(page: Int, size: Int) // 추천 음료 전부 -> 마이페이지에서 사용
 }
 
 extension CoffeeEndpoint: TargetType {

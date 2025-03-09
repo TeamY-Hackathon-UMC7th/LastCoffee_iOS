@@ -1,5 +1,5 @@
 {
-  "originHash" : "01eceafc5176f9edc93dd2d39b19fb26efe6baed3d6551b53f33bd9ea4e6c1bf",
+  "originHash" : "14ce9d156024e5479aa5714cc1c0001b9465b5ddf89db041ed40347eaf7c0092",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -35,6 +35,15 @@
       "state" : {
         "revision" : "c263811c1f3dbf002be9bd83107f7cdc38992b26",
         "version" : "15.0.3"
+      }
+    },
+    {
+      "identity" : "nvactivityindicatorview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ninjaprox/NVActivityIndicatorView",
+      "state" : {
+        "revision" : "121455c4e630fcb95aaefd7e4257b0c2e3cfe6d5",
+        "version" : "5.2.0"
       }
     },
     {
