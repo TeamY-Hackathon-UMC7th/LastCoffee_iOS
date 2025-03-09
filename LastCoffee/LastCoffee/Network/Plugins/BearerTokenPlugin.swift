@@ -12,7 +12,7 @@ import Moya
 // 라이브러리 : Moya, KeychainSwift 사용
 final class BearerTokenPlugin: PluginType {
     private var accessToken: String? {
-        return SplashViewController.keychain.get("serverAccessToken")
+        return SplashViewController.keychain.get("accessToken")
     }
     
     func prepare(_ request: URLRequest, target: TargetType) -> URLRequest {

@@ -63,7 +63,8 @@ class OnboardingViewController: UIViewController {
                     continuation.resume(throwing: error)
                     return
                 }
-                guard let userId = user?.id else {
+                
+                guard let userName = user?.properties?["nickname"] else {
                     continuation.resume(throwing: NSError(domain: "UserInfoError", code: -1, userInfo: nil))
                     return
                 }
@@ -71,7 +72,7 @@ class OnboardingViewController: UIViewController {
                     continuation.resume(throwing: NSError(domain: "UserInfoError", code: -2, userInfo: nil))
                     return
                 }
-                continuation.resume(returning: (String(userId), userEmail))
+                continuation.resume(returning: (userName, userEmail))
             }
         }
     }
@@ -81,7 +82,7 @@ class OnboardingViewController: UIViewController {
             let kakaoDTO = networkService.makeLoginDTO(name: userIDString, email: userEmail)
             let response = try await networkService.postLoginAPI(data: kakaoDTO)
             
-            // 토큰 저장
+            // 토큰 저장 -> 따로 만들어야할 듯
             SplashViewController.keychain.set(response.accessToken, forKey: "accessToken")
             SplashViewController.keychain.set(response.refreshToken, forKey: "refreshToken")
             

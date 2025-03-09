@@ -71,9 +71,15 @@ extension AuthEndpoint: TargetType {
         var headers: [String: String] = [
             "Content-type": "application/json"
         ]
+        if let accessToken = SplashViewController.keychain.get("accessToken") {
+            print("✅ 저장된 액세스 토큰: \(accessToken)")
+        } else {
+            print("❌ accessToken이 존재하지 않습니다.")
+        }
         
         switch self {
-        case .deleteMember, .postLogout:
+        case .deleteMember, .postLogout, .patchNickname:
+            print("📌 [헤더 추가] 요청 타입: \(self)")
             if let accessToken = SplashViewController.keychain.get("accessToken") {
                 headers["Authorization"] = "Bearer \(accessToken)"
             }

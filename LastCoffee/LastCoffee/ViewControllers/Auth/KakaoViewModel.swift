@@ -75,6 +75,12 @@ final class KakaoViewModel: ObservableObject {
         }
     }
     
+    public func deleteAllTokens() {
+        ["accessToken", "refreshToken"].forEach {
+            SplashViewController.keychain.delete($0)
+        }
+    }
+    
     
     //MARK: - Completion Funcs
     @MainActor
