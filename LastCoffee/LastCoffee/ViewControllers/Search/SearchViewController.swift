@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SwiftyToaster
 
 class SearchViewController: UIViewController, UITextFieldDelegate {
     let networkService = CoffeeService()
@@ -15,11 +14,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     
     var selectedBrands: [Brand] = []
     
-    private var data: [CoffeeDetailResponse] = [
-        CoffeeDetailResponse(id: 1, name: "아메리카노", brand: "스타벅스", sugar: 2, caffeine: 2, calories: 2, protein: 2, coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/%5B110563%5D_20210426095937947.jpg"),
-        CoffeeDetailResponse(id: 2, name: "블루베리라떼", brand: "컴포즈", sugar: 3, caffeine: 3, calories: 2, protein: 1, coffeeImgUrl: "https://composecoffee.com/files/thumbnails/891/064/1515x2083.crop.jpg?t=1733793666"),
-        CoffeeDetailResponse(id: 3, name: "유자티", brand: "컴포즈", sugar: 4, caffeine: 2, calories: 2, protein: 4, coffeeImgUrl: "https://composecoffee.com/files/thumbnails/682/038/1515x2083.crop.jpg?t=1733794981"),
-    ]
+    private var data: [CoffeeDetailDTO] = []
     
     private var selectedIndexPath: IndexPath?
     private var selectedItem: CoffeeDetailResponse?
@@ -34,6 +29,8 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
         let defaultIndexPath = IndexPath(item: 0, section: 0)
         searchView.brandCollectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: [])
         selectedBrands.append(brandData[0])
+        
+        callSearchAPI(keyword: "")
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -62,34 +59,27 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.searchView.noteSearchTableView.reloadData()
-        callPostAPI(searchView.searchBar.text ?? "")
+        callSearchAPI(keyword: searchView.searchBar.text ?? "")
         return true
     }
     
-    @objc func callPostAPI(_ keyword: String) {
-//        networkService.getSearchCoffee(keyword: keyword, completion: { [weak self] result in
-//            guard let self = self else { return }
-//            
-//            switch result {
-//            case .success(let response):
-//                data = response.coffees
-//                
-//                searchView.noteSearchTableView.isHidden = false
-//                searchView.emptyLabel.isHidden = true
-//                
-//                searchView.noteSearchTableView.reloadData()
-//            case .failure(let error):
-//                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
-//                
-//                searchView.noteSearchTableView.isHidden = true
-//                searchView.emptyLabel.isHidden = false
-//            }
-//        }
-//        )
+    func callSearchAPI(keyword: String) {
+        Task {
+            do {
+                let data = try await networkService.getSearchCoffee(keyword: keyword, page: 0).coffeeResponseDtos
+                self.data = data
+                DispatchQueue.main.async {
+                    self.searchView.noteSearchTableView.reloadData()
+                }
+            }
+            catch {
+                print(error)
+            }
+        }
     }
     
     // 셀 클릭 시 실행할 함수
-    private func handleCellTap(_ item: CoffeeDetailResponse) {
+    private func handleCellTap(_ item: CoffeeDetailDTO) {
         let detailVC = SearchDetailViewController()
         detailVC.receivedData = item
         detailVC.navigationController?.navigationBar.isHidden = false

@@ -9,7 +9,7 @@ import UIKit
 
 class CompareResultViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    public var coffees : [CoffeeDetailResponse] = []
+    public var coffees : [CoffeeDetailDTO] = []
     var components : [Component] = []
     
     override func viewDidLoad() {

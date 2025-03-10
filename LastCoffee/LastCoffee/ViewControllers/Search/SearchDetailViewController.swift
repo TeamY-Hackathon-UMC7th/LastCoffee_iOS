@@ -8,7 +8,7 @@
 import UIKit
 
 class SearchDetailViewController: UIViewController {
-    public var receivedData: CoffeeDetailResponse?
+    public var receivedData: CoffeeDetailDTO?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,12 +17,7 @@ class SearchDetailViewController: UIViewController {
         setNavigationBar()
         
         if let data = receivedData {
-            detailView.coffeeName.text = "[\(data.brand)] \(data.name)"
-            detailView.image.sd_setImage(with: URL(string: data.coffeeImgUrl))
-            detailView.caffeineValue.text = data.caffeine.description
-            detailView.sugarValue.text = data.sugar.description
-            detailView.proteinValue.text = data.protein.description
-            detailView.calorieValue.text = data.calories.description
+            detailView.updateNoteDetail(with: data)
         }
     }
     
@@ -33,12 +28,7 @@ class SearchDetailViewController: UIViewController {
         setNavigationBar()
         
         if let data = receivedData {
-            detailView.coffeeName.text = "[\(data.brand)] \(data.name)"
-            detailView.imageView.sd_setImage(with: URL(string: data.coffeeImgUrl))
-            detailView.caffeineValue.text = data.caffeine.description
-            detailView.sugarValue.text = data.sugar.description
-            detailView.proteinValue.text = data.protein.description
-            detailView.calorieValue.text = data.calories.description
+            detailView.updateNoteDetail(with: data)
         }
     }
     

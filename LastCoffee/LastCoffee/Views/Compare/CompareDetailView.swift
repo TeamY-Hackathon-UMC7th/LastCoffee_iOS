@@ -18,6 +18,16 @@ class CompareDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // 뷰 업데이트 함수
+    func updateNoteDetail(with data: CoffeeDetailDTO) {
+        coffeeName.text = "[\(data.brand)] \(data.name)"
+        image.sd_setImage(with: URL(string: data.coffeeImgUrl))
+        caffeineValue.text = data.caffeine.description
+        sugarValue.text = data.sugar.description
+        proteinValue.text = data.protein.description
+        calorieValue.text = data.calories.description
+    }
+    
     func createLabel(text: String, alignment: NSTextAlignment) -> UILabel {
         let label = UILabel().then {
             $0.font = UIFont.ptdRegularFont(ofSize: 14)
