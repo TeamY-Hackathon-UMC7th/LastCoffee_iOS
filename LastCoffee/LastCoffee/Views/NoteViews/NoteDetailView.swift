@@ -162,7 +162,7 @@ class NoteDetailView: UIView {
         }
         
         writeDate.snp.makeConstraints {
-            $0.bottom.equalTo(safeAreaLayoutGuide).inset(DynamicPadding.dynamicValue(8))
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(DynamicPadding.dynamicValue(32))
             $0.leading.equalTo(reviewContents.snp.leading)
         }
     }

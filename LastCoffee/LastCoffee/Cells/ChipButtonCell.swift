@@ -28,7 +28,7 @@ class ChipButtonCell: UICollectionViewCell {
     }
     
     lazy var chipButton = UIButton().then {
-        $0.layer.cornerRadius = 13
+        $0.layer.cornerRadius = 16
         $0.layer.borderWidth = 0.7
         $0.layer.borderColor = UIColor.subColor.cgColor
         $0.titleLabel?.font = UIFont.ptdRegularFont(ofSize: 12)
