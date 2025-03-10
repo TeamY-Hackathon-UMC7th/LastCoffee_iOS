@@ -72,14 +72,18 @@ class CoffeeCompareSearchViewController: UIViewController, UITextFieldDelegate {
     func callSearchAPI(keyword: String) {
         Task {
             do {
+                startLoading()
                 let data = try await networkService.getSearchCoffee(keyword: keyword, page: 0).coffeeResponseDtos
                 self.data = data
+                
+                stopLoading()
                 DispatchQueue.main.async {
                     self.coffeeSearchView.searchTableView.reloadData()
                 }
             }
             catch {
-                print(error)
+                stopLoading()
+                print(error.localizedDescription)
             }
         }
     }
@@ -125,6 +129,7 @@ extension CoffeeCompareSearchViewController: UITableViewDataSource, UITableViewD
         }
     }
     
+    // 선택된 셀 선택 시 테두리 비활성화
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? NoteSearchCell else { return }
         cell.setSelectedBorder(isSelected: false)
@@ -133,5 +138,4 @@ extension CoffeeCompareSearchViewController: UITableViewDataSource, UITableViewD
         tableView.deselectRow(at: indexPath, animated: true)
         selectedIndexPath = nil
     }
-    
 }

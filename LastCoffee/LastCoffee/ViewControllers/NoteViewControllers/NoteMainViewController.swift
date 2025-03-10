@@ -15,7 +15,7 @@ class NoteMainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.navigationBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = false
         self.view = noteView
         setupDelegate()
@@ -23,9 +23,15 @@ class NoteMainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.navigationBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = false
         callGetAPI()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.navigationController?.navigationBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     private lazy var noteView: NoteMainView = {
@@ -56,6 +62,8 @@ class NoteMainViewController: UIViewController {
         Task {
             do {
                 self.data.removeAll()
+                startLoading()
+                
                 let reviews = try await networkService.getAllNoteList(page: 0).content
                 guard let review = reviews else { return }
                 
@@ -72,13 +80,14 @@ class NoteMainViewController: UIViewController {
                     
                     self.data.append(i)
                 }
-                
+                stopLoading()
                 DispatchQueue.main.async {
                     self.noteView.noteTableView.reloadData()
                 }
             }
             catch {
-                print(error)
+                stopLoading()
+                print(error.localizedDescription)
             }
         }
     }
@@ -130,7 +139,9 @@ extension NoteMainViewController: UITableViewDataSource, UITableViewDelegate {
     private func callDeleteAPI(deleteId: Int) {
         Task {
             do {
+                startLoading()
                 let _ = try await networkService.deleteNote(noteId: deleteId)
+                stopLoading()
                 if let index = self.data.firstIndex(where: { $0.id == deleteId }) {
                     DispatchQueue.main.async {
                         self.data.remove(at: index)
@@ -140,6 +151,7 @@ extension NoteMainViewController: UITableViewDataSource, UITableViewDelegate {
                 }
                 print("기록이 삭제되었습니다.")
             } catch {
+                stopLoading()
                 print(error)
             }
         }

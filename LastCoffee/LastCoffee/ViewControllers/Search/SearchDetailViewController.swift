@@ -45,14 +45,15 @@ class SearchDetailViewController: UIViewController {
     
     private lazy var detailView: CompareDetailView = {
         let view = CompareDetailView()
-        view.nextBtn.addTarget(self, action: #selector(goAddView), for: .touchUpInside)
+        view.nextBtn.addTarget(self, action: #selector(goCompareView), for: .touchUpInside)
         return view
     }()
     
-    @objc private func goAddView() {
+    // 버튼 클릭 시 비교 뷰로 이동하는 함수
+    @objc private func goCompareView() {
         guard let selectItem = self.receivedData else { return }
-        let addCoffeeVC = CoffeeCompareSearchViewController()
-        addCoffeeVC.fristSelectedDrink = selectItem
-        navigationController?.pushViewController(addCoffeeVC, animated: true)
+        let compareCoffeeVC = CoffeeCompareSearchViewController()
+        compareCoffeeVC.fristSelectedDrink = selectItem
+        navigationController?.pushViewController(compareCoffeeVC, animated: true)
     }
 }

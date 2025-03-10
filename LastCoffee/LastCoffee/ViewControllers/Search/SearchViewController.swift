@@ -9,11 +9,9 @@ import UIKit
 
 class SearchViewController: UIViewController, UITextFieldDelegate {
     let networkService = CoffeeService()
-    
     let brandData = Brand.allBrands
     
     var selectedBrands: [Brand] = []
-    
     private var data: [CoffeeDetailDTO] = []
     
     private var selectedIndexPath: IndexPath?
@@ -21,7 +19,7 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = false
         self.view = searchView
         setupDelegate()
@@ -33,14 +31,14 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
         callSearchAPI(keyword: "")
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.navigationController?.navigationBar.isHidden = false
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = false
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = true
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = false
     }
     
@@ -66,25 +64,20 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     func callSearchAPI(keyword: String) {
         Task {
             do {
+                startLoading()
                 let data = try await networkService.getSearchCoffee(keyword: keyword, page: 0).coffeeResponseDtos
                 self.data = data
+                
+                stopLoading()
                 DispatchQueue.main.async {
                     self.searchView.noteSearchTableView.reloadData()
                 }
             }
             catch {
-                print(error)
+                stopLoading()
+                print(error.localizedDescription)
             }
         }
-    }
-    
-    // 셀 클릭 시 실행할 함수
-    private func handleCellTap(_ item: CoffeeDetailDTO) {
-        let detailVC = SearchDetailViewController()
-        detailVC.receivedData = item
-        detailVC.navigationController?.navigationBar.isHidden = false
-        detailVC.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 
@@ -113,6 +106,15 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         let selectedItem = data[indexPath.row]
         print("선택된 항목: \(selectedItem)")
         handleCellTap(selectedItem)
+    }
+    
+    // 셀 클릭 시 상세뷰로 이동하는 함수
+    private func handleCellTap(_ item: CoffeeDetailDTO) {
+        let detailVC = SearchDetailViewController()
+        detailVC.receivedData = item
+        detailVC.navigationController?.navigationBar.isHidden = false
+        detailVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 

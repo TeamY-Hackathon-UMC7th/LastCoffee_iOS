@@ -56,6 +56,7 @@ class NoteDetailViewController: UIViewController {
     func callGetDetailAPI(noteId: Int) {
         Task {
             do {
+                startLoading()
                 let data = try await networkService.getNote(noteId: noteId)
                 
                 let detail = NoteDetailModel(
@@ -69,12 +70,14 @@ class NoteDetailViewController: UIViewController {
                     review: data.review
                 )
                 
+                stopLoading()
                 DispatchQueue.main.async {
                     self.noteDetailView.updateNoteDetail(with: detail)
                 }
             }
             catch {
-                print(error)
+                stopLoading()
+                print(error.localizedDescription)
             }
         }
     }
