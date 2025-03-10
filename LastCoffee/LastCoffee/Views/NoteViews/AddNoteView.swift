@@ -86,6 +86,7 @@ class AddNoteView: UIView {
     public lazy var drinkingPicker = UIDatePicker().then {
         $0.datePickerMode = .dateAndTime
         $0.backgroundColor = .clear
+        $0.timeZone = TimeZone.current
         $0.locale = Locale(identifier: "ko_KR")
         $0.tintColor = .mainColor
     }
@@ -93,6 +94,7 @@ class AddNoteView: UIView {
     public lazy var sleepingPicker = UIDatePicker().then {
         $0.datePickerMode = .dateAndTime
         $0.backgroundColor = .clear
+        $0.timeZone = TimeZone.current
         $0.locale = Locale(identifier: "ko_KR")
         $0.tintColor = .mainColor
     }

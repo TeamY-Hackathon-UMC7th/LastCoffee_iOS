@@ -69,6 +69,18 @@ class NoteSearchCell: UITableViewCell {
         }
     }
     
+    public func configure(model: CoffeeDetailDTO, highlightText: String? = nil) {
+        self.image.sd_setImage(with: URL(string: model.coffeeImgUrl))
+        self.title.text = "[\(model.brand)] \(model.name)"
+        
+        //하이라이트 적용
+        if let highlightText = highlightText, !highlightText.isEmpty {
+            title.attributedText = highlightTextInLabel(text: "[\(model.brand)] \(model.name)", highlight: highlightText)
+        } else {
+            title.text = "[\(model.brand)] \(model.name)"
+        }
+    }
+    
     public func configure(model: CoffeeDetailResponse, highlightText: String? = nil) {
         self.image.sd_setImage(with: URL(string: model.coffeeImgUrl))
         self.title.text = "[\(model.brand)] \(model.name)"

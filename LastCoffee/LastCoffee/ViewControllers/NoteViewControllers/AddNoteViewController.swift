@@ -6,12 +6,11 @@
 //
 
 import UIKit
-import SwiftyToaster
 
 class AddNoteViewController: UIViewController {
-//    let networkService = ReviewService()
+    let networkService = NoteService()
     
-    public var receivedData: CoffeeDetailResponse!
+    public var receivedData: CoffeeDetailDTO?
     
     public var drinkingDate: Date = Date()
     public var sleepingDate: Date = Date()
@@ -63,27 +62,33 @@ class AddNoteViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func callPostAPI() {
-//        let review = networkService.makeReviewDto(coffeeKey: receivedData.id, comment: addNoteView.reviewTextView.text, drinkTime: drinkingDate, sleepTime: sleepingDate)
-//        
-//        networkService.postReview(reviewDto: review, completion: { [weak self] result in
-//            guard let self = self else { return }
-//            
-//            switch result {
-//            case .success(_):
-//                Toaster.shared.makeToast("기록이 삭제되었습니다.", .short)
-//                Task {
-//                    self.navigationController?.popViewController(animated: true)
-//                    guard let navigationController = self.navigationController else { return }
-//                    if let targetIndex = navigationController.viewControllers.firstIndex(where: { $0 is NoteMainViewController }) {
-//                         let newStack = Array(navigationController.viewControllers[...targetIndex])
-//                         navigationController.setViewControllers(newStack, animated: true)
-//                     }
-//                }
-//            case .failure(let error):
-//                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
-//            }
-//        })
+    private func callPostAPI() {
+        Task {
+            do {
+                guard let coffeeId = receivedData?.id else { return }
+                let newNoteDTO = networkService.makeNoteDTO(
+                    drinkDateTime: drinkingDate,
+                    sleepDateTime: sleepingDate,
+                    review: addNoteView.reviewTextView.text,
+                    coffeeId: coffeeId
+                )
+                startLoading()
+                let response = try await networkService.postNote(data: newNoteDTO)
+                
+                stopLoading()
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                    guard let navigationController = self.navigationController else { return }
+                    if let targetIndex = navigationController.viewControllers.firstIndex(where: { $0 is NoteMainViewController }) {
+                        let newStack = Array(navigationController.viewControllers[...targetIndex])
+                        navigationController.setViewControllers(newStack, animated: true)
+                    }
+                }
+            } catch {
+                stopLoading()
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
