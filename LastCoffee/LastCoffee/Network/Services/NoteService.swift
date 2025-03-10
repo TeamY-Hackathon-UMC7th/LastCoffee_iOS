@@ -41,6 +41,18 @@ public final class NoteService : NetworkManager {
         return try await requestAsync(target: .deleteNote(noteId: noteId))
     }
     
-    // 노트 생성 API
+    /// 노트 DTO 생성 함수
+    public func makeNoteDTO(drinkDateTime: Date, sleepDateTime: Date, review: String, coffeeId: Int) -> NewNoteDTO {
+        return NewNoteDTO(
+            drinkDateTime: drinkDateTime,
+            sleepDateTime: sleepDateTime,
+            review: review,
+            coffeeId: coffeeId
+        )
+    }
     
+    /// 노트 생성 API
+    public func postNote(data: NewNoteDTO) async throws -> NewNotePreviewDTO {
+        return try await requestAsync(target: .postNewNote(data: data), decodingType: NewNotePreviewDTO.self)
+    }
 }

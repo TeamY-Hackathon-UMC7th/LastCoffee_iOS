@@ -19,21 +19,23 @@ class NoteDetailView: UIView {
     }
     
     // 뷰 업데이트 함수
-    func updateNoteDetail(with data: NoteModel) {
+    func updateNoteDetail(with data: NoteDetailModel) {
         imageView.sd_setImage(with: URL(string: data.coffeeImgUrl))
         coffeeName.text = "[\(data.brand)] \(data.coffeeName)"
         drinking.text = "마신 일시  |  \(extractDateTime(from: data.drinkDate))"
         sleeping.text = "취침 시간  |  \(extractDateTime(from: data.sleepDate))"
-        reviewContents.text = data.comment
-        createdAt.text = extractDateTime(from: data.createdAt)
+        reviewContents.text = data.review
+        writeDate.text = extractDateTime(from: data.writeDate)
     }
     
     // 날짜 형식 변환 함수
     func extractDateTime(from dateTimeString: String) -> String {
-        let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        let trimmedDate = String(dateTimeString.prefix(16))
         
-        if let date = inputFormatter.date(from: dateTimeString) {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
+        
+        if let date = inputFormatter.date(from: trimmedDate) {
             let outputFormatter = DateFormatter()
             outputFormatter.locale = Locale(identifier: "ko_KR")
             outputFormatter.dateFormat = "yyyy년 MM월 dd일 a h시"
@@ -94,11 +96,13 @@ class NoteDetailView: UIView {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
         $0.textColor = UIColor.black
         $0.textAlignment = .left
+        $0.numberOfLines = 0
+        $0.lineBreakMode = .byCharWrapping
         
         $0.text = "하루 두잔이나 마셨지만 이전보다 빨리 먹으니까 확실히 잠이 잘 오는 것 같다."
     }
     
-    public lazy var createdAt = UILabel().then {
+    public lazy var writeDate = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 14)
         $0.textColor = UIColor.neutral300
         $0.textAlignment = .left
@@ -114,7 +118,7 @@ class NoteDetailView: UIView {
             sleeping,
             review,
             reviewContents,
-            createdAt
+            writeDate
         ].forEach {
             addSubview($0)
         }
@@ -153,11 +157,12 @@ class NoteDetailView: UIView {
         
         reviewContents.snp.makeConstraints {
             $0.top.equalTo(review.snp.bottom).offset(DynamicPadding.dynamicValue(4))
-            $0.leading.equalTo(drinking.snp.leading)
+            $0.leading.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(40))
+            $0.height.lessThanOrEqualTo(DynamicPadding.dynamicValuebyWidth(120))
         }
         
-        createdAt.snp.makeConstraints {
-            $0.top.equalTo(reviewContents.snp.bottom).offset(DynamicPadding.dynamicValue(72))
+        writeDate.snp.makeConstraints {
+            $0.bottom.equalTo(safeAreaLayoutGuide).inset(DynamicPadding.dynamicValue(32))
             $0.leading.equalTo(reviewContents.snp.leading)
         }
     }

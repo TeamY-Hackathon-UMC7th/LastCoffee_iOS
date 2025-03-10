@@ -7,14 +7,23 @@
 
 import Foundation
 
-// 임시 모델
 struct NoteModel: Codable {
     let id: Int
-    let coffeeName: String
     let brand: String
+    let coffeeName: String
+    let coffeeImgUrl: String
+    let writeDate: String
+    let drinkHour: Int
+    let sleepHour: Int
+}
+
+struct NoteDetailModel: Codable {
+    let id: Int
+    let brand: String
+    let coffeeName: String
+    let coffeeImgUrl: String
+    let writeDate: String
     let drinkDate: String
     let sleepDate: String
-    let comment: String
-    let coffeeImgUrl: String
-    let createdAt: String
+    let review: String
 }

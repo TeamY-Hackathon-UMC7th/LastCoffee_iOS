@@ -11,15 +11,11 @@ import SwiftyToaster
 class CoffeeCompareSearchViewController: UIViewController, UITextFieldDelegate {
     let networkService = CoffeeService()
     
-    private var data: [CoffeeDetailResponse] = [
-        CoffeeDetailResponse(id: 1, name: "아메리카노", brand: "스타벅스", sugar: 2, caffeine: 2, calories: 2, protein: 2, coffeeImgUrl: "https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/%5B110563%5D_20210426095937947.jpg"),
-        CoffeeDetailResponse(id: 2, name: "블루베리라떼", brand: "컴포즈", sugar: 3, caffeine: 3, calories: 2, protein: 1, coffeeImgUrl: "https://composecoffee.com/files/thumbnails/891/064/1515x2083.crop.jpg?t=1733793666"),
-        CoffeeDetailResponse(id: 3, name: "유자티", brand: "컴포즈", sugar: 4, caffeine: 2, calories: 2, protein: 4, coffeeImgUrl: "https://composecoffee.com/files/thumbnails/682/038/1515x2083.crop.jpg?t=1733794981"),
-    ]
+    private var data: [CoffeeDetailDTO] = []
     
     private var selectedIndexPath: IndexPath?
-    public var fristSelectedDrink : CoffeeDetailResponse?
-    private var selectedItem: CoffeeDetailResponse?
+    public var fristSelectedDrink : CoffeeDetailDTO?
+    private var selectedItem: CoffeeDetailDTO?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,29 +65,27 @@ class CoffeeCompareSearchViewController: UIViewController, UITextFieldDelegate {
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.coffeeSearchView.searchTableView.reloadData()
-        callPostAPI(coffeeSearchView.searchBar.text ?? "")
+        callSearchAPI(keyword: coffeeSearchView.searchBar.text ?? "")
         return true
     }
     
-    @objc func callPostAPI(_ keyword: String) {
-//        networkService.getSearchCoffee(keyword: keyword, completion: { [weak self] result in
-//            guard let self = self else { return }
-//            
-//            switch result {
-//            case .success(let response):
-//                data = response.coffees
-//                
-//                coffeeSearchView.searchTableView.isHidden = false
-//                coffeeSearchView.emptyLabel.isHidden = true
-//                
-//                coffeeSearchView.searchTableView.reloadData()
-//            case .failure(let error):
-//                Toaster.shared.makeToast("\(error.errorDescription!)", .short)
-//                coffeeSearchView.searchTableView.isHidden = true
-//                coffeeSearchView.emptyLabel.isHidden = false
-//            }
-//        }
-//        )
+    func callSearchAPI(keyword: String) {
+        Task {
+            do {
+                startLoading()
+                let data = try await networkService.getSearchCoffee(keyword: keyword, page: 0).coffeeResponseDtos
+                self.data = data
+                
+                stopLoading()
+                DispatchQueue.main.async {
+                    self.coffeeSearchView.searchTableView.reloadData()
+                }
+            }
+            catch {
+                stopLoading()
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
@@ -135,6 +129,7 @@ extension CoffeeCompareSearchViewController: UITableViewDataSource, UITableViewD
         }
     }
     
+    // 선택된 셀 선택 시 테두리 비활성화
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? NoteSearchCell else { return }
         cell.setSelectedBorder(isSelected: false)
@@ -143,5 +138,4 @@ extension CoffeeCompareSearchViewController: UITableViewDataSource, UITableViewD
         tableView.deselectRow(at: indexPath, animated: true)
         selectedIndexPath = nil
     }
-    
 }

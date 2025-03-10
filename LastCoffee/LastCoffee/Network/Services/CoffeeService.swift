@@ -27,9 +27,9 @@ public final class CoffeeService : NetworkManager {
     
     //MARK: - API funcs
     /// 커피 검색 API
-//    public func getSearchCoffee(keyword: String, page: Int) async throws {
-//
-//    }
+    public func getSearchCoffee(keyword: String, page: Int) async throws -> SearchResponse {
+        return try await requestAsync(target: .getSearchCoffee(keyword: keyword, page: page), decodingType: SearchResponse.self)
+    }
     
     /// 시간대별 추천 커피 API
     public func getRecommendCoffees(time: Int) async throws -> [CoffeePreviewDTO] {

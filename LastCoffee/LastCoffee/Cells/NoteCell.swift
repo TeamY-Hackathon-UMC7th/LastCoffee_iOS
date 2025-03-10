@@ -29,7 +29,7 @@ class NoteCell: UITableViewCell {
         super.prepareForReuse()
         self.title.text = nil
         self.subTitle.text = nil
-        self.drinkingDate.text = nil
+        self.writeDate.text = nil
     }
     
     required init?(coder: NSCoder) {
@@ -81,7 +81,7 @@ class NoteCell: UITableViewCell {
         $0.spacing = DynamicPadding.dynamicValue(8)
     }
     
-    private lazy var drinkingDate = UILabel().then {
+    private lazy var writeDate = UILabel().then {
         $0.font = UIFont.ptdRegularFont(ofSize: 12)
         $0.textColor = UIColor.neutral300
     }
@@ -95,7 +95,7 @@ class NoteCell: UITableViewCell {
             last,
             image,
             titleStackView,
-            drinkingDate
+            writeDate
         ].forEach {
             containerView.addSubview($0)
         }
@@ -136,31 +136,29 @@ class NoteCell: UITableViewCell {
             $0.trailing.equalToSuperview().offset(DynamicPadding.dynamicValue(-16))
         }
         
-        drinkingDate.snp.makeConstraints {
+        writeDate.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(12))
             $0.bottom.equalToSuperview().inset(DynamicPadding.dynamicValue(8))
         }
     }
     
     public func configure(model: NoteModel) {
-        let drinkDate = extractData(from: model.drinkDate, extractDate: true)
-        let drinkTime = extractData(from: model.drinkDate, extractDate: false)
-        let sleepTime = extractData(from: model.sleepDate, extractDate: false)
+        let writeDate = extractData(from: model.writeDate)
         
         self.image.sd_setImage(with: URL(string: model.coffeeImgUrl))
         self.title.text = "[\(model.brand)] \(model.coffeeName)"
-        self.subTitle.text = "\(drinkTime) 마심 | \(sleepTime) 취침"
-        self.drinkingDate.text = drinkDate
+        self.subTitle.text = "\(model.drinkHour)시 마심 | \(model.sleepHour)시 취침"
+        self.writeDate.text = writeDate
     }
     
     // 날짜 형식 변환 함수
-    func extractData(from dateTimeString: String, extractDate: Bool) -> String {
+    func extractData(from dateTimeString: String) -> String {
         let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        inputFormatter.dateFormat = "yyyy-MM-dd"
 
         if let date = inputFormatter.date(from: dateTimeString) {
             let outputFormatter = DateFormatter()
-            outputFormatter.dateFormat = extractDate ? "yyyy.MM.dd" : "HH시"
+            outputFormatter.dateFormat = "yyyy.MM.dd"
             return outputFormatter.string(from: date)
         } else {
             return "추출할 데이터가 없습니다."

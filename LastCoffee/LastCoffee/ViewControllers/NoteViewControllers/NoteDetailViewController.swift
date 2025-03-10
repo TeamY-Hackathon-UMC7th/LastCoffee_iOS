@@ -6,18 +6,19 @@
 //
 
 import UIKit
-import SwiftyToaster
 
 class NoteDetailViewController: UIViewController {
-    public var receivedData: NoteModel?
+    let networkService = NoteService()
+    
+    public var receivedId: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = noteDetailView
         self.tabBarController?.tabBar.isHidden = true
         
-        if let data = receivedData {
-            noteDetailView.updateNoteDetail(with: data)
+        if let data = receivedId {
+            callGetDetailAPI(noteId: data)
         }
         
         setNavigationBar()
@@ -29,8 +30,8 @@ class NoteDetailViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = true
         
-        if let data = receivedData {
-            noteDetailView.updateNoteDetail(with: data)
+        if let data = receivedId {
+            callGetDetailAPI(noteId: data)
         }
         
         setNavigationBar()
@@ -50,6 +51,35 @@ class NoteDetailViewController: UIViewController {
     
     @objc private func popButton() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func callGetDetailAPI(noteId: Int) {
+        Task {
+            do {
+                startLoading()
+                let data = try await networkService.getNote(noteId: noteId)
+                
+                let detail = NoteDetailModel(
+                    id: data.coffee.id,
+                    brand: data.coffee.brand,
+                    coffeeName: data.coffee.coffeeName,
+                    coffeeImgUrl: data.coffee.coffeeImgUrl,
+                    writeDate: data.writeDate,
+                    drinkDate: data.drinkDate,
+                    sleepDate: data.sleepDate,
+                    review: data.review
+                )
+                
+                stopLoading()
+                DispatchQueue.main.async {
+                    self.noteDetailView.updateNoteDetail(with: detail)
+                }
+            }
+            catch {
+                stopLoading()
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 

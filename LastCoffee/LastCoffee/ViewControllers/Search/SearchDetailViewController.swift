@@ -8,7 +8,7 @@
 import UIKit
 
 class SearchDetailViewController: UIViewController {
-    public var receivedData: CoffeeDetailResponse?
+    public var receivedData: CoffeeDetailDTO?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,12 +17,7 @@ class SearchDetailViewController: UIViewController {
         setNavigationBar()
         
         if let data = receivedData {
-            detailView.coffeeName.text = "[\(data.brand)] \(data.name)"
-            detailView.image.sd_setImage(with: URL(string: data.coffeeImgUrl))
-            detailView.caffeineValue.text = data.caffeine.description
-            detailView.sugarValue.text = data.sugar.description
-            detailView.proteinValue.text = data.protein.description
-            detailView.calorieValue.text = data.calories.description
+            detailView.updateNoteDetail(with: data)
         }
     }
     
@@ -33,12 +28,7 @@ class SearchDetailViewController: UIViewController {
         setNavigationBar()
         
         if let data = receivedData {
-            detailView.coffeeName.text = "[\(data.brand)] \(data.name)"
-            detailView.imageView.sd_setImage(with: URL(string: data.coffeeImgUrl))
-            detailView.caffeineValue.text = data.caffeine.description
-            detailView.sugarValue.text = data.sugar.description
-            detailView.proteinValue.text = data.protein.description
-            detailView.calorieValue.text = data.calories.description
+            detailView.updateNoteDetail(with: data)
         }
     }
     
@@ -55,14 +45,15 @@ class SearchDetailViewController: UIViewController {
     
     private lazy var detailView: CompareDetailView = {
         let view = CompareDetailView()
-        view.nextBtn.addTarget(self, action: #selector(goAddView), for: .touchUpInside)
+        view.nextBtn.addTarget(self, action: #selector(goCompareView), for: .touchUpInside)
         return view
     }()
     
-    @objc private func goAddView() {
+    // 버튼 클릭 시 비교 뷰로 이동하는 함수
+    @objc private func goCompareView() {
         guard let selectItem = self.receivedData else { return }
-        let addCoffeeVC = CoffeeCompareSearchViewController()
-        addCoffeeVC.fristSelectedDrink = selectItem
-        navigationController?.pushViewController(addCoffeeVC, animated: true)
+        let compareCoffeeVC = CoffeeCompareSearchViewController()
+        compareCoffeeVC.fristSelectedDrink = selectItem
+        navigationController?.pushViewController(compareCoffeeVC, animated: true)
     }
 }
