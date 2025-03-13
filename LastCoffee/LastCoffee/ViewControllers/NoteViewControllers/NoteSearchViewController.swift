@@ -14,13 +14,15 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
     
     private var selectedIndexPath: IndexPath?
     private var selectedItem: CoffeeDetailDTO?
+    
+    var isLoading = false   // 중복 로딩 방지
+    var totalPage = 0       // 전체 페이지 수
+    var currentPage = 0     // 현재 페이지 번호
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = false
-        self.navigationItem.title = "새 기록"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.ptdMediumFont(ofSize: 18)]
         self.view = noteSearchView
+        self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = true
         setNavigationBar()
     }
@@ -34,13 +36,17 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
         return view
     }()
 
+    // 기록 추가뷰로 이동
     @objc private func goAddView() {
         let addNoteVC = AddNoteViewController()
         addNoteVC.receivedData = selectedItem
         navigationController?.pushViewController(addNoteVC, animated: true)
     }
     
+    // 네비게이션바 설정
     private func setNavigationBar() {
+        self.navigationItem.title = "새 기록"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.ptdMediumFont(ofSize: 18)]
         let leftBarButton = UIBarButtonItem(image: .init(named: "Back"), style: .plain, target: self, action: #selector(popButton))
         leftBarButton.tintColor = .black
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
@@ -50,30 +56,47 @@ class NoteSearchViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.popViewController(animated: true)
     }
     
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.noteSearchView.noteSearchTableView.reloadData()
-        callSearchAPI(keyword: noteSearchView.searchBar.text ?? "")
-        return true
-    }
-    
-    private func callSearchAPI(keyword: String) {
+    private func callSearchAPI(keyword: String, startPage: Int) {
         Task {
             do {
-                self.data.removeAll()
+                self.isLoading = true
                 startLoading()
-                let coffees = try await networkService.getSearchCoffee(keyword: keyword, page: 0).coffeeResponseDtos
-                self.data = coffees
                 
-                stopLoading()
+                let result = try await networkService.getSearchCoffee(keyword: keyword, page: startPage)
+                
+                if (result.isFirst) {
+                    self.data = result.coffeeResponseDtos
+                    self.totalPage = result.totalPages
+                } else {
+                    self.data.append(contentsOf: result.coffeeResponseDtos)
+                }
+                self.currentPage = result.currentPage
+                
                 DispatchQueue.main.async {
                     self.noteSearchView.noteSearchTableView.reloadData()
+                    self.noteSearchView.emptyLabel.isHidden = !self.data.isEmpty
                 }
+                
+                stopLoading()
+                self.isLoading = false
             }
             catch {
-                stopLoading()
+                self.stopLoading()
+                self.isLoading = false
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    // 텍스트필드에서 엔터를 누를 시 실행되는 메서드
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        DispatchQueue.main.async {
+            // 테이블뷰의 맨 위로 이동하게함
+            self.noteSearchView.noteSearchTableView.setContentOffset(.zero, animated: true)
+        }
+        callSearchAPI(keyword: noteSearchView.searchBar.text ?? "", startPage: 0)
+        textField.resignFirstResponder()
+        return true
     }
 }
 
@@ -125,5 +148,17 @@ extension NoteSearchViewController: UITableViewDataSource, UITableViewDelegate {
         selectedItem = nil
         tableView.deselectRow(at: indexPath, animated: true)
         selectedIndexPath = nil
+    }
+    
+    // 페이지네이션을 위한 메서드
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let tableViewHeight = scrollView.frame.size.height
+
+        if offsetY > contentHeight - tableViewHeight {
+            guard !isLoading, currentPage + 1 < totalPage else { return }
+            callSearchAPI(keyword: noteSearchView.searchBar.text ?? "", startPage: currentPage + 1)
+        }
     }
 }
