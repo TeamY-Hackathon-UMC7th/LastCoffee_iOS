@@ -61,9 +61,10 @@ public struct CoffeeDetailDTO: Codable {
 
 public struct SearchResponse: Codable {
     public let coffeeResponseDtos: [CoffeeDetailDTO]
-    public let listSize: Int
-    public let totalPage: Int
+    public let currentPage: Int
+    public let totalPages: Int
     public let totalElements: Int
     public let isFirst: Bool
     public let isLast: Bool
+    public let pageSize: Int
 }

@@ -103,7 +103,7 @@ class OnboardingViewController: UIViewController {
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let window = windowScene.windows.first {
             let rootVC = UINavigationController(rootViewController: tabVC)
-            
+            rootVC.navigationBar.isHidden = true
             window.rootViewController = rootVC
             UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil)
         }

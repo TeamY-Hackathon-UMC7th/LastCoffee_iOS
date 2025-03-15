@@ -133,7 +133,7 @@ class NoteCell: UITableViewCell {
         titleStackView.snp.makeConstraints {
             $0.centerY.equalTo(image.snp.centerY)
             $0.leading.equalTo(image.snp.trailing).offset(DynamicPadding.dynamicValue(16))
-            $0.trailing.equalToSuperview().offset(DynamicPadding.dynamicValue(-16))
+            $0.trailing.equalToSuperview().inset(DynamicPadding.dynamicValue(56))
         }
         
         writeDate.snp.makeConstraints {

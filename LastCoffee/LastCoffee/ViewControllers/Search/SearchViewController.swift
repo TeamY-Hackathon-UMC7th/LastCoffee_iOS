@@ -14,31 +14,29 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
     var selectedBrands: [Brand] = []
     private var data: [CoffeeDetailDTO] = []
     
+    var isLoading = false   // 중복 로딩 방지
+    var totalPage = 0       // 전체 페이지 수
+    var currentPage = 0     // 현재 페이지 번호
+    
     private var selectedIndexPath: IndexPath?
     private var selectedItem: CoffeeDetailResponse?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view = searchView
         self.navigationController?.navigationBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = false
-        self.view = searchView
         setupDelegate()
         
         let defaultIndexPath = IndexPath(item: 0, section: 0)
         searchView.brandCollectionView.selectItem(at: defaultIndexPath, animated: false, scrollPosition: [])
         selectedBrands.append(brandData[0])
         
-        callSearchAPI(keyword: "")
+        callSearchAPI(text: "", startPage: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
-        self.tabBarController?.tabBar.isHidden = false
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = false
     }
     
@@ -55,29 +53,54 @@ class SearchViewController: UIViewController, UITextFieldDelegate {
         searchView.searchBar.delegate = self
     }
     
-    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.searchView.noteSearchTableView.reloadData()
-        callSearchAPI(keyword: searchView.searchBar.text ?? "")
-        return true
-    }
-    
-    func callSearchAPI(keyword: String) {
+    func callSearchAPI(text: String, startPage: Int) {
         Task {
             do {
+                self.isLoading = true
                 startLoading()
-                let data = try await networkService.getSearchCoffee(keyword: keyword, page: 0).coffeeResponseDtos
-                self.data = data
                 
-                stopLoading()
+                // 선택된 브랜드를 검색어에 포함
+                var keyword = ""
+                if (selectedBrands.contains(.all)) {
+                    keyword = text
+                } else {
+                    keyword = (selectedBrands.map { $0.rawValue } + [text]).joined(separator: " ")
+                }
+                
+                let result = try await networkService.getSearchCoffee(keyword: keyword, page: startPage)
+                
+                if (result.isFirst) {
+                    self.data = result.coffeeResponseDtos
+                    self.totalPage = result.totalPages
+                } else {
+                    self.data.append(contentsOf: result.coffeeResponseDtos)
+                }
+                self.currentPage = result.currentPage
+                
                 DispatchQueue.main.async {
                     self.searchView.noteSearchTableView.reloadData()
+                    self.searchView.emptyLabel.isHidden = !self.data.isEmpty
                 }
+                stopLoading()
+                self.isLoading = false
             }
             catch {
                 stopLoading()
+                self.isLoading = false
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    // 텍스트필드에서 엔터를 누를 시 실행되는 메서드
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        DispatchQueue.main.async {
+            // 테이블뷰의 맨 위로 이동하게함
+            self.searchView.noteSearchTableView.setContentOffset(.zero, animated: true)
+        }
+        callSearchAPI(text: searchView.searchBar.text ?? "", startPage: 0)
+        textField.resignFirstResponder()
+        return true
     }
 }
 
@@ -115,6 +138,18 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
         detailVC.navigationController?.navigationBar.isHidden = false
         detailVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    // 페이지네이션을 위한 메서드
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let tableViewHeight = scrollView.frame.size.height
+
+        if offsetY > contentHeight - tableViewHeight {
+            guard !isLoading, currentPage + 1 < totalPage else { return }
+            callSearchAPI(text: searchView.searchBar.text ?? "", startPage: currentPage + 1)
+        }
     }
 }
 
