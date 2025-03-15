@@ -15,6 +15,8 @@ class NoteDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = noteDetailView
+        
+        self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = true
         
         if let data = receivedId {
@@ -27,7 +29,7 @@ class NoteDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         self.view = noteDetailView
-        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.isHidden = false
         self.tabBarController?.tabBar.isHidden = true
         
         if let data = receivedId {

@@ -30,6 +30,12 @@ class AddNoteViewController: UIViewController {
         setNavigationBar()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(false)
+        self.view = addNoteView
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
     private lazy var addNoteView: AddNoteView = {
         let view = AddNoteView()
         view.drinkingPicker.addTarget(self, action: #selector(drinkingDateValueChanged(_:)), for: .valueChanged)
@@ -73,10 +79,15 @@ class AddNoteViewController: UIViewController {
                     coffeeId: coffeeId
                 )
                 startLoading()
-                let response = try await networkService.postNote(data: newNoteDTO)
+                _ = try await networkService.postNote(data: newNoteDTO)
                 
                 stopLoading()
                 DispatchQueue.main.async {
+                    NotificationCenter.default.post(
+                        name: NSNotification.Name("NewNoteAdded"),
+                        object: nil
+                    )
+                    
                     self.navigationController?.popViewController(animated: true)
                     guard let navigationController = self.navigationController else { return }
                     if let targetIndex = navigationController.viewControllers.firstIndex(where: { $0 is NoteMainViewController }) {
